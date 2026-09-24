@@ -1,0 +1,35 @@
+{
+  "name": "وزارة الدفاع — المركز الإعلامي PRO",
+  "short_name": "المركز الإعلامي",
+  "description": "المركز الإعلامي الرسمي لوزارة الدفاع في الجمهورية العربية السورية — النسخة الاحترافية",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
+  "orientation": "portrait-primary",
+  "background_color": "#06070a",
+  "theme_color": "#c9a34e",
+  "categories": ["news", "government", "education"],
+  "prefer_related_applications": false,
+  "shortcuts": [
+    { "name": "آخر الأخبار", "short_name": "الأخبار", "url": "/#news-archive", "description": "اطلع على آخر الأخبار" },
+    { "name": "البيانات الرسمية", "short_name": "رسمي", "url": "/#official-news", "description": "البيانات الرسمية" },
+    { "name": "الفرق القتالية", "short_name": "النخبة", "url": "/#elite-units", "description": "وحدات النخبة" }
+  ],
+  "icons": [
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' fill='%2306070a'/%3E%3Cpath d='M96 36 144 57v54c0 39-24 66-48 75-24-9-48-36-48-75V57z' fill='none' stroke='%23c9a34e' stroke-width='6'/%3E%3Cpath d='M96 78l9 18 19 3-14 13 3 19-17-9-17 9 3-19-14-13 19-3z' fill='%23c9a34e'/%3E%3C/svg%3E",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' fill='%2306070a'/%3E%3Cpath d='M256 96 384 148v144c0 104-64 176-128 200-64-24-128-96-128-200V148z' fill='none' stroke='%23c9a34e' stroke-width='16'/%3E%3Cpath d='M256 200l24 48 52 8-38 36 9 52-47-24-47 24 9-52-38-36 52-8z' fill='%23c9a34e'/%3E%3C/svg%3E",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
