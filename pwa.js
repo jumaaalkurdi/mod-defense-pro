@@ -8,52 +8,24 @@
 if('serviceWorker' in navigator){
   window.addEventListener('load', () => {
 
-    /* 1) امسح كل Service Workers القديمة */
+    /* امسح SW القديمة */
     navigator.serviceWorker.getRegistrations().then(regs => {
       regs.forEach(r => r.unregister());
     });
 
-    /* 2) امسح كل Caches القديمة */
+    /* امسح Caches القديمة */
     caches.keys().then(keys => {
       keys.forEach(k => caches.delete(k));
     });
 
-    /* 3) سجّل Service Worker جديد */
+    /* سجّل SW جديد بدون banner */
     setTimeout(() => {
       navigator.serviceWorker.register('sw.js?v=' + Date.now(), { scope: '/' })
         .then(reg => {
-          reg.addEventListener('updatefound', () => {
-            const nw = reg.installing;
-            if(!nw) return;
-            nw.addEventListener('statechange', () => {
-              if(nw.state === 'installed' && navigator.serviceWorker.controller){
-                showUpdateBanner();
-              }
-            });
-          });
+          /* لا يُظهر أي banner عند التحديث */
         })
         .catch(() => {});
     }, 500);
-  });
-}
-
-/* ============ UPDATE BANNER ============ */
-function showUpdateBanner(){
-  if(document.getElementById('pwaUpdateBanner')) return;
-  const b = document.createElement('div');
-  b.id = 'pwaUpdateBanner';
-  b.style.cssText = 'position:fixed;bottom:80px;inset-inline-start:20px;z-index:2000;padding:14px 18px;background:linear-gradient(135deg,#0d1108,#06070a);border:1px solid rgba(201,163,78,.5);color:#fff;font-family:"Noto Kufi Arabic",sans-serif;font-size:13px;clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px));display:flex;align-items:center;gap:12px;box-shadow:0 20px 50px -15px rgba(0,0,0,.9);max-width:320px;';
-  b.innerHTML = '<span>🔄 إصدار جديد متوفر</span><button id="pwaUpdateBtn" style="padding:7px 14px;background:linear-gradient(135deg,#c9a34e,#e8c878);color:#06070a;border:0;font-family:inherit;font-weight:800;font-size:12px;cursor:pointer;">تحديث</button>';
-  document.body.appendChild(b);
-  document.getElementById('pwaUpdateBtn').addEventListener('click', () => {
-    if(navigator.serviceWorker.controller){
-      navigator.serviceWorker.controller.postMessage({ type: 'SKIP_WAITING' });
-    }
-    caches.keys().then(keys => {
-      keys.forEach(k => caches.delete(k));
-    }).then(() => {
-      window.location.reload(true);
-    });
   });
 }
 
@@ -85,10 +57,14 @@ function showInstallButton(){
   btn.id = 'pwaInstallBtn';
   btn.type = 'button';
   btn.setAttribute('aria-label', 'تثبيت التطبيق');
-  btn.style.cssText = 'position:fixed;bottom:26px;inset-inline-start:26px;z-index:1500;display:flex;align-items:center;gap:10px;padding:14px 22px;background:linear-gradient(135deg,#c9a34e,#e8c878);color:#06070a;border:0;font-family:"Noto Kufi Arabic",sans-serif;font-weight:800;font-size:14px;cursor:pointer;clip-path:polygon(10px 0,100% 0,calc(100% - 10px) 100%,0 100%);box-shadow:0 15px 40px -10px rgba(201,163,78,.7);transition:transform .3s;';
-  btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="width:20px;height:20px;"><path d="M12 3v12M7 10l5 5 5-5" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 21h14" stroke-linecap="round"/></svg><span>تثبيت التطبيق</span>';
-  btn.addEventListener('mouseenter', () => btn.style.transform = 'translateY(-3px)');
-  btn.addEventListener('mouseleave', () => btn.style.transform = 'translateY(0)');
+  btn.title = 'تثبيت التطبيق';
+  btn.style.cssText = 'position:fixed;bottom:20px;inset-inline-end:20px;z-index:1500;display:flex;align-items:center;justify-content:center;width:42px;height:42px;padding:0;background:linear-gradient(135deg,#c9a34e,#e8c878);color:#06070a;border:0;cursor:pointer;border-radius:50%;box-shadow:0 8px 24px -6px rgba(201,163,78,.7);transition:transform .3s;';
+
+  btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="width:20px;height:20px;"><path d="M12 3v12M7 10l5 5 5-5" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 21h14" stroke-linecap="round"/></svg>';
+
+  btn.addEventListener('mouseenter', () => btn.style.transform = 'scale(1.1)');
+  btn.addEventListener('mouseleave', () => btn.style.transform = 'scale(1)');
+
   btn.addEventListener('click', async () => {
     if(!deferredPrompt) return;
     deferredPrompt.prompt();
@@ -98,6 +74,7 @@ function showInstallButton(){
     }catch(e){}
     deferredPrompt = null;
   });
+
   document.body.appendChild(btn);
 }
 
@@ -123,8 +100,8 @@ function showIOSHint(){
   if(document.getElementById('pwaIOSHint')) return;
   const b = document.createElement('div');
   b.id = 'pwaIOSHint';
-  b.style.cssText = 'position:fixed;bottom:26px;inset-inline:20px;z-index:1500;padding:16px 18px;background:linear-gradient(135deg,#0d1108,#06070a);border:1px solid rgba(201,163,78,.5);color:#fff;font-family:"Noto Kufi Arabic",sans-serif;font-size:13px;line-height:1.7;clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,14px 100%,0 calc(100% - 14px));display:flex;gap:12px;box-shadow:0 20px 50px -15px rgba(0,0,0,.9);';
-  b.innerHTML = '<div style="flex:1;"><strong style="color:#e8c878;">📱 ثبّت التطبيق</strong><br>اضغط زر المشاركة <strong>↗</strong> ثم اختر <strong>"إضافة إلى الشاشة الرئيسية"</strong></div><button id="pwaIOSClose" style="padding:6px 12px;background:rgba(201,163,78,.15);color:#e8c878;border:1px solid rgba(201,163,78,.4);font-family:inherit;font-weight:700;font-size:14px;cursor:pointer;height:32px;align-self:flex-start;">✕</button>';
+  b.style.cssText = 'position:fixed;bottom:20px;inset-inline:20px;z-index:1500;padding:14px 16px;background:linear-gradient(135deg,#0d1108,#06070a);border:1px solid rgba(201,163,78,.5);color:#fff;font-family:"Noto Kufi Arabic",sans-serif;font-size:12.5px;line-height:1.6;clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px));display:flex;gap:10px;box-shadow:0 20px 50px -15px rgba(0,0,0,.9);';
+  b.innerHTML = '<div style="flex:1;"><strong style="color:#e8c878;">📱 ثبّت التطبيق</strong><br>اضغط زر المشاركة <strong>↗</strong> ثم <strong>"إضافة إلى الشاشة الرئيسية"</strong></div><button id="pwaIOSClose" style="padding:4px 10px;background:rgba(201,163,78,.15);color:#e8c878;border:1px solid rgba(201,163,78,.4);font-family:inherit;font-weight:700;font-size:14px;cursor:pointer;height:28px;align-self:flex-start;border-radius:6px;">✕</button>';
   document.body.appendChild(b);
   document.getElementById('pwaIOSClose').addEventListener('click', () => {
     b.remove();
