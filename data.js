@@ -23,13 +23,7 @@ window.__data = {
     { text:'بيان تعازي في استشهاد عدد من رجال الجيش العربي السوري', time:'منذ 3 س' }
   ],
 
-  DEFAULT_SETTINGS: {
-    videoUrl: '',
-    videoThumb: '',
-    bgImage: '',
-    flagImage: '',
-    logoImage: ''
-  },
+  DEFAULT_SETTINGS: { videoUrl:'', videoThumb:'', bgImage:'', flagImage:'', logoImage:'' },
 
   DEFAULT_MOSTREAD: [
     { id:'m1', title:'القيادة العامة تعلن بدء المرحلة الثانية من برنامج التحديث المؤسسي', views:'1.2 مليون قراءة', image:'', article:'في خطوة تعزز مسار التحديث، أعلنت القيادة العامة عن انطلاق المرحلة الثانية من البرنامج الشامل.\n\nتشمل المرحلة أتمتة الإجراءات، تطوير التدريب، ورفع كفاءة الخدمات للعسكريين والمتقاعدين وأسر الشهداء.' },
@@ -62,6 +56,7 @@ window.__data = {
     { label:'أهم المشاريع', page:'projects', icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 3v18h18" stroke-linecap="round"/><rect x="7" y="10" width="3" height="8"/><rect x="12" y="6" width="3" height="12"/><rect x="17" y="13" width="3" height="5"/></svg>' },
     { label:'التقارير', page:'reports', icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 3v18h18" stroke-linecap="round"/><path d="M7 14l4-4 4 4 5-5" stroke-linecap="round" stroke-linejoin="round"/></svg>' },
     { label:'الخدمات', page:'services', icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4" stroke-linecap="round"/></svg>' },
+    { label:'البث المباشر', page:'live-broadcast', icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4" fill="currentColor"/><path d="M6 6a10 10 0 0 0 0 12M18 6a10 10 0 0 1 0 12" stroke-linecap="round"/></svg>' },
     { label:'عن الوزارة', page:'about', icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v5h1" stroke-linecap="round"/></svg>' },
     { label:'الهيكل التنظيمي', page:'structure', icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="9" y="2" width="6" height="6"/><rect x="2" y="16" width="6" height="6"/><rect x="16" y="16" width="6" height="6"/><path d="M12 8v4M5 16v-2h14v2" stroke-linecap="round"/></svg>' },
     { label:'القيادة', page:'leadership', icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="7" r="4"/><path d="M4 21v-2a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v2" stroke-linecap="round"/></svg>' },
@@ -70,6 +65,22 @@ window.__data = {
   ],
 
   PAGES: {
+    'live-broadcast': {
+      eyebrow:'بث مباشر',
+      title:'البث المباشر الرسمي',
+      desc:'مشاهدة الفعاليات الرسمية والبث الحي للمركز الإعلامي.',
+      icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="4" fill="currentColor"/><path d="M6 6a10 10 0 0 0 0 12M18 6a10 10 0 0 1 0 12" stroke-linecap="round"/><circle cx="12" cy="12" r="10" stroke-dasharray="4 4"/></svg>',
+      blocks:[
+        { title:'قيد التجهيز', body:'يعمل فريق المركز الإعلامي على تجهيز البث المباشر للفعاليات الرسمية والبيانات الهامة. سيتم تفعيل هذه الصفحة قريباً بميزات متقدمة تشمل:', isComing:true },
+        { title:'ما سيتوفر قريباً', grid:[
+          { icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="6" width="20" height="14" rx="2"/><circle cx="12" cy="13" r="4"/></svg>', title:'بث الفعاليات', desc:'البث المباشر للفعاليات الرسمية' },
+          { icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 6h16M4 12h16" stroke-linecap="round"/></svg>', title:'البيانات الهامة', desc:'بث مباشر للبيانات الرسمية' },
+          { icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2" stroke-linecap="round"/></svg>', title:'الأرشيف المرئي', desc:'أرشيف البث السابق' },
+          { icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2 4 6v6c0 5 3.4 9.4 8 10 4.6-.6 8-5 8-10V6l-8-4Z" stroke-linejoin="round"/></svg>', title:'بث مؤمَّن', desc:'حماية كاملة للبث' }
+        ]},
+        { title:'تنبيه', body:'يُرجى الاعتماد على هذه الصفحة فقط للاطلاع على البث الرسمي. الوزارة تحذّر من أي مصادر أخرى غير رسمية.' }
+      ]
+    },
     'elite-units': { eyebrow:'نخبة', title:'الفرق القتالية المتميزة', desc:'وحدات النخبة في الجيش العربي السوري — تدريب متقدم، مهام خاصة، وجاهزية دائمة.', icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2 4 6v6c0 5 3.4 9.4 8 10 4.6-.6 8-5 8-10V6l-8-4Z" stroke-linejoin="round"/><path d="M12 7l2.2 4.5 5 .7-3.6 3.5.9 5-4.5-2.4-4.5 2.4.9-5-3.6-3.5 5-.7z" stroke-linejoin="round"/></svg>', custom:'elite' },
     'electronic-army': { eyebrow:'سيبراني', title:'الجيش السوري الإلكتروني', desc:'الذراع السيبراني — حماية الفضاء الرقمي، ورصد التهديدات، ونشر الوعي.', icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="4" width="20" height="14" rx="2"/><path d="M8 22h8M12 18v4M7 9l3 3-3 3M13 15h4" stroke-linecap="round" stroke-linejoin="round"/></svg>', blocks:[{ title:'التعريف', body:'الجيش السوري الإلكتروني هو الوحدة المتخصصة في حماية الفضاء السيبراني للجمهورية العربية السورية، والتصدي للهجمات الإلكترونية التي تستهدف البنية التحتية الحيوية.' }, { title:'المهام الرئيسية', list:['حماية البنية التحتية الرقمية الحيوية','رصد التهديدات السيبرانية والتصدي لها','تأمين الشبكات العسكرية والاتصالات المشفّرة','تطوير القدرات الدفاعية السيبرانية','التعاون مع الجهات الوطنية والدولية','نشر الوعي الرقمي'] }] },
     'weapons-dev': { eyebrow:'بحث وتطوير', title:'تطوير الأسلحة والأنظمة الدفاعية', desc:'منظومة وطنية للبحث والتطوير العسكري.', icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 3v6M12 15v6M3 12h6M15 12h6" stroke-linecap="round"/></svg>', blocks:[{ title:'الرؤية', body:'تحقيق الاكتفاء الذاتي وتوطين التقنيات الحديثة، وبناء قاعدة صناعية دفاعية وطنية.' }, { title:'مجالات التطوير', list:['تحديث الأنظمة المدرعة','تطوير الصواريخ','تحديث الاتصالات','الطائرات المسيّرة','الرؤية الليلية','الذخائر الذكية','الحرب الإلكترونية','الحماية الشخصية'] }] },

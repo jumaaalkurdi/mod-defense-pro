@@ -159,7 +159,7 @@
       <button class="notify-btn" id="notifyBtn" type="button" aria-label="تفعيل الإشعارات" title="تفعيل الإشعارات">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
       </button>
-      <span class="live-badge"><span class="dot" aria-hidden="true"></span><span>بث مباشر</span></span>
+      <a class="live-badge" data-nav="live-broadcast" role="button" aria-label="مشاهدة البث المباشر" style="cursor:pointer;text-decoration:none"><span class="dot" aria-hidden="true"></span><span>بث مباشر</span></a>
       <span class="clock" id="clock" aria-label="الوقت الحالي">00:00:00</span>
       <button class="nav__toggle" id="navToggle" type="button" aria-label="فتح القائمة" aria-expanded="false" aria-controls="drawer">
         <span></span><span></span><span></span>
@@ -396,6 +396,7 @@
   <div class="page-view" data-page="elite-units"></div>
   <div class="page-view" data-page="article"></div>
   <div class="page-view" data-page="mostread-article"></div>
+  <div class="page-view" data-page="live-broadcast"></div>
 </main>
 
 <footer class="footer">
@@ -472,7 +473,7 @@
     <p class="admin-login__sub">منطقة مقيدة — الدخول للمخوّلين فقط</p>
     <label class="admin-login__label" for="adminPass">كلمة المرور</label>
     <input class="admin-login__input" id="adminPass" type="password" autocomplete="off" spellcheck="false" placeholder="••••••••••••">
-    <div class="admin-login__error" id="adminErr"></div>
+    <div class="admin-login__error" id="adminErr"></div><div id="pinStep" style="display:none;margin-top:14px;"><label class="admin-login__label">الرقم السري (PIN)</label><input class="admin-login__input" id="adminPin" type="password" inputmode="numeric" maxlength="6" placeholder="••••"></div>
     <div class="admin-login__actions">
       <button class="btn btn--outline" id="adminCancel" type="button">إلغاء</button>
       <button class="btn btn--gold" id="adminSubmit" type="button">

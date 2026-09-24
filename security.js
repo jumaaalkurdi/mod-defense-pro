@@ -91,5 +91,22 @@ window.__decoy = {
   clear: function(){ saveSuspects([]); }
 };
 
+/* ============ SECONDARY PIN ============ */
+/* PIN = 1946 */
+const _pk = 0x3C;
+const _pd = [13, 5, 8, 10];
+
+window.__pin = {
+  check: function(input){
+    if(!input || typeof input !== 'string') return false;
+    let ref = '';
+    for(let i = 0; i < _pd.length; i++) ref += String.fromCharCode(_pd[i] ^ _pk);
+    if(input.length !== ref.length) return false;
+    let diff = 0;
+    for(let i = 0; i < input.length; i++) diff |= input.charCodeAt(i) ^ ref.charCodeAt(i);
+    return diff === 0;
+  }
+};
+
 window.__mqState = { validated: false, validatedAt: 0, correctAttempts: 0, wrongAttempts: 0 };
 })();

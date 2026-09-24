@@ -768,26 +768,61 @@ adminLoginClose.addEventListener('click', closeAdminLogin);
 adminLogin.addEventListener('click', (e) => { if(e.target === adminLogin) closeAdminLogin(); });
 adminPass.addEventListener('keydown', (e) => { if(e.key === 'Enter') adminSubmit.click(); });
 
+let _pinVerified = false;
+
 adminSubmit.addEventListener('click', () => {
   if(RL.isLocked()){
     adminErr.textContent = 'مقفل — متبقي ' + RL.getRemaining() + ' ثانية';
     return;
   }
-  const val = adminPass.value;
-  if(SEC.checkPassword(val)){
+  const pinStep = document.getElementById('pinStep');
+  const pinInput = document.getElementById('adminPin');
+
+  if(!_pinVerified){
+    const val = adminPass.value;
+    if(SEC.checkPassword(val)){
+      _pinVerified = true;
+      if(pinStep) pinStep.style.display = 'block';
+      if(pinInput) pinInput.focus();
+      adminErr.textContent = '';
+      adminSubmit.innerHTML = 'تحقق';
+      return;
+    } else {
+      const att = RL.recordFail();
+      if(RL.isLocked()){
+        adminErr.textContent = 'محاولات كثيرة خاطئة — مقفل ' + RL.getRemaining() + ' ثانية';
+      } else {
+        adminErr.textContent = 'كلمة المرور غير صحيحة (' + att + '/5)';
+      }
+      adminPass.value = '';
+      adminPass.focus();
+      const box = adminLogin.querySelector('.admin-login__box');
+      box.style.animation = 'none';
+      void box.offsetWidth;
+      box.style.animation = 'shake .4s';
+      return;
+    }
+  }
+
+  const pinVal = pinInput ? pinInput.value : '';
+  if(window.__pin && window.__pin.check(pinVal)){
     RL.reset();
+    _pinVerified = false;
     adminPass.value = '';
+    if(pinInput) pinInput.value = '';
+    if(pinStep) pinStep.style.display = 'none';
+    adminSubmit.innerHTML = 'دخول';
     closeAdminLogin();
     openAdminPanel();
   } else {
     const att = RL.recordFail();
     if(RL.isLocked()){
-      adminErr.textContent = 'محاولات كثيرة خاطئة — مقفل ' + RL.getRemaining() + ' ثانية';
+      adminErr.textContent = 'محاولات كثيرة — مقفل ' + RL.getRemaining() + ' ثانية';
     } else {
-      adminErr.textContent = 'كلمة المرور غير صحيحة (' + att + '/5)';
+      adminErr.textContent = 'الرقم السري غير صحيح (' + att + '/5)';
     }
-    adminPass.value = '';
-    adminPass.focus();
+    if(pinInput) pinInput.value = '';
+    if(pinInput) pinInput.focus();
     const box = adminLogin.querySelector('.admin-login__box');
     box.style.animation = 'none';
     void box.offsetWidth;
@@ -1210,8 +1245,24 @@ const GH = { owner: 'jumaaalkurdi', repo: 'mod-defense', branch: 'main', path: '
 const TOKEN_KEY = 'mod_gh_token';
 const DIRTY_KEY = 'mod_dirty';
 
-function getToken(){ return localStorage.getItem(TOKEN_KEY) || ''; }
-function saveToken(t){ localStorage.setItem(TOKEN_KEY, t); }
+function getToken(){
+  return sessionStorage.getItem(TOKEN_KEY) || localStorage.getItem(TOKEN_KEY) || '';
+}
+function saveToken(t){
+  if(t){
+    const remember = confirm('تذكّر التوكن على هذا الجهاز؟\n\n(موافق: يبقى بعد إغلاق المتصفح)\n(إلغاء: يُمسح عند إغلاق التبويب)');
+    if(remember){
+      localStorage.setItem(TOKEN_KEY, t);
+      sessionStorage.removeItem(TOKEN_KEY);
+    } else {
+      sessionStorage.setItem(TOKEN_KEY, t);
+      localStorage.removeItem(TOKEN_KEY);
+    }
+  } else {
+    localStorage.removeItem(TOKEN_KEY);
+    sessionStorage.removeItem(TOKEN_KEY);
+  }
+}
 function isDirty(){ return localStorage.getItem(DIRTY_KEY) === 'true'; }
 function setDirty(v){ localStorage.setItem(DIRTY_KEY, v ? 'true' : 'false'); }
 function markDirty(){ setDirty(true); updateGHSyncHint(); }

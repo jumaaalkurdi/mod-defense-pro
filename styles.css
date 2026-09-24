@@ -643,3 +643,9 @@ body.no-scroll{overflow:hidden}
 }
 @supports (padding:max(0px)){.to-top{bottom:max(14px,env(safe-area-inset-bottom,14px))}.footer__bottom{padding-bottom:max(74px,calc(env(safe-area-inset-bottom,14px) + 60px))}}
 @media (prefers-reduced-motion: reduce){*{animation-duration:.001ms !important;transition-duration:.001ms !important}.reveal{opacity:1;transform:none}.ticker__track{animation:none}}
+
+/* ============ LIVE BADGE CLICKABLE ============ */
+a.live-badge{display:flex;align-items:center;gap:8px;padding:7px 13px;border:1px solid rgba(225,29,46,.45);background:rgba(185,28,28,.14);font-size:11.5px;font-weight:700;color:#ff7d89;font-family:'Noto Kufi Arabic',sans-serif;letter-spacing:.5px;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%);white-space:nowrap;text-decoration:none;cursor:pointer;transition:all .25s var(--ease)}
+a.live-badge:hover{background:rgba(225,29,46,.28);border-color:rgba(225,29,46,.7);color:#fff;transform:translateY(-1px);box-shadow:0 6px 20px -6px rgba(225,29,46,.6)}
+a.live-badge:active{transform:scale(.97)}
+a.live-badge .dot{width:7px;height:7px;border-radius:50%;background:var(--alert-red-2);box-shadow:0 0 10px var(--alert-red-2);animation:livePulse2 1.4s infinite;flex:none}
