@@ -386,6 +386,49 @@ function renderFlag(){
   }
 }
 
+function updatePwaIcon(url){
+  if(!url || !url.trim()) return;
+  url = url.trim();
+  try{
+    const manifest = {
+      name: 'وزارة الدفاع — المركز الإعلامي الرسمي',
+      short_name: 'المركز الإعلامي',
+      lang: 'ar',
+      dir: 'rtl',
+      start_url: '/',
+      scope: '/',
+      display: 'standalone',
+      orientation: 'portrait-primary',
+      background_color: '#06070a',
+      theme_color: '#c9a34e',
+      categories: ['news', 'government'],
+      icons: [
+        { src: url, sizes: '192x192', type: 'image/png', purpose: 'any' },
+        { src: url, sizes: '512x512', type: 'image/png', purpose: 'any maskable' }
+      ]
+    };
+    const blob = new Blob([JSON.stringify(manifest)], { type: 'application/json' });
+    const blobUrl = URL.createObjectURL(blob);
+
+    document.querySelectorAll('link[rel="manifest"]').forEach(l => l.remove());
+    const link = document.createElement('link');
+    link.rel = 'manifest';
+    link.href = blobUrl;
+    document.head.appendChild(link);
+
+    document.querySelectorAll('link[rel="icon"], link[rel="apple-touch-icon"]').forEach(l => l.remove());
+    const iconLink = document.createElement('link');
+    iconLink.rel = 'icon';
+    iconLink.type = 'image/png';
+    iconLink.href = url;
+    document.head.appendChild(iconLink);
+    const appleLink = document.createElement('link');
+    appleLink.rel = 'apple-touch-icon';
+    appleLink.href = url;
+    document.head.appendChild(appleLink);
+  }catch(e){ console.warn('updatePwaIcon failed:', e); }
+}
+
 function renderLogo(){
   const mark = document.getElementById('brandMark');
   if(!mark) return;
@@ -449,6 +492,8 @@ function applySettings(){
   }
   renderFlag();
   renderLogo();
+  const instSrc = (settings.installIcon && settings.installIcon.trim()) ? settings.installIcon.trim() : ((settings.logoImage && settings.logoImage.trim()) ? settings.logoImage.trim() : '');
+  if(instSrc) updatePwaIcon(instSrc);
 }
 
 function applyFilterToButton(btn){
@@ -871,6 +916,9 @@ function openAdminPanel(){
   const fThumb = document.getElementById('formVideoThumb');
   const fBg = document.getElementById('formBgImage');
   if(fLogo) fLogo.value = settings.logoImage || '';
+  const fInst = document.getElementById('formInstallIcon');
+  if(fInst) fInst.value = settings.installIcon || '';
+  updateInstallIconPreview();
   if(fFlag) fFlag.value = settings.flagImage || '';
   if(fVid) fVid.value = settings.videoUrl || '';
   if(fThumb) fThumb.value = settings.videoThumb || '';
@@ -1114,6 +1162,10 @@ function renderEliteAdminList(){
 }
 
 const formLogoImage = document.getElementById('formLogoImage');
+const formInstallIcon = document.getElementById('formInstallIcon');
+const installIconPreview = document.getElementById('installIconPreview');
+const installIconPreviewImg = document.getElementById('installIconPreviewImg');
+const installIconPreviewHint = document.getElementById('installIconPreviewHint');
 const formFlagImage = document.getElementById('formFlagImage');
 const formVideoUrl = document.getElementById('formVideoUrl');
 const formVideoThumb = document.getElementById('formVideoThumb');
@@ -1145,6 +1197,25 @@ function updatePreview(input, container, imgEl, hintEl, hintText){
     if(hintEl) hintEl.style.display = 'none';
   }
 }
+function updateInstallIconPreview(){
+  const input = document.getElementById('formInstallIcon');
+  const container = document.getElementById('installIconPreview');
+  const imgEl = document.getElementById('installIconPreviewImg');
+  const hintEl = document.getElementById('installIconPreviewHint');
+  if(!input || !container || !imgEl) return;
+  const url = input.value.trim();
+  if(url){
+    imgEl.src = url;
+    imgEl.onerror = () => { container.style.display = 'none'; };
+    container.style.display = 'block';
+    container.classList.add('is-square');
+    if(hintEl){ hintEl.textContent = '✓ معاينة أيقونة التثبيت'; hintEl.style.display = 'block'; hintEl.style.color = 'var(--signal-green)'; }
+  } else {
+    container.style.display = 'none';
+    if(hintEl) hintEl.style.display = 'none';
+  }
+}
+
 function updateLogoPreview(){ updatePreview(formLogoImage, logoPreview, logoPreviewImg, logoPreviewHint, '✓ معاينة الشعار'); }
 function updateFlagPreview(){ updatePreview(formFlagImage, flagPreview, flagPreviewImg, flagPreviewHint, '✓ معاينة العلم'); }
 function updateBgPreview(){ updatePreview(formBgImage, bgPreview, bgPreviewImg, null, ''); }
@@ -1177,6 +1248,7 @@ function updateThumbPreview(){
 }
 
 formLogoImage.addEventListener('input', updateLogoPreview);
+if(formInstallIcon) formInstallIcon.addEventListener('input', updateInstallIconPreview);
 formFlagImage.addEventListener('input', updateFlagPreview);
 formVideoUrl.addEventListener('input', updateThumbPreview);
 formVideoThumb.addEventListener('input', updateThumbPreview);
@@ -1184,6 +1256,7 @@ formBgImage.addEventListener('input', updateBgPreview);
 
 saveSettingsBtn.addEventListener('click', () => {
   settings.logoImage = formLogoImage.value.trim();
+  if(formInstallIcon) settings.installIcon = formInstallIcon.value.trim();
   settings.flagImage = formFlagImage.value.trim();
   settings.videoUrl = formVideoUrl.value.trim();
   settings.videoThumb = formVideoThumb.value.trim();

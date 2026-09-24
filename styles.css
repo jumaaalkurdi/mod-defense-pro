@@ -649,3 +649,14 @@ a.live-badge{display:flex;align-items:center;gap:8px;padding:7px 13px;border:1px
 a.live-badge:hover{background:rgba(225,29,46,.28);border-color:rgba(225,29,46,.7);color:#fff;transform:translateY(-1px);box-shadow:0 6px 20px -6px rgba(225,29,46,.6)}
 a.live-badge:active{transform:scale(.97)}
 a.live-badge .dot{width:7px;height:7px;border-radius:50%;background:var(--alert-red-2);box-shadow:0 0 10px var(--alert-red-2);animation:livePulse2 1.4s infinite;flex:none}
+
+/* ============ PWA ICON PREVIEW ============ */
+#installIconPreview img{
+  max-height:160px;
+  width:100%;
+  object-fit:contain;
+}
+#installIconPreview.is-square img{
+  max-width:160px;
+  margin:0 auto;
+}
