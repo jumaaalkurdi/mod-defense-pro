@@ -660,3 +660,20 @@ a.live-badge .dot{width:7px;height:7px;border-radius:50%;background:var(--alert-
   max-width:160px;
   margin:0 auto;
 }
+
+/* ============ IMAGE POSITION FIX ONLY ============ */
+/* الصور تُقتطع من الأسفل بدل الأعلى */
+
+.news-card__media img{
+  object-position: center top !important;
+}
+
+.article-hero__media img{
+  object-position: center top !important;
+}
+
+.featured__media img{
+  object-position: center top !important;
+}
+
+/* END */
