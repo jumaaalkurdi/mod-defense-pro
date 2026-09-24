@@ -660,3 +660,43 @@ a.live-badge .dot{width:7px;height:7px;border-radius:50%;background:var(--alert-
   max-width:160px;
   margin:0 auto;
 }
+
+/* ============ IMAGE EDGE FIX ============ */
+.news-card__media{
+  background:
+    radial-gradient(circle at 60% 40%,rgba(201,163,78,.15),transparent 55%),
+    linear-gradient(135deg,#1e2a15,#0d1108) !important;
+  overflow:hidden !important;
+  isolation:isolate;
+}
+
+.news-card__media::after{
+  content:'';position:absolute;top:0;left:0;right:0;
+  height:40%;z-index:3;pointer-events:none;
+  background:linear-gradient(180deg,
+    rgba(6,7,10,.75) 0%,
+    rgba(6,7,10,.3) 50%,
+    transparent 100%);
+}
+
+.article-hero__media{
+  overflow:hidden !important;
+  position:relative;
+  isolation:isolate;
+}
+
+.article-hero__media::after{
+  content:'';position:absolute;top:0;left:0;right:0;
+  height:30%;z-index:3;pointer-events:none;
+  background:linear-gradient(180deg,
+    rgba(6,7,10,.8) 0%,
+    transparent 100%);
+}
+
+.news-card__media img,
+.article-hero__media img{
+  object-fit:cover !important;
+  object-position:center center !important;
+  width:100% !important;
+  height:100% !important;
+}
