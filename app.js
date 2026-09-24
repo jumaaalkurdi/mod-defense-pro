@@ -121,8 +121,6 @@ function initProgress(){
 function buildNav(){
   const nl = document.getElementById('navList');
   const dl = document.getElementById('drawerList');
-
-  /* --- القائمة الأفقية في الهيدر --- */
   if(nl){
     nl.innerHTML = '';
     D.NAV_ITEMS.slice(0, 6).forEach(item => {
@@ -136,50 +134,16 @@ function buildNav(){
       nl.appendChild(li);
     });
   }
-
-  /* --- القائمة الجانبية — تدعم المجموعات --- */
   if(dl){
     dl.innerHTML = '';
-
-    if(D.NAV_GROUPS && Array.isArray(D.NAV_GROUPS)){
-      /* استخدام المجموعات */
-      D.NAV_GROUPS.forEach(group => {
-        const groupEl = document.createElement('div');
-        groupEl.className = 'drawer__group';
-
-        const titleHtml = '<div class="drawer__group-title">' +
-          '<span class="drawer__group-icon">' + (group.icon || '') + '</span>' +
-          '<span class="drawer__group-text">' + escapeHtml(group.title) + '</span>' +
-          '<span class="drawer__group-line"></span>' +
-          '</div>';
-
-        const itemsHtml = (group.items || []).map(item => {
-          const active = item.page === 'home' ? ' is-active' : '';
-          const badgeHtml = item.badge
-            ? '<span class="drawer__link-badge' + (item.badgeType ? ' drawer__link-badge--' + item.badgeType : '') + '">' + escapeHtml(item.badge) + '</span>'
-            : '';
-          return '<a class="drawer__link' + active + '" href="#' + item.page + '" data-nav="' + item.page + '">' +
-            '<span class="drawer__link-icon">' + item.icon + '</span>' +
-            '<span class="drawer__link-text">' + escapeHtml(item.label) + '</span>' +
-            badgeHtml +
-            '<span class="drawer__link-arrow">‹</span>' +
-            '</a>';
-        }).join('');
-
-        groupEl.innerHTML = titleHtml + '<div class="drawer__group-list">' + itemsHtml + '</div>';
-        dl.appendChild(groupEl);
-      });
-    } else {
-      /* الاحتياط — القائمة القديمة المسطحة */
-      D.NAV_ITEMS.forEach(item => {
-        const a = document.createElement('a');
-        a.className = 'drawer__link' + (item.page === 'home' ? ' is-active' : '');
-        a.href = '#' + item.page;
-        a.dataset.nav = item.page;
-        a.innerHTML = '<span class="drawer__link-icon">' + item.icon + '</span><span class="drawer__link-text">' + escapeHtml(item.label) + '</span><span class="drawer__link-arrow">‹</span>';
-        dl.appendChild(a);
-      });
-    }
+    D.NAV_ITEMS.forEach(item => {
+      const a = document.createElement('a');
+      a.className = 'drawer__link' + (item.page === 'home' ? ' is-active' : '');
+      a.href = '#' + item.page;
+      a.dataset.nav = item.page;
+      a.innerHTML = '<span class="drawer__link-icon">' + item.icon + '</span><span class="drawer__link-text">' + escapeHtml(item.label) + '</span><span class="drawer__link-arrow">‹</span>';
+      dl.appendChild(a);
+    });
   }
 }
 
