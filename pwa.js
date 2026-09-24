@@ -1,21 +1,43 @@
+/* =========================================================
+   PWA — Service Worker + Install + iOS + Online/Offline
+   ========================================================= */
 (function(){
 'use strict';
 
+/* ============ SERVICE WORKER REGISTER ============ */
 if('serviceWorker' in navigator){
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('sw.js', { scope: '/' })
-      .then(reg => {
-        reg.addEventListener('updatefound', () => {
-          const nw = reg.installing;
-          if(!nw) return;
-          nw.addEventListener('statechange', () => {
-            if(nw.state === 'installed' && navigator.serviceWorker.controller) showUpdateBanner();
+
+    /* 1) امسح كل Service Workers القديمة */
+    navigator.serviceWorker.getRegistrations().then(regs => {
+      regs.forEach(r => r.unregister());
+    });
+
+    /* 2) امسح كل Caches القديمة */
+    caches.keys().then(keys => {
+      keys.forEach(k => caches.delete(k));
+    });
+
+    /* 3) سجّل Service Worker جديد */
+    setTimeout(() => {
+      navigator.serviceWorker.register('sw.js?v=' + Date.now(), { scope: '/' })
+        .then(reg => {
+          reg.addEventListener('updatefound', () => {
+            const nw = reg.installing;
+            if(!nw) return;
+            nw.addEventListener('statechange', () => {
+              if(nw.state === 'installed' && navigator.serviceWorker.controller){
+                showUpdateBanner();
+              }
+            });
           });
-        });
-      }).catch(() => {});
+        })
+        .catch(() => {});
+    }, 500);
   });
 }
 
+/* ============ UPDATE BANNER ============ */
 function showUpdateBanner(){
   if(document.getElementById('pwaUpdateBanner')) return;
   const b = document.createElement('div');
@@ -24,21 +46,41 @@ function showUpdateBanner(){
   b.innerHTML = '<span>🔄 إصدار جديد متوفر</span><button id="pwaUpdateBtn" style="padding:7px 14px;background:linear-gradient(135deg,#c9a34e,#e8c878);color:#06070a;border:0;font-family:inherit;font-weight:800;font-size:12px;cursor:pointer;">تحديث</button>';
   document.body.appendChild(b);
   document.getElementById('pwaUpdateBtn').addEventListener('click', () => {
-    if(navigator.serviceWorker.controller) navigator.serviceWorker.controller.postMessage({ type: 'SKIP_WAITING' });
-    window.location.reload();
+    if(navigator.serviceWorker.controller){
+      navigator.serviceWorker.controller.postMessage({ type: 'SKIP_WAITING' });
+    }
+    caches.keys().then(keys => {
+      keys.forEach(k => caches.delete(k));
+    }).then(() => {
+      window.location.reload(true);
+    });
   });
 }
 
+/* ============ INSTALL PROMPT (Android / Desktop) ============ */
 let deferredPrompt = null;
 
-window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; showInstallButton(); });
-window.addEventListener('appinstalled', () => { hideInstallButton(); deferredPrompt = null; });
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  showInstallButton();
+});
 
-function isStandalone(){ return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true; }
+window.addEventListener('appinstalled', () => {
+  hideInstallButton();
+  deferredPrompt = null;
+});
+
+function isStandalone(){
+  return window.matchMedia('(display-mode: standalone)').matches ||
+         window.navigator.standalone === true ||
+         (document.referrer && document.referrer.indexOf('android-app://') === 0);
+}
 
 function showInstallButton(){
   if(isStandalone()) return;
   if(document.getElementById('pwaInstallBtn')) return;
+
   const btn = document.createElement('button');
   btn.id = 'pwaInstallBtn';
   btn.type = 'button';
@@ -50,20 +92,30 @@ function showInstallButton(){
   btn.addEventListener('click', async () => {
     if(!deferredPrompt) return;
     deferredPrompt.prompt();
-    try { const c = await deferredPrompt.userChoice; if(c.outcome === 'accepted') hideInstallButton(); } catch(e){}
+    try{
+      const c = await deferredPrompt.userChoice;
+      if(c.outcome === 'accepted') hideInstallButton();
+    }catch(e){}
     deferredPrompt = null;
   });
   document.body.appendChild(btn);
 }
 
-function hideInstallButton(){ const b = document.getElementById('pwaInstallBtn'); if(b) b.remove(); }
+function hideInstallButton(){
+  const b = document.getElementById('pwaInstallBtn');
+  if(b) b.remove();
+}
 
+/* ============ iOS HINT ============ */
 document.addEventListener('DOMContentLoaded', () => {
   const ua = navigator.userAgent;
-  const isIOS = /iPad|iPhone|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  const isIOS = /iPad|iPhone|iPod/.test(ua) ||
+                (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
   if(isIOS && !isStandalone()){
     const dismissed = sessionStorage.getItem('ios_install_dismissed');
-    if(!dismissed && !deferredPrompt) setTimeout(showIOSHint, 8000);
+    if(!dismissed && !deferredPrompt){
+      setTimeout(showIOSHint, 8000);
+    }
   }
 });
 
@@ -74,10 +126,18 @@ function showIOSHint(){
   b.style.cssText = 'position:fixed;bottom:26px;inset-inline:20px;z-index:1500;padding:16px 18px;background:linear-gradient(135deg,#0d1108,#06070a);border:1px solid rgba(201,163,78,.5);color:#fff;font-family:"Noto Kufi Arabic",sans-serif;font-size:13px;line-height:1.7;clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,14px 100%,0 calc(100% - 14px));display:flex;gap:12px;box-shadow:0 20px 50px -15px rgba(0,0,0,.9);';
   b.innerHTML = '<div style="flex:1;"><strong style="color:#e8c878;">📱 ثبّت التطبيق</strong><br>اضغط زر المشاركة <strong>↗</strong> ثم اختر <strong>"إضافة إلى الشاشة الرئيسية"</strong></div><button id="pwaIOSClose" style="padding:6px 12px;background:rgba(201,163,78,.15);color:#e8c878;border:1px solid rgba(201,163,78,.4);font-family:inherit;font-weight:700;font-size:14px;cursor:pointer;height:32px;align-self:flex-start;">✕</button>';
   document.body.appendChild(b);
-  document.getElementById('pwaIOSClose').addEventListener('click', () => { b.remove(); sessionStorage.setItem('ios_install_dismissed', 'true'); });
+  document.getElementById('pwaIOSClose').addEventListener('click', () => {
+    b.remove();
+    sessionStorage.setItem('ios_install_dismissed', 'true');
+  });
 }
 
-window.addEventListener('online', () => { if(window.__app && window.__app.toast) window.__app.toast('✅ عاد الاتصال بالإنترنت', 'success'); });
-window.addEventListener('offline', () => { if(window.__app && window.__app.toast) window.__app.toast('⚠️ انقطع الاتصال — أنت في وضع Offline', 'info'); });
+/* ============ ONLINE / OFFLINE ============ */
+window.addEventListener('online', () => {
+  if(window.__app && window.__app.toast) window.__app.toast('✅ عاد الاتصال بالإنترنت', 'success');
+});
+window.addEventListener('offline', () => {
+  if(window.__app && window.__app.toast) window.__app.toast('⚠️ انقطع الاتصال — أنت في وضع Offline', 'info');
+});
 
 })();
