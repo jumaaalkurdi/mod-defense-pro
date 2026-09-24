@@ -1104,3 +1104,146 @@ select:focus-visible,
 /* =========================================================
    END POLISH
    ========================================================= */
+
+/* =========================================================
+   CRITICAL FIXES — إصلاح الهيدر + الخط العربي
+   ========================================================= */
+
+/* ============ 1) HEADER FIX (منع تراكب النص) ============ */
+@media (max-width: 768px){
+  
+  /* إعادة الأحجام الأصلية للأيقونات */
+  .icon-btn,
+  .social-link,
+  .notify-btn{
+    min-width: 38px !important;
+    min-height: 38px !important;
+    width: 38px !important;
+    height: 38px !important;
+    padding: 0 !important;
+  }
+  
+  .nav__toggle{
+    min-width: 40px !important;
+    min-height: 40px !important;
+    width: 40px !important;
+    height: 40px !important;
+  }
+  
+  /* ضمان عدم التراكب في الهيدر */
+  .header__inner{
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    gap: 10px !important;
+  }
+  
+  .brand{
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+    overflow: hidden !important;
+  }
+  
+  .brand__text{
+    overflow: hidden !important;
+    min-width: 0 !important;
+  }
+  
+  .brand__title{
+    font-size: 14px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+  
+  .header__actions{
+    flex: 0 0 auto !important;
+    gap: 4px !important;
+  }
+  
+  /* إخفاء الساعة على الجوال (تُسبب تراكب) */
+  .header__clock{
+    display: none !important;
+  }
+  
+  /* إخفاء بعض الأزرار الثانوية على الجوال الصغير */
+  .live-badge{
+    display: none !important;
+  }
+}
+
+/* على الشاشات الصغيرة جداً */
+@media (max-width: 400px){
+  .social-link{
+    display: none !important;
+  }
+  
+  .brand__sub{
+    display: none !important;
+  }
+}
+
+/* ============ 2) QURAN VERSE FIX (إصلاح التشكيل) ============ */
+
+.quran-verse{
+  font-family: 'Amiri Quran', 'Amiri', 'Scheherazade New', 'Traditional Arabic', 'Noto Naskh Arabic', serif !important;
+  font-size: clamp(22px, 3.5vw, 42px) !important;
+  line-height: 2.6 !important;
+  letter-spacing: 0 !important;
+  word-spacing: 0 !important;
+  text-rendering: optimizeLegibility !important;
+  -webkit-font-feature-settings: "kern" 1, "liga" 1, "calt" 1 !important;
+  font-feature-settings: "kern" 1, "liga" 1, "calt" 1 !important;
+  -webkit-font-smoothing: antialiased !important;
+  padding: 20px 16px !important;
+  text-shadow: 0 0 30px rgba(201,163,78,.25), 0 2px 12px rgba(0,0,0,.7) !important;
+}
+
+/* إزالة الأقواس المزخرفة إن سببت تراكب */
+.quran-verse::before,
+.quran-verse::after{
+  display: inline !important;
+  font-size: 1em !important;
+  margin: 0 8px !important;
+}
+
+/* تحسين عرض SVG الخط العربي */
+.quran-verse *{
+  line-height: 2.6 !important;
+}
+
+/* ============ 3) تحميل خط Amiri Quran عبر CSS ============ */
+@font-face{
+  font-family: 'Amiri Quran';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/amiriquran/v10/_Xmo-Hk0rD6DbUL4_vH8Zq5t7CjqsN-ypCyEoRnC.woff2) format('woff2');
+}
+
+/* ============ 4) إزالة التراكب في باقي النصوص العربية ============ */
+.quran-section__badge,
+.quran-verse__reference,
+.intro-banner__title,
+.featured__title,
+.news-card__title,
+.article-hero__title,
+.page-hero__title,
+.brand__title,
+h1, h2, h3, h4, h5, h6{
+  font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ============ 5) HEADER — منع تراكب على كل الشاشات ============ */
+.header__inner{
+  position: relative !important;
+}
+
+.brand__title,
+.brand__sub{
+  pointer-events: none;
+}
+
+/* ============ END CRITICAL FIXES ============ */
