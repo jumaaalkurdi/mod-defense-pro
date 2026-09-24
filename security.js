@@ -1,21 +1,33 @@
 (function(){
 'use strict';
 
-const _k = 0x5A;
-const _d = [121,107,104,105,110,111,62,59,40,49,106,34,107,111,110,105,104,107,121];
+/* ============ SHA-256 HASHES ============ */
+/* يتم استبدالها تلقائياً بالخطوة التالية */
+const _PWD = 'de9dbfbecc22ef1fc8692551d8df593c99a2a4be1eb6d9c0fc3dcc0773be6d4e';
+const _PIN = '8ba5ef4e282bf7bc5cf13f731a1b9f525bd3b1f69cbfa24c1c69c303c0ac7019';
 
+/* ============ PASSWORD CHECK (SHA-256) ============ */
 window.__security = {
   checkPassword: function(inp){
     if(typeof inp !== 'string' || inp.length === 0) return false;
-    let ref = '';
-    for(let i = 0; i < _d.length; i++) ref += String.fromCharCode(_d[i] ^ _k);
-    if(inp.length !== ref.length) return false;
-    let diff = 0;
-    for(let i = 0; i < inp.length; i++) diff |= inp.charCodeAt(i) ^ ref.charCodeAt(i);
-    return diff === 0;
+    if(typeof sha256 !== 'function'){
+      console.error('SHA-256 library not loaded');
+      return false;
+    }
+    return sha256(inp) === _PWD;
   }
 };
 
+/* ============ PIN CHECK (SHA-256) ============ */
+window.__pin = {
+  check: function(inp){
+    if(typeof inp !== 'string' || inp.length === 0) return false;
+    if(typeof sha256 !== 'function') return false;
+    return sha256(inp) === _PIN;
+  }
+};
+
+/* ============ RATE LIMITING ============ */
 const RL_KEY = 'mod_rl_v7';
 const RL_MAX = 5;
 const RL_LOCK_MS = 15 * 60 * 1000;
@@ -30,6 +42,7 @@ window.__ratelimit = {
   reset: function(){ saveRL({ att:0, lockUntil:0 }); }
 };
 
+/* ============ MUQATTAAT ============ */
 const MUQATTAAT = [
   { n:1, surah:'البقرة', letters:'الم' },
   { n:2, surah:'آل عمران', letters:'الم' },
@@ -81,6 +94,7 @@ window.__muqattaat = {
   list: MUQATTAAT
 };
 
+/* ============ SUSPICIOUS LOG ============ */
 const SUSPECTS_KEY = 'mod_suspects_v7';
 function loadSuspects(){ try{ return JSON.parse(sessionStorage.getItem(SUSPECTS_KEY)) || []; }catch(e){ return []; } }
 function saveSuspects(arr){ try{ if(arr.length > 50) arr = arr.slice(-50); sessionStorage.setItem(SUSPECTS_KEY, JSON.stringify(arr)); }catch(e){} }
@@ -91,22 +105,7 @@ window.__decoy = {
   clear: function(){ saveSuspects([]); }
 };
 
-/* ============ SECONDARY PIN ============ */
-/* PIN = 1946 */
-const _pk = 0x3C;
-const _pd = [13, 5, 8, 10];
-
-window.__pin = {
-  check: function(input){
-    if(!input || typeof input !== 'string') return false;
-    let ref = '';
-    for(let i = 0; i < _pd.length; i++) ref += String.fromCharCode(_pd[i] ^ _pk);
-    if(input.length !== ref.length) return false;
-    let diff = 0;
-    for(let i = 0; i < input.length; i++) diff |= input.charCodeAt(i) ^ ref.charCodeAt(i);
-    return diff === 0;
-  }
-};
-
+/* ============ STATE ============ */
 window.__mqState = { validated: false, validatedAt: 0, correctAttempts: 0, wrongAttempts: 0 };
+
 })();
