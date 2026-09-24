@@ -662,69 +662,41 @@ a.live-badge .dot{width:7px;height:7px;border-radius:50%;background:var(--alert-
 }
 
 /* =========================================================
-   IMAGE FIX FINAL — اقتصاص الصور من الأسفل فقط
+
+/* =========================================================
+   CARD IMAGE FIX — إصلاح نهائي
    ========================================================= */
-
-/* ============ BORDERS + IMAGES ============ */
-.news-card__media,
-.article-hero__media,
-.featured__media,
-.stack-card,
-.mostread__item,
-.elite-card{
-  overflow: hidden !important;
-  position: relative !important;
-}
-
-/* ============ ALL IMAGES: COVER + TOP POSITION ============ */
-.news-card__media img,
-.article-hero__media img,
-.featured__media img,
-.stack-card img,
-.mostread__item img,
-.elite-card img,
-.article-body__image img{
-  object-fit: cover !important;
-  object-position: center top !important;
-  width: 100% !important;
-  height: 100% !important;
-  display: block !important;
-  transition: transform .6s cubic-bezier(.16,1,.3,1) !important;
-}
-
-/* ============ ZOOM ON HOVER ============ */
-.news-card:hover .news-card__media img,
-.article-hero:hover .article-hero__media img,
-.stack-card:hover img,
-.elite-card:hover img{
-  transform: scale(1.04) !important;
-}
 
 /* ============ NEWS CARD MEDIA ============ */
 .news-card__media{
   aspect-ratio: 16/10 !important;
-  height: auto !important;
-  padding: 0 !important;
-  background: linear-gradient(135deg,rgba(20,26,18,.5),rgba(15,19,13,.9)) !important;
+  position: relative !important;
+  overflow: hidden !important;
+  background: 
+    radial-gradient(circle at 70% 30%,rgba(201,163,78,.08),transparent 60%),
+    linear-gradient(135deg,#1a2210,#0d1108) !important;
+  isolation: isolate;
 }
 
-/* ============ ARTICLE HERO MEDIA ============ */
-.article-hero__media{
-  aspect-ratio: 16/9 !important;
-  height: auto !important;
-  max-height: 520px !important;
-  padding: 0 !important;
-  background: linear-gradient(135deg,rgba(20,26,18,.5),rgba(15,19,13,.9)) !important;
+.news-card__media img{
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center top !important;
+  display: block !important;
+  filter: brightness(.85) contrast(1.05) !important;
+  transition: transform .6s cubic-bezier(.16,1,.3,1) !important;
+  z-index: 1;
 }
 
-/* ============ FEATURED MEDIA ============ */
-.featured__media{
-  background-size: cover !important;
-  background-position: center top !important;
-  background-repeat: no-repeat !important;
+.news-card:hover .news-card__media img{
+  transform: scale(1.05) !important;
 }
 
-/* ============ GRADIENT OVERLAYS ============ */
+/* ============ OVERLAY GRADIENT ============ */
 .news-card__media::before{
   content: '' !important;
   position: absolute !important;
@@ -735,6 +707,37 @@ a.live-badge .dot{width:7px;height:7px;border-radius:50%;background:var(--alert-
     transparent 40%,
     rgba(6,7,10,.55) 100%) !important;
   pointer-events: none !important;
+}
+
+/* ============ REMOVE OLD GRID OVERLAY ============ */
+.news-card__media::after{
+  display: none !important;
+}
+
+/* ============ TAG Z-INDEX ============ */
+.news-card__tag{
+  z-index: 3 !important;
+}
+
+/* ============ ARTICLE HERO ============ */
+.article-hero__media{
+  aspect-ratio: 16/9 !important;
+  max-height: 500px !important;
+  position: relative !important;
+  overflow: hidden !important;
+  background: 
+    radial-gradient(circle at 70% 30%,rgba(201,163,78,.1),transparent 60%),
+    linear-gradient(135deg,#1a2210,#0d1108) !important;
+}
+
+.article-hero__media img{
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center top !important;
 }
 
 .article-hero__media::before{
@@ -749,9 +752,39 @@ a.live-badge .dot{width:7px;height:7px;border-radius:50%;background:var(--alert-
   pointer-events: none !important;
 }
 
-/* ============ TAG ON IMAGE ============ */
-.news-card__tag{
-  z-index: 3 !important;
+/* ============ STOP SKELETON FLICKER ============ */
+.news-card__media img[loading="lazy"],
+.article-hero__media img[loading="lazy"]{
+  background: transparent !important;
+  animation: none !important;
+}
+
+/* ============ FIX EMPTY MEDIA ============ */
+.news-card__media:empty,
+.article-hero__media:empty{
+  background: 
+    radial-gradient(circle at 50% 50%,rgba(201,163,78,.15),transparent 70%),
+    linear-gradient(135deg,#131a0d,#06070a) !important;
+}
+
+/* ============ FIXED CORNERS REMOVAL ============ */
+.corner,
+.news-card__media .corner,
+.featured__media .corner{
+  display: none !important;
+}
+
+/* ============ REMOVE YELLOW BORDERS ============ */
+.news-card__media *{
+  border-color: transparent !important;
+}
+
+/* ============ FEATURED CARD ============ */
+.featured__media{
+  background:
+    radial-gradient(circle at 70% 30%,rgba(201,163,78,.15),transparent 60%),
+    radial-gradient(circle at 20% 80%,rgba(74,184,122,.06),transparent 60%),
+    linear-gradient(135deg,#1a2210,#0d1108) !important;
 }
 
 /* ============ MOBILE ============ */
@@ -762,16 +795,6 @@ a.live-badge .dot{width:7px;height:7px;border-radius:50%;background:var(--alert-
   .article-hero__media{
     aspect-ratio: 16/10 !important;
     max-height: 340px !important;
-  }
-  .featured__media{
-    background-position: center 20% !important;
-  }
-}
-
-/* ============ TABLET ============ */
-@media (min-width: 769px) and (max-width: 1080px){
-  .article-hero__media{
-    max-height: 460px !important;
   }
 }
 
@@ -818,4 +841,4 @@ a.live-badge .dot{width:7px;height:7px;border-radius:50%;background:var(--alert-
   }
 }
 
-/* ============ END IMAGE FIX ============ */
+/* ============ END CARD FIX ============ */
