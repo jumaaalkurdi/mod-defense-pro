@@ -842,3 +842,259 @@ a.live-badge .dot{width:7px;height:7px;border-radius:50%;background:var(--alert-
 }
 
 /* ============ END CARD FIX ============ */
+
+/* =========================================================
+   CARD REDESIGN — إعادة تصميم كاملة للبطاقات
+   ========================================================= */
+
+/* ============ KILL ALL ANIMATIONS ON CARDS ============ */
+.news-card,
+.news-card *,
+.news-card__media,
+.news-card__media *,
+.news-card__body,
+.news-card__body *,
+.stack-card,
+.stack-card *,
+.mostread__item,
+.mostread__item *,
+.elite-card,
+.elite-card *{
+  animation: none !important;
+  animation-duration: 0s !important;
+  animation-delay: 0s !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0s !important;
+  transition-delay: 0s !important;
+}
+
+/* ============ REMOVE CLIP-PATH FROM CARDS ============ */
+.news-card{
+  clip-path: none !important;
+  border-radius: 12px !important;
+  border: 1px solid rgba(201,163,78,.18) !important;
+  background: #0f130d !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  transform: none !important;
+  transition: border-color .3s ease, box-shadow .3s ease !important;
+  overflow: hidden !important;
+}
+
+.news-card:hover{
+  transform: none !important;
+  border-color: rgba(201,163,78,.35) !important;
+  box-shadow: 0 8px 30px -8px rgba(0,0,0,.5) !important;
+}
+
+/* ============ NEWS CARD MEDIA ============ */
+.news-card__media{
+  aspect-ratio: 16/10 !important;
+  height: auto !important;
+  position: relative !important;
+  overflow: hidden !important;
+  background: #131a0d !important;
+  border-radius: 11px 11px 0 0 !important;
+  isolation: isolate;
+}
+
+.news-card__media img{
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center top !important;
+  display: block !important;
+  filter: brightness(.85) !important;
+  transform: none !important;
+  transition: transform .5s ease !important;
+}
+
+.news-card:hover .news-card__media img{
+  transform: scale(1.03) !important;
+}
+
+/* ============ OVERLAY CLEAN ============ */
+.news-card__media::before{
+  content: '' !important;
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 2 !important;
+  background: linear-gradient(180deg,
+    rgba(6,7,10,.1) 0%,
+    transparent 50%,
+    rgba(6,7,10,.5) 100%) !important;
+  pointer-events: none !important;
+}
+
+.news-card__media::after{
+  display: none !important;
+}
+
+/* ============ EMPTY MEDIA (بدون صورة) ============ */
+.news-card__media:not(:has(img)){
+  background: 
+    radial-gradient(circle at 50% 50%, rgba(201,163,78,.12), transparent 65%),
+    linear-gradient(135deg, #131a0d 0%, #0a0d08 100%) !important;
+  display: grid !important;
+  place-items: center !important;
+}
+
+.news-card__media:not(:has(img))::before{
+  content: '📰' !important;
+  position: static !important;
+  display: block !important;
+  font-size: 56px !important;
+  opacity: .18 !important;
+  color: #c9a34e !important;
+  z-index: 1 !important;
+  background: none !important;
+  inset: auto !important;
+}
+
+/* ============ TAG ON CARD ============ */
+.news-card__tag{
+  position: absolute !important;
+  top: 12px !important;
+  inset-inline-start: 12px !important;
+  z-index: 3 !important;
+  border-radius: 6px !important;
+}
+
+/* ============ CARD BODY ============ */
+.news-card__body{
+  padding: 18px !important;
+  background: #0f130d !important;
+}
+
+.news-card__title a{
+  color: #eef1ea !important;
+  text-decoration: none !important;
+}
+
+.news-card__title a:hover{
+  color: #e8c878 !important;
+}
+
+/* ============ STACK CARDS ============ */
+.stack-card{
+  clip-path: none !important;
+  border-radius: 10px !important;
+  background: #0f130d !important;
+  border: 1px solid rgba(201,163,78,.18) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  transform: none !important;
+}
+
+.stack-card:hover{
+  transform: none !important;
+  border-color: rgba(201,163,78,.35) !important;
+}
+
+/* ============ MOSTREAD ITEMS ============ */
+.mostread__item{
+  transform: none !important;
+}
+
+.mostread__item:hover{
+  transform: none !important;
+}
+
+/* ============ ELITE CARDS ============ */
+.elite-card{
+  clip-path: none !important;
+  border-radius: 12px !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  transform: none !important;
+}
+
+.elite-card:hover{
+  transform: none !important;
+}
+
+/* ============ WIDGETS ============ */
+.widget{
+  clip-path: none !important;
+  border-radius: 12px !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* ============ FEATURED CARD ============ */
+.featured{
+  clip-path: none !important;
+  border-radius: 12px !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.featured__sweep{
+  display: none !important;
+}
+
+.featured::after{
+  display: none !important;
+}
+
+.corner{
+  display: none !important;
+}
+
+/* ============ REVEAL — فقط fade بسيط ============ */
+.reveal,
+.reveal-scale,
+.reveal-blur{
+  opacity: 0 !important;
+  transform: none !important;
+  filter: none !important;
+  transition: opacity .5s ease !important;
+  transition-delay: 0s !important;
+}
+
+.reveal.is-in,
+.reveal-scale.is-in,
+.reveal-blur.is-in{
+  opacity: 1 !important;
+  transform: none !important;
+  filter: none !important;
+}
+
+/* ============ REMOVE BACKGROUND NOISE ============ */
+body::after{
+  display: none !important;
+}
+
+/* ============ REMOVE DESIGN-PRO ANIMATIONS ============ */
+.hero::before{
+  animation: none !important;
+  display: none !important;
+}
+
+.ticker::after{
+  animation: none !important;
+  display: none !important;
+}
+
+.clock::after{
+  animation: none !important;
+  display: none !important;
+}
+
+/* ============ REMOVE CORNER DECORATIONS ============ */
+.news-card__media .corner,
+.featured .corner,
+.elite-card .corner{
+  display: none !important;
+}
+
+/* ============ SMOOTH HOVER (single transition) ============ */
+.news-card,
+.stack-card,
+.elite-card{
+  transition: border-color .3s ease, box-shadow .3s ease !important;
+}
+
+/* ============ END REDESIGN ============ */
