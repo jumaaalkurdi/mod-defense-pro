@@ -700,3 +700,185 @@ a.live-badge .dot{width:7px;height:7px;border-radius:50%;background:var(--alert-
   width:100% !important;
   height:100% !important;
 }
+
+/* =========================================================
+   IMAGE FIXES — إصلاحات الصور (2026)
+   ========================================================= */
+
+/* ============ NEWS CARD — عرض الصورة كاملة ============ */
+.news-card__media{
+  aspect-ratio: 16/9 !important;
+  background:
+    radial-gradient(circle at 50% 50%,rgba(201,163,78,.08),transparent 60%),
+    linear-gradient(135deg,#0d1108,#06070a) !important;
+  overflow: hidden !important;
+  position: relative;
+}
+
+.news-card__media img{
+  object-fit: contain !important;
+  object-position: center center !important;
+  width: 100% !important;
+  height: 100% !important;
+  padding: 0 !important;
+  filter: brightness(.85) contrast(1.05) saturate(.95) !important;
+  transition: transform .6s var(--ease-2) !important;
+}
+
+.news-card:hover .news-card__media img{
+  transform: scale(1.03) !important;
+}
+
+/* ============ ARTICLE HERO — عرض الصورة كاملة ============ */
+.article-hero__media{
+  aspect-ratio: 16/9 !important;
+  max-height: 500px;
+  background:
+    radial-gradient(circle at 50% 50%,rgba(201,163,78,.1),transparent 60%),
+    linear-gradient(135deg,#0d1108,#06070a) !important;
+  overflow: hidden !important;
+  position: relative;
+}
+
+.article-hero__media img{
+  object-fit: contain !important;
+  object-position: center center !important;
+  width: 100% !important;
+  height: 100% !important;
+  padding: 0 !important;
+  filter: brightness(.9) contrast(1.05) !important;
+}
+
+/* ============ FEATURED CARD — خلفية ذهبية ناعمة ============ */
+.featured__media{
+  background:
+    radial-gradient(circle at 70% 30%,rgba(201,163,78,.15),transparent 55%),
+    radial-gradient(circle at 20% 80%,rgba(74,184,122,.08),transparent 55%),
+    linear-gradient(180deg,#1a2210,#0f1408 60%,#06080a) !important;
+}
+
+/* ============ STACK CARD — صور مصغرة ============ */
+.stack-card{
+  position: relative;
+  overflow: hidden;
+}
+
+/* ============ REDUCE TOP OVERLAY ============ */
+.news-card__media::before{
+  content:'';position:absolute;inset:0;z-index:1;
+  background:linear-gradient(180deg,
+    rgba(6,7,10,.5) 0%,
+    rgba(6,7,10,.15) 40%,
+    rgba(6,7,10,.4) 100%) !important;
+  pointer-events:none;
+}
+
+.news-card__media::after{
+  content:'';position:absolute;inset:0;z-index:1;
+  background-image:
+    linear-gradient(rgba(201,163,78,.05) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(201,163,78,.05) 1px,transparent 1px) !important;
+  background-size:30px 30px !important;
+  opacity:.5 !important;
+  pointer-events:none;
+}
+
+.article-hero__media::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(180deg,
+    rgba(6,7,10,.55) 0%,
+    rgba(6,7,10,.1) 30%,
+    rgba(6,7,10,.35) 100%) !important;
+  pointer-events:none;
+}
+
+/* ============ MOBILE IMAGE SIZES ============ */
+@media (max-width: 768px){
+  .news-card__media{
+    aspect-ratio: 16/9 !important;
+    height: auto !important;
+  }
+  
+  .article-hero__media{
+    aspect-ratio: 16/9 !important;
+    max-height: 320px !important;
+  }
+  
+  .featured__media{
+    min-height: 200px;
+  }
+}
+
+/* ============ TABLET ============ */
+@media (min-width: 769px) and (max-width: 1080px){
+  .news-card__media{
+    aspect-ratio: 16/9 !important;
+  }
+  
+  .article-hero__media{
+    max-height: 420px;
+  }
+}
+
+/* ============ PWA INSTALL BUTTON (Small Round) ============ */
+#pwaInstallBtn{
+  position: fixed !important;
+  bottom: 80px !important;
+  right: 20px !important;
+  z-index: 1500 !important;
+  width: 44px !important;
+  height: 44px !important;
+  padding: 0 !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: linear-gradient(135deg,#c9a34e,#e8c878) !important;
+  color: #06070a !important;
+  border: 0 !important;
+  box-shadow: 0 8px 24px -6px rgba(201,163,78,.7) !important;
+  cursor: pointer !important;
+  transition: transform .3s !important;
+}
+
+#pwaInstallBtn:hover{
+  transform: scale(1.1) !important;
+}
+
+#pwaInstallBtn svg{
+  width: 20px !important;
+  height: 20px !important;
+}
+
+@media (max-width: 768px){
+  #pwaInstallBtn{
+    bottom: 76px !important;
+    right: 14px !important;
+    width: 40px !important;
+    height: 40px !important;
+  }
+  #pwaInstallBtn svg{
+    width: 18px !important;
+    height: 18px !important;
+  }
+}
+
+/* ============ TO-TOP BUTTON (Ensure no overlap) ============ */
+.to-top{
+  z-index: 1400 !important;
+}
+
+/* ============ SMOOTH IMAGE LOADING ============ */
+.news-card__media img[loading="lazy"],
+.article-hero__media img[loading="lazy"]{
+  background: linear-gradient(90deg,rgba(30,42,21,.4),rgba(201,163,78,.08),rgba(30,42,21,.4));
+  background-size: 200% 100%;
+  animation: imageSkeleton 1.5s linear infinite;
+}
+
+@keyframes imageSkeleton{
+  0%{background-position:200% 0}
+  100%{background-position:-200% 0}
+}
+
+/* ============ END IMAGE FIXES ============ */
