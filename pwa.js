@@ -58,7 +58,7 @@ function showInstallButton(){
   btn.type = 'button';
   btn.setAttribute('aria-label', 'تثبيت التطبيق');
   btn.title = 'تثبيت التطبيق';
-  btn.style.cssText = 'position:fixed;bottom:20px;inset-inline-end:20px;z-index:1500;display:flex;align-items:center;justify-content:center;width:42px;height:42px;padding:0;background:linear-gradient(135deg,#c9a34e,#e8c878);color:#06070a;border:0;cursor:pointer;border-radius:50%;box-shadow:0 8px 24px -6px rgba(201,163,78,.7);transition:transform .3s;';
+  btn.style.cssText = 'position:fixed;bottom:80px;right:20px;z-index:1500;display:flex;align-items:center;justify-content:center;width:42px;height:42px;padding:0;background:linear-gradient(135deg,#c9a34e,#e8c878);color:#06070a;border:0;cursor:pointer;border-radius:50%;box-shadow:0 8px 24px -6px rgba(201,163,78,.7);transition:transform .3s;';
 
   btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="width:20px;height:20px;"><path d="M12 3v12M7 10l5 5 5-5" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 21h14" stroke-linecap="round"/></svg>';
 
