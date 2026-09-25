@@ -1,4 +1,4 @@
-(function(){
+initAdminTabs();(function(){
 'use strict';
 
 const D = window.__data;
@@ -1732,6 +1732,12 @@ function init(){
   initClock();
   initProgress();
   initAdminTabs();
+  /* Gallery Admin */
+  setTimeout(function(){
+    if(window.__galleryAdmin && window.__galleryAdmin.init){
+      window.__galleryAdmin.init();
+    }
+  }, 300);
   /* Gallery Admin */
   if(window.__galleryAdmin){
     setTimeout(() => window.__galleryAdmin.init(), 200);
