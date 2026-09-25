@@ -985,7 +985,7 @@ const formSubmitLabel = document.getElementById('formSubmitLabel');
 const formCancel = document.getElementById('formCancel');
 const formSectionTitle = document.getElementById('formSectionTitle');
 const adminList = document.getElementById('adminList');
-
+  console.log('🎨 Binding submit event...');
 newsForm.addEventListener('submit', (e) => {
   e.preventDefault();
   const data = { id: editId.value || uid('n'), cat: formCat.value, source: formSource.value.trim(), title: formNewsTitle.value.trim(), excerpt: formExcerpt.value.trim(), details: formDetails.value.trim(), image: formImage.value.trim(), articleImage: formArticleImage.value.trim(), addedAt: editId.value ? (newsData.find(n => n.id === editId.value)?.addedAt || Date.now()) : Date.now() };
@@ -1479,7 +1479,14 @@ function saveGallery(data){
 
 /* مرجع العناصر */
 function initGalleryAdmin(){
+  console.log('🎨 initGalleryAdmin CALLED', new Date().toISOString());
   const form = safeGet('galleryForm');
+  console.log('🎨 Form found:', !!form);
+  if(form){
+    console.log('🎨 Form dataset.init:', form.dataset.init);
+  }
+
+
   if(!form) return;
 
   const editId = safeGet('galleryEditId');
@@ -1745,7 +1752,8 @@ function init(){
 
 
   initNotifications();
-
+  /* Gallery Admin */
+  initGalleryAdmin();
   renderTicker();
   renderNews();
   renderMostRead();
