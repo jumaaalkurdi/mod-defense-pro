@@ -1,0 +1,501 @@
+/* ══════════════════════════════════════════════════════════
+   FLOATING BUTTONS — التصميم الاحترافي النهائي
+   📲 PWA (يسار) | ⬆️ to-top + 🤖 AI (يمين، داخل مجموعة)
+   ══════════════════════════════════════════════════════════ */
+
+/* ═══════════════════════════════════════════════════════
+   📲 زر PWA — يسار سفلي
+   ═══════════════════════════════════════════════════════ */
+#pwaInstallBtn{
+  position:fixed !important;
+  left:16px !important;
+  right:auto !important;
+  bottom:20px !important;
+  top:auto !important;
+  z-index:1500 !important;
+  width:56px !important;
+  height:56px !important;
+  display:grid !important;
+  place-items:center !important;
+  padding:0 !important;
+  margin:0 !important;
+  background:linear-gradient(145deg,var(--gold-3),var(--gold)) !important;
+  backdrop-filter:blur(16px) !important;
+  -webkit-backdrop-filter:blur(16px) !important;
+  color:#06070a !important;
+  border:1.5px solid rgba(245,224,165,.7) !important;
+  border-radius:50% !important;
+  cursor:pointer !important;
+  box-shadow:
+    0 10px 28px -8px var(--gold),
+    0 4px 12px -3px rgba(0,0,0,.5),
+    inset 0 1px 0 rgba(255,255,255,.5) !important;
+  transition:transform .35s cubic-bezier(.16,1,.3,1), box-shadow .35s !important;
+}
+#pwaInstallBtn:hover{
+  transform:translateY(-3px) scale(1.06) !important;
+}
+#pwaInstallBtn:active{transform:scale(.94) !important}
+#pwaInstallBtn svg{
+  width:26px !important;
+  height:26px !important;
+  stroke:#06070a !important;
+  stroke-width:2.2 !important;
+}
+
+/* ═══════════════════════════════════════════════════════
+   🎯 حاوية المجموعة (يمين سفلي) — ⬆️ و 🤖
+   ═══════════════════════════════════════════════════════ */
+.fab-group{
+  position:fixed !important;
+  right:16px !important;
+  left:auto !important;
+  bottom:20px !important;
+  top:auto !important;
+  z-index:1501 !important;
+  display:flex !important;
+  flex-direction:row !important;
+  align-items:center !important;
+  gap:8px !important;
+  padding:6px !important;
+  background:linear-gradient(145deg,rgba(13,17,8,.9),rgba(6,7,10,.95)) !important;
+  backdrop-filter:blur(20px) saturate(140%) !important;
+  -webkit-backdrop-filter:blur(20px) saturate(140%) !important;
+  border:1px solid rgba(201,163,78,.35) !important;
+  border-radius:50px !important;
+  box-shadow:
+    0 16px 44px -12px rgba(0,0,0,.85),
+    0 0 40px -15px rgba(201,163,78,.4),
+    inset 0 1px 0 rgba(255,255,255,.06) !important;
+}
+
+/* ═══════════════════════════════════════════════════════
+   ⬆️ زر to-top (داخل المجموعة) — يتجاوز styles.css
+   ═══════════════════════════════════════════════════════ */
+
+
+
+
+
+
+/* ═══════════════════════════════════════════════════════
+   🤖 زر AI (داخل المجموعة)
+   ═══════════════════════════════════════════════════════ */
+body .fab-group > .ai-fab{
+  position:relative !important;
+  right:auto !important;
+  left:auto !important;
+  bottom:auto !important;
+  top:auto !important;
+  inset-inline-end:auto !important;
+  inset-inline-start:auto !important;
+  z-index:1 !important;
+  width:48px !important;
+  height:48px !important;
+  display:grid !important;
+  place-items:center !important;
+  padding:0 !important;
+  margin:0 !important;
+  background:linear-gradient(145deg,var(--gold-3),var(--gold) 55%,var(--gold-deep)) !important;
+  color:#06070a !important;
+  border:1.5px solid rgba(245,224,165,.75) !important;
+  border-radius:50% !important;
+  cursor:pointer !important;
+  box-shadow:
+    0 6px 20px -6px var(--gold),
+    0 2px 6px -2px rgba(0,0,0,.5),
+    inset 0 1px 0 rgba(255,255,255,.5) !important;
+  transition:transform .35s cubic-bezier(.16,1,.3,1) !important;
+  animation:aiGroupBreath 3.5s ease-in-out infinite !important;
+}
+@keyframes aiGroupBreath{
+  0%,100%{
+    box-shadow:0 6px 20px -6px var(--gold),0 2px 6px -2px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.5),0 0 0 0 rgba(201,163,78,.5);
+  }
+  50%{
+    box-shadow:0 6px 20px -6px var(--gold),0 2px 6px -2px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.5),0 0 0 10px rgba(201,163,78,0);
+  }
+}
+body .fab-group > .ai-fab:hover{
+  transform:translateY(-2px) scale(1.06) !important;
+}
+body .fab-group > .ai-fab:active{
+  transform:scale(.93) !important;
+}
+body .fab-group > .ai-fab svg{
+  width:26px !important;
+  height:26px !important;
+  transition:transform .4s cubic-bezier(.16,1,.3,1) !important;
+}
+body .fab-group > .ai-fab.is-open svg{
+  transform:rotate(135deg) scale(.9) !important;
+}
+body .fab-group > .ai-fab::after{
+  content:'';
+  position:absolute;
+  top:2px;
+  right:2px;
+  width:11px;
+  height:11px;
+  background:radial-gradient(circle at 30% 30%,#86efac,#4ade80 45%,#22c55e);
+  border-radius:50%;
+  border:2px solid #06070a;
+  box-shadow:0 0 10px rgba(74,222,128,.9);
+  animation:aiGroupDot 2.2s ease-in-out infinite;
+  pointer-events:none;
+}
+@keyframes aiGroupDot{
+  0%,100%{box-shadow:0 0 10px rgba(74,222,128,.9),0 0 0 0 rgba(74,222,128,.7);transform:scale(1)}
+  50%{box-shadow:0 0 14px rgba(74,222,128,1),0 0 0 6px rgba(74,222,128,0);transform:scale(1.1)}
+}
+
+/* ═══════════════════════════════════════════════════════
+   💬 نافذة AI
+   ═══════════════════════════════════════════════════════ */
+.ai-panel{
+  right:16px !important;
+  left:auto !important;
+  bottom:96px !important;
+  width:420px !important;
+  max-width:calc(100vw - 32px) !important;
+  max-height:min(80vh,700px) !important;
+  z-index:1502 !important;
+}
+
+/* ═══════════════════════════════════════════════════════
+   📐 مساحة أسفل الصفحة
+   ═══════════════════════════════════════════════════════ */
+body{padding-bottom:100px !important}
+.footer{padding-bottom:130px !important}
+
+/* ═══════════════════════════════════════════════════════
+   📱 الجوال
+   ═══════════════════════════════════════════════════════ */
+@media (max-width:768px){
+  #pwaInstallBtn{
+    width:52px !important;
+    height:52px !important;
+    left:14px !important;
+    bottom:16px !important;
+  }
+  #pwaInstallBtn svg{width:24px !important;height:24px !important}
+
+  .fab-group{
+    right:14px !important;
+    bottom:16px !important;
+    gap:6px !important;
+    padding:5px !important;
+  }
+  body .fab-group > .ai-fab{
+    width:46px !important;
+    height:46px !important;
+  }
+  body .fab-group > .ai-fab svg{width:24px !important;height:24px !important}
+  body .fab-group > .ai-fab::after{
+    width:10px !important;
+    height:10px !important;
+    top:1px !important;
+    right:1px !important;
+  }
+  
+  
+  
+
+  .ai-panel{
+    right:12px !important;
+    left:12px !important;
+    bottom:90px !important;
+    width:auto !important;
+    max-width:none !important;
+    max-height:calc(100vh - 110px) !important;
+  }
+
+  body{padding-bottom:90px !important}
+  .footer{padding-bottom:110px !important}
+}
+
+@media (max-width:400px){
+  #pwaInstallBtn{
+    width:48px !important;
+    height:48px !important;
+    left:12px !important;
+    bottom:14px !important;
+  }
+  #pwaInstallBtn svg{width:22px !important;height:22px !important}
+
+  .fab-group{
+    right:12px !important;
+    bottom:14px !important;
+    gap:5px !important;
+    padding:4px !important;
+  }
+  body .fab-group > .ai-fab{
+    width:44px !important;
+    height:44px !important;
+  }
+  body .fab-group > .ai-fab svg{width:22px !important;height:22px !important}
+  
+  
+  
+}
+
+/* ═══════════════════════════════════════════════════════
+   🌓 الوضع النهاري
+   ═══════════════════════════════════════════════════════ */
+html[data-mode="light"] .fab-group{
+  background:linear-gradient(145deg,rgba(250,248,240,.94),rgba(240,237,224,.96)) !important;
+  border-color:rgba(138,102,32,.35) !important;
+}
+html[data-mode="light"] 
+html[data-mode="light"] body .fab-group > .ai-fab::after{
+  border-color:#faf8f0;
+}
+
+/* ═══════════════════════════════════════════════════════
+   ⬆️ زر to-top — متناسق تماماً مع AI
+   ═══════════════════════════════════════════════════════ */
+body .fab-group > #toTop,
+body .fab-group > .to-top{
+  position:relative !important;
+  right:auto !important;
+  left:auto !important;
+  bottom:auto !important;
+  top:auto !important;
+  inset-inline-end:auto !important;
+  inset-inline-start:auto !important;
+  z-index:1 !important;
+  width:0 !important;
+  height:48px !important;
+  min-width:0 !important;
+  display:grid !important;
+  place-items:center !important;
+  padding:0 !important;
+  margin:0 !important;
+
+  /* نفس خلفية AI الذهبية */
+  background:linear-gradient(145deg,var(--gold-3),var(--gold) 55%,var(--gold-deep)) !important;
+  color:#06070a !important;
+  border:1.5px solid rgba(245,224,165,.75) !important;
+  border-radius:50% !important;
+  cursor:pointer !important;
+
+  /* نفس ظلال AI */
+  box-shadow:
+    0 6px 20px -6px var(--gold),
+    0 2px 6px -2px rgba(0,0,0,.5),
+    inset 0 1px 0 rgba(255,255,255,.5),
+    inset 0 -2px 4px rgba(0,0,0,.15) !important;
+
+  transition:all .35s cubic-bezier(.16,1,.3,1) !important;
+
+  opacity:0;
+  visibility:hidden;
+  overflow:hidden;
+  pointer-events:none;
+  clip-path:none !important;
+  transform:scale(.5) !important;
+}
+
+body .fab-group > #toTop.is-visible,
+body .fab-group > .to-top.is-visible{
+  width:48px !important;
+  min-width:48px !important;
+  opacity:1 !important;
+  visibility:visible !important;
+  pointer-events:auto !important;
+  transform:scale(1) !important;
+  animation:topBreath 3.5s ease-in-out infinite !important;
+}
+
+@keyframes topBreath{
+  0%,100%{
+    box-shadow:
+      0 6px 20px -6px var(--gold),
+      0 2px 6px -2px rgba(0,0,0,.5),
+      inset 0 1px 0 rgba(255,255,255,.5),
+      0 0 0 0 rgba(201,163,78,.5);
+  }
+  50%{
+    box-shadow:
+      0 6px 20px -6px var(--gold),
+      0 2px 6px -2px rgba(0,0,0,.5),
+      inset 0 1px 0 rgba(255,255,255,.5),
+      0 0 0 10px rgba(201,163,78,0);
+  }
+}
+
+body .fab-group > #toTop:hover,
+body .fab-group > .to-top:hover{
+  transform:translateY(-2px) scale(1.06) !important;
+  box-shadow:
+    0 12px 28px -6px var(--gold-2),
+    0 4px 10px -2px rgba(0,0,0,.55),
+    inset 0 1px 0 rgba(255,255,255,.6) !important;
+}
+
+body .fab-group > #toTop:active,
+body .fab-group > .to-top:active{
+  transform:scale(.93) !important;
+}
+
+body .fab-group > #toTop svg,
+body .fab-group > .to-top svg{
+  width:24px !important;
+  height:24px !important;
+  stroke:#06070a !important;
+  stroke-width:2.4 !important;
+  transition:transform .35s cubic-bezier(.16,1,.3,1) !important;
+}
+
+body .fab-group > #toTop:hover svg,
+body .fab-group > .to-top:hover svg{
+  transform:translateY(-2px) !important;
+}
+
+/* ═══ جوال ═══ */
+@media (max-width:768px){
+  body .fab-group > #toTop,
+  body .fab-group > .to-top{
+    height:46px !important;
+  }
+  body .fab-group > #toTop.is-visible,
+  body .fab-group > .to-top.is-visible{
+    width:46px !important;
+    min-width:46px !important;
+  }
+  body .fab-group > #toTop svg,
+  body .fab-group > .to-top svg{
+    width:22px !important;
+    height:22px !important;
+  }
+}
+
+@media (max-width:400px){
+  body .fab-group > #toTop,
+  body .fab-group > .to-top{
+    height:44px !important;
+  }
+  body .fab-group > #toTop.is-visible,
+  body .fab-group > .to-top.is-visible{
+    width:44px !important;
+    min-width:44px !important;
+  }
+  body .fab-group > #toTop svg,
+  body .fab-group > .to-top svg{
+    width:20px !important;
+    height:20px !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════
+   💬 إصلاح نافذة AI — متكيفة مع الشاشة
+   ═══════════════════════════════════════════════════════ */
+
+/* على كل الأجهزة — استخدم dvh للتعامل مع شريط العنوان */
+.ai-panel{
+  max-height:calc(100vh - 130px) !important;
+  max-height:calc(100dvh - 130px) !important;
+}
+
+/* الجوال — نافذة صغيرة مع احترام الحدود */
+@media (max-width: 768px){
+  .ai-panel{
+    right:10px !important;
+    left:10px !important;
+    bottom:88px !important;
+    width:auto !important;
+    max-width:none !important;
+    max-height:calc(100vh - 110px) !important;
+    max-height:calc(100dvh - 110px) !important;
+    display:flex !important;
+    flex-direction:column !important;
+  }
+
+  /* الرأس ثابت دائماً */
+  .ai-panel .ai-head{
+    flex:none !important;
+    position:sticky !important;
+    top:0 !important;
+    z-index:5 !important;
+    background:linear-gradient(180deg,#131a0d 0%,#0d1108 100%) !important;
+  }
+
+  /* المحتوى قابل للسكرول */
+  .ai-panel .ai-body{
+    flex:1 1 auto !important;
+    min-height:0 !important;
+    overflow-y:auto !important;
+    -webkit-overflow-scrolling:touch !important;
+  }
+
+  /* الإدخال ثابت في الأسفل */
+  .ai-panel .ai-input{
+    flex:none !important;
+    position:sticky !important;
+    bottom:0 !important;
+    background:rgba(0,0,0,.5) !important;
+    backdrop-filter:blur(12px) !important;
+    -webkit-backdrop-filter:blur(12px) !important;
+  }
+}
+
+/* شاشات قصيرة (height < 700px) */
+@media (max-height: 700px) and (max-width: 768px){
+  .ai-panel{
+    bottom:80px !important;
+    max-height:calc(100vh - 95px) !important;
+    max-height:calc(100dvh - 95px) !important;
+  }
+  .ai-panel .ai-head{
+    padding:10px 14px !important;
+  }
+  .ai-panel .ai-head__title{
+    font-size:12.5px !important;
+  }
+  .ai-panel .ai-head__icon{
+    width:32px !important;
+    height:32px !important;
+  }
+  .ai-panel .ai-head__icon svg{
+    width:18px !important;
+    height:18px !important;
+  }
+}
+
+/* شاشات قصيرة جداً (height < 600px) */
+@media (max-height: 600px) and (max-width: 768px){
+  .ai-panel{
+    bottom:75px !important;
+    max-height:calc(100vh - 85px) !important;
+    max-height:calc(100dvh - 85px) !important;
+  }
+  .ai-panel .ai-head{
+    padding:8px 12px !important;
+  }
+  .ai-panel .ai-head__title{
+    font-size:12px !important;
+  }
+  .ai-panel .ai-head__icon{
+    width:28px !important;
+    height:28px !important;
+  }
+  .ai-panel .ai-head__icon svg{
+    width:16px !important;
+    height:16px !important;
+  }
+  .ai-panel .ai-msg__bubble{
+    font-size:12.5px !important;
+    padding:9px 12px !important;
+  }
+}
+
+/* شاشات صغيرة جداً (max-width 400px) */
+@media (max-width: 400px){
+  .ai-panel{
+    right:8px !important;
+    left:8px !important;
+    bottom:80px !important;
+    max-height:calc(100vh - 100px) !important;
+    max-height:calc(100dvh - 100px) !important;
+  }
+}
