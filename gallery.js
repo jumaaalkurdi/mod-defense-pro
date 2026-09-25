@@ -3,6 +3,7 @@
 
 /* =========================================================
    CINEMATIC GALLERY — معرض سينمائي ثوري
+   يدعم: إدارة من لوحة التحكم + localStorage + GitHub Sync
    ========================================================= */
 
 const CG = {
@@ -13,12 +14,25 @@ const CG = {
   mouseY: 0
 };
 
-/* ============ الصور (placeholder) ============ */
+const GALLERY_KEY = 'mod_gallery_v1';
+
+/* ============ تحميل الصور ============ */
 function getImages(){
+  /* 1. من التخزين المحلي (الذي يُدار من اللوحة) */
+  try{
+    const stored = localStorage.getItem(GALLERY_KEY);
+    if(stored){
+      const parsed = JSON.parse(stored);
+      if(Array.isArray(parsed) && parsed.length) return parsed;
+    }
+  }catch(e){}
+
+  /* 2. من window.__data (احتياطي) */
   if(window.__data && window.__data.GALLERY_IMAGES){
     return window.__data.GALLERY_IMAGES;
   }
-  // صور افتراضية — SVG محلي لا يحتاج إنترنت
+
+  /* 3. افتراضي — SVG محلي */
   const S = function(n, c){
     return 'data:image/svg+xml;utf8,' + encodeURIComponent(
       '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">' +
@@ -37,22 +51,23 @@ function getImages(){
     );
   };
   return [
-    { src: S(1, 'عرض عسكري رسمي'), title: 'عرض عسكري رسمي', cat: 'عرض' },
-    { src: S(2, 'وحدة الفرسان'), title: 'وحدة الفرسان', cat: 'تقليد' },
-    { src: S(3, 'تدريبات متقدمة'), title: 'تدريبات متقدمة', cat: 'تدريب' },
-    { src: S(4, 'إنجازات ميدانية'), title: 'إنجازات ميدانية', cat: 'ميدان' },
-    { src: S(5, 'مشاريع إعمار'), title: 'مشاريع إعمار', cat: 'إعمار' },
-    { src: S(6, 'لحظات خالدة'), title: 'لحظات خالدة', cat: 'ذاكرة' }
+    { id: 'g_1', src: S(1, 'عرض عسكري رسمي'), title: 'عرض عسكري رسمي', cat: 'عرض' },
+    { id: 'g_2', src: S(2, 'وحدة الفرسان'), title: 'وحدة الفرسان', cat: 'تقليد' },
+    { id: 'g_3', src: S(3, 'تدريبات متقدمة'), title: 'تدريبات متقدمة', cat: 'تدريب' },
+    { id: 'g_4', src: S(4, 'إنجازات ميدانية'), title: 'إنجازات ميدانية', cat: 'ميدان' },
+    { id: 'g_5', src: S(5, 'مشاريع إعمار'), title: 'مشاريع إعمار', cat: 'إعمار' },
+    { id: 'g_6', src: S(6, 'لحظات خالدة'), title: 'لحظات خالدة', cat: 'ذاكرة' }
   ];
 }
 
 /* ============ إنشاء القسم ============ */
 function createSection(){
+  if(document.getElementById('cinematicGallery')) return;
+
   const section = document.createElement('section');
   section.className = 'cg-section';
   section.id = 'cinematicGallery';
 
-  // العنوان
   const header = document.createElement('div');
   header.className = 'cg-header';
   header.innerHTML =
@@ -66,7 +81,6 @@ function createSection(){
       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
     '</button>';
 
-  // الشبكة
   const grid = document.createElement('div');
   grid.className = 'cg-grid';
   grid.id = 'cgGrid';
@@ -74,10 +88,11 @@ function createSection(){
   section.appendChild(header);
   section.appendChild(grid);
 
-  // أدخله قبل الفوتر
   const footer = document.querySelector('.footer');
   if(footer && footer.parentNode){
     footer.parentNode.insertBefore(section, footer);
+  } else {
+    document.body.appendChild(section);
   }
 }
 
@@ -87,6 +102,11 @@ function renderGrid(images, expanded){
   if(!grid) return;
   grid.innerHTML = '';
 
+  if(!images || !images.length){
+    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:#7e8674;font-family:\'Noto Kufi Arabic\',sans-serif;">لا توجد صور. أضف صوراً من لوحة التحكم.</div>';
+    return;
+  }
+
   const list = expanded ? images : images.slice(0, 4);
 
   list.forEach((img, i) => {
@@ -94,7 +114,6 @@ function renderGrid(images, expanded){
     card.className = 'cg-card';
     card.dataset.index = i;
 
-    // فئات خاصة للـ featured layout
     if(i === 0) card.classList.add('cg-card--hero');
     if(i === 3) card.classList.add('cg-card--tall');
 
@@ -124,7 +143,7 @@ function renderGrid(images, expanded){
         '<div class="cg-card__corner cg-card__corner--br"></div>' +
       '</div>';
 
-    // أحداث الماوس (3D Tilt)
+    /* 3D Tilt */
     const inner = card.querySelector('.cg-card__inner');
     card.addEventListener('mousemove', (e) => {
       const rect = card.getBoundingClientRect();
@@ -143,7 +162,7 @@ function renderGrid(images, expanded){
       card.style.removeProperty('--my');
     });
 
-    // عند الضغط
+    /* عند الضغط */
     card.addEventListener('click', (e) => {
       if(e.target.closest('.cg-card__btn') || !e.target.closest('button')){
         e.preventDefault();
@@ -154,17 +173,21 @@ function renderGrid(images, expanded){
     grid.appendChild(card);
   });
 
-  // تفعيل Reveal
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach((e, idx) => {
-      if(e.isIntersecting){
-        setTimeout(() => e.target.classList.add('is-visible'), idx * 100);
-        io.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.1 });
+  /* Reveal */
+  if('IntersectionObserver' in window){
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e, idx) => {
+        if(e.isIntersecting){
+          setTimeout(() => e.target.classList.add('is-visible'), idx * 100);
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1 });
 
-  grid.querySelectorAll('.cg-card').forEach(card => io.observe(card));
+    grid.querySelectorAll('.cg-card').forEach(card => io.observe(card));
+  } else {
+    grid.querySelectorAll('.cg-card').forEach(card => card.classList.add('is-visible'));
+  }
 }
 
 /* ============ Lightbox ============ */
@@ -265,20 +288,33 @@ function toggleExpand(){
   const btn = document.getElementById('cgExpand');
   if(!btn) return;
   const expanded = btn.dataset.expanded === 'true';
+  const images = getImages();
 
   if(expanded){
-    renderGrid(CG.images, false);
+    renderGrid(images, false);
     btn.dataset.expanded = 'false';
     btn.querySelector('span').textContent = 'عرض الكل';
   } else {
-    renderGrid(CG.images, true);
+    renderGrid(images, true);
     btn.dataset.expanded = 'true';
     btn.querySelector('span').textContent = 'عرض أقل';
   }
 }
 
+/* ============ التحديث من اللوحة ============ */
+function refreshGallery(){
+  const images = getImages();
+  CG.images = images;
+
+  /* احتفظ بحالة التوسيع */
+  const btn = document.getElementById('cgExpand');
+  const expanded = btn && btn.dataset.expanded === 'true';
+
+  renderGrid(images, expanded);
+}
+
 /* ============ INIT ============ */
-async function init(){
+function init(){
   createSection();
   CG.images = getImages();
   renderGrid(CG.images, false);
@@ -293,6 +329,14 @@ if(document.readyState === 'loading'){
   setTimeout(init, 400);
 }
 
-window.__gallery = { refresh: init };
+/* ============ واجهة خارجية ============ */
+window.__gallery = {
+  refresh: refreshGallery,
+  init: init,
+  update: function(newImages){
+    CG.images = newImages;
+    renderGrid(newImages, false);
+  }
+};
 
 })();

@@ -510,6 +510,7 @@
     <button class="admin-tab" data-tab="ticker">الشريط العاجل</button>
     <button class="admin-tab" data-tab="mostread">الأكثر قراءة</button>
     <button class="admin-tab" data-tab="elite">الفرق القتالية</button>
+    <button class="admin-tab" data-tab="gallery" role="tab">المعرض</button>
     <button class="admin-tab" data-tab="settings">الإعدادات</button>
   </div>
 
@@ -644,6 +645,59 @@
         </div>
       </div>
     </div>
+
+
+
+
+
+
+
+
+
+      <div class="admin-tab-content" data-tab-content="gallery">
+        <div class="admin-grid">
+          <div class="admin-section">
+            <div class="admin-section__title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg>
+              <span id="galleryFormTitle">إضافة صورة جديدة</span>
+            </div>
+            <form class="admin-form" id="galleryForm">
+              <input type="hidden" id="galleryEditId" value="">
+              <div class="admin-form__row">
+                <label for="gallerySrc">رابط الصورة</label>
+                <input type="url" id="gallerySrc" dir="ltr" placeholder="https://example.com/image.jpg" required>
+                <div class="admin-preview" id="galleryPreview" style="display:none">
+                  <img id="galleryPreviewImg" alt="معاينة">
+                </div>
+              </div>
+              <div class="admin-form__row--split">
+                <div>
+                  <label for="galleryTitle">العنوان</label>
+                  <input type="text" id="galleryTitle" required>
+                </div>
+                <div>
+                  <label for="galleryCat">التصنيف</label>
+                  <input type="text" id="galleryCat" placeholder="عرض / تقليد / تدريب">
+                </div>
+              </div>
+              <div class="admin-form__actions">
+                <button type="submit" class="btn btn--gold">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l5 5L20 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  <span id="gallerySubmitLabel">حفظ الصورة</span>
+                </button>
+                <button type="button" class="btn btn--outline" id="galleryCancel" style="display:none;">إلغاء</button>
+              </div>
+            </form>
+          </div>
+          <div class="admin-section">
+            <div class="admin-section__title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              الصور (<span id="galleryCount">0</span>)
+            </div>
+            <div class="admin-list" id="galleryAdminList"></div>
+          </div>
+        </div>
+      </div>
 
     <div class="admin-tab-content" data-tab-content="settings">
       <div class="admin-grid">

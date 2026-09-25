@@ -1458,6 +1458,247 @@ function updateGHSyncHint(){
   hint.textContent = parts.join(' • ');
 }
 
+/* =========================================================
+   GALLERY ADMIN — إدارة معرض الصور
+   ========================================================= */
+
+let _galleryData = [];
+const GALLERY_KEY = 'mod_gallery_v1';
+
+/* تخزين محلي */
+function loadGallery(){
+  try{
+    const raw = localStorage.getItem(GALLERY_KEY);
+    return raw ? JSON.parse(raw) : [];
+  }catch(e){ return []; }
+}
+function saveGallery(data){
+  try{ localStorage.setItem(GALLERY_KEY, JSON.stringify(data)); return true; }
+  catch(e){ return false; }
+}
+
+/* مرجع العناصر */
+function initGalleryAdmin(){
+  const form = safeGet('galleryForm');
+  if(!form) return;
+
+  const editId = safeGet('galleryEditId');
+  const src = safeGet('gallerySrc');
+  const title = safeGet('galleryTitle');
+  const cat = safeGet('galleryCat');
+  const preview = safeGet('galleryPreview');
+  const previewImg = safeGet('galleryPreviewImg');
+  const cancel = safeGet('galleryCancel');
+  const formTitle = safeGet('galleryFormTitle');
+  const submitLabel = safeGet('gallerySubmitLabel');
+
+  /* معاينة الصورة */
+  if(src){
+    src.addEventListener('input', () => {
+      const url = src.value.trim();
+      if(url){
+        previewImg.src = url;
+        previewImg.onerror = () => { preview.style.display = 'none'; };
+        preview.style.display = 'block';
+      } else {
+        preview.style.display = 'none';
+      }
+    });
+  }
+
+  /* إرسال النموذج */
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const data = {
+      id: editId.value || ('g_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6)),
+      src: src.value.trim(),
+      title: title.value.trim(),
+      cat: cat.value.trim() || 'صورة'
+    };
+
+    if(!data.src || !data.title){
+      toast('املأ الحقول المطلوبة', 'error');
+      return;
+    }
+
+    let list = loadGallery();
+
+    if(editId.value){
+      const idx = list.findIndex(g => g.id === editId.value);
+      if(idx > -1) list[idx] = data;
+      toast('تم التحديث', 'success');
+    } else {
+      list.push(data);
+      toast('تمت الإضافة', 'success');
+    }
+
+    _galleryData = list;
+    saveGallery(list);
+    renderGalleryAdminList();
+    updateGallerySite();
+    resetGalleryForm();
+
+    /* نشر تلقائي على GitHub */
+    if(getToken()){
+      publishGalleryToGitHub();
+    }
+  });
+
+  /* إلغاء */
+  if(cancel){
+    cancel.addEventListener('click', resetGalleryForm);
+  }
+
+  function resetGalleryForm(){
+    form.reset();
+    editId.value = '';
+    formTitle.textContent = 'إضافة صورة جديدة';
+    submitLabel.textContent = 'حفظ الصورة';
+    cancel.style.display = 'none';
+    if(preview) preview.style.display = 'none';
+  }
+
+  /* عند فتح اللوحة — حمّل الصور */
+  setTimeout(() => {
+    const list = loadGallery();
+    _galleryData = list;
+    renderGalleryAdminList();
+  }, 100);
+}
+
+/* رسم قائمة الصور في اللوحة */
+function renderGalleryAdminList(){
+  const container = safeGet('galleryAdminList');
+  if(!container) return;
+
+  container.innerHTML = '';
+
+  if(!_galleryData.length){
+    container.innerHTML = '<div class="admin-empty">لا توجد صور. أضف أول صورة.</div>';
+    const counter = safeGet('galleryCount');
+    if(counter) counter.textContent = '0';
+    return;
+  }
+
+  _galleryData.forEach((item, i) => {
+    const el = document.createElement('div');
+    el.className = 'admin-item';
+    el.innerHTML =
+      '<div class="admin-item__content">' +
+        '<div style="display:flex;gap:12px;align-items:center;">' +
+          '<img src="' + escapeAttr(item.src) + '" alt="" style="width:60px;height:60px;object-fit:cover;border-radius:8px;border:1px solid rgba(201,163,78,.3);flex-shrink:0;" onerror="this.style.opacity=0.3;">' +
+          '<div style="min-width:0;flex:1;">' +
+            '<span class="admin-item__cat">' + escapeHtml(item.cat || 'صورة') + '</span>' +
+            '<div class="admin-item__title">' + escapeHtml(item.title) + '</div>' +
+            '<div class="admin-item__meta"><span>#' + (i + 1) + '</span></div>' +
+          '</div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="admin-item__actions">' +
+        '<button class="admin-item__btn" data-gallery-edit="' + escapeAttr(item.id) + '" aria-label="تعديل">' +
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 1 1 3 3L7 19l-4 1 1-4Z" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
+        '</button>' +
+        '<button class="admin-item__btn admin-item__btn--danger" data-gallery-del="' + escapeAttr(item.id) + '" aria-label="حذف">' +
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2m2 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
+        '</button>' +
+      '</div>';
+    container.appendChild(el);
+  });
+
+  /* أحداث */
+  container.querySelectorAll('[data-gallery-edit]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = _galleryData.find(g => g.id === btn.dataset.galleryEdit);
+      if(!item) return;
+
+      safeGet('galleryEditId').value = item.id;
+      safeGet('gallerySrc').value = item.src;
+      safeGet('galleryTitle').value = item.title;
+      safeGet('galleryCat').value = item.cat || '';
+      safeGet('galleryFormTitle').textContent = 'تعديل الصورة';
+      safeGet('gallerySubmitLabel').textContent = 'حفظ التعديلات';
+      safeGet('galleryCancel').style.display = 'inline-flex';
+
+      /* معاينة */
+      const preview = safeGet('galleryPreview');
+      const previewImg = safeGet('galleryPreviewImg');
+      if(preview && previewImg){
+        previewImg.src = item.src;
+        preview.style.display = 'block';
+      }
+
+      /* التمرير لأعلى */
+      const body = document.querySelector('.admin-panel__body');
+      if(body) body.scrollTop = 0;
+    });
+  });
+
+  container.querySelectorAll('[data-gallery-del]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if(!confirm('حذف هذه الصورة؟')) return;
+      _galleryData = _galleryData.filter(g => g.id !== btn.dataset.galleryDel);
+      saveGallery(_galleryData);
+      renderGalleryAdminList();
+      updateGallerySite();
+      toast('تم الحذف', 'success');
+
+      if(getToken()) publishGalleryToGitHub();
+    });
+  });
+
+  /* عدّاد */
+  const counter = safeGet('galleryCount');
+  if(counter) counter.textContent = String(_galleryData.length);
+}
+
+/* تحديث الموقع بعد التعديل */
+function updateGallerySite(){
+  /* حدّث data.js */
+  if(window.__data){
+    window.__data.GALLERY_IMAGES = _galleryData.map(g => ({
+      src: g.src,
+      title: g.title,
+      cat: g.cat
+    }));
+  }
+
+  /* أعد تحميل المعرض */
+  if(window.__gallery && typeof window.__gallery.refresh === 'function'){
+    window.__gallery.refresh();
+  }
+}
+
+/* نشر الصور إلى GitHub */
+async function publishGalleryToGitHub(){
+  if(!getToken()) return;
+  try{
+    await ghWriteFile('gallery.json', _galleryData, 'تحديث معرض الصور');
+    console.log('✅ تم نشر معرض الصور');
+  }catch(e){
+    console.warn('فشل نشر المعرض:', e.message);
+  }
+}
+
+/* تحميل الصور من GitHub عند بدء الموقع */
+async function loadGalleryFromGitHub(){
+  try{
+    const data = await ghReadFile('gallery.json');
+    if(data && Array.isArray(data) && data.length){
+      _galleryData = data;
+      saveGallery(data);
+      return data;
+    }
+  }catch(e){}
+  return loadGallery();
+}
+
+/* تصدير للاستخدام الخارجي */
+window.__galleryAdmin = {
+  init: initGalleryAdmin,
+  load: loadGalleryFromGitHub,
+  getData: () => _galleryData
+};
+
 async function ghBoot(){
   if(!isDirty()){
     try { const changed = await ghLoadAll(); if(changed) console.log('✅ Loaded from GitHub'); }
@@ -1491,6 +1732,12 @@ function init(){
   initClock();
   initProgress();
   initAdminTabs();
+  /* Gallery Admin */
+  if(window.__galleryAdmin){
+    setTimeout(() => window.__galleryAdmin.init(), 200);
+  }
+
+
   initNotifications();
 
   renderTicker();
