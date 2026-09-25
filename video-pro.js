@@ -34,15 +34,20 @@ function svgThumb(seed){
   var colors = ['#c9a34e','#e8c878','#8a6620','#f5e0a5'];
   var c = colors[Math.abs(seed) % colors.length];
   var s = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450">'
-    + '<defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1">'
-    + '<stop offset="0" stop-color="#1e2a15"/><stop offset="1" stop-color="#06070a"/></linearGradient></defs>'
+    + '<defs>'
+    + '<linearGradient id="g" x1="0" y1="0" x2="1" y2="1">'
+    + '<stop offset="0" stop-color="#1a2210"/>'
+    + '<stop offset="0.5" stop-color="#0f1408"/>'
+    + '<stop offset="1" stop-color="#06070a"/>'
+    + '</linearGradient>'
+    + '<radialGradient id="glow" cx="50%" cy="50%" r="50%">'
+    + '<stop offset="0" stop-color="' + c + '" stop-opacity="0.12"/>'
+    + '<stop offset="1" stop-color="' + c + '" stop-opacity="0"/>'
+    + '</radialGradient>'
+    + '</defs>'
     + '<rect width="800" height="450" fill="url(#g)"/>'
-    + '<g stroke="' + c + '" stroke-width="1.5" fill="none" opacity="0.15">'
-    + '<circle cx="400" cy="225" r="170"/><circle cx="400" cy="225" r="120"/><circle cx="400" cy="225" r="70"/></g>'
-    + '<g transform="translate(400,225)" opacity="0.25">'
-    + '<circle r="60" fill="none" stroke="' + c + '" stroke-width="1.5"/>'
-    + '<circle r="72" fill="none" stroke="' + c + '" stroke-width="0.5" opacity="0.5"/>'
-    + '</g></svg>';
+    + '<rect width="800" height="450" fill="url(#glow)"/>'
+    + '</svg>';
   return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(s);
 }
 
@@ -96,7 +101,7 @@ function injectCSS(){
     '.vpx-card:hover .vpx-card__m img{transform:scale(1.08)}',
     '.vpx-card__m::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(6,8,10,.85));pointer-events:none}',
     '.vpx-card__play{position:absolute;top:50%;inset-inline-start:50%;transform:translate(-50%,-50%) scale(.7);width:72px;height:72px;display:grid;place-items:center;background:linear-gradient(135deg,var(--gold),var(--gold-2));color:#06070a;border-radius:50%;opacity:.95;transition:all .5s cubic-bezier(.16,1,.3,1);box-shadow:0 12px 40px -8px rgba(201,163,78,.9),0 0 0 8px rgba(201,163,78,.15);z-index:2;pointer-events:none}',
-    '.vpx-card__play::before{content:"";position:absolute;inset:-6px;border:2px solid rgba(201,163,78,.4);border-radius:50%;animation:vpxPulse 2.5s ease-in-out infinite}',
+    
     '@keyframes vpxPulse{0%,100%{transform:scale(1);opacity:.6}50%{transform:scale(1.15);opacity:.2}}',
     '.vpx-card__play svg{width:28px;height:28px;margin-inline-start:4px;fill:#06070a}',
     '.vpx-card:hover .vpx-card__play{transform:translate(-50%,-50%) scale(1.1);box-shadow:0 16px 50px -8px rgba(201,163,78,1),0 0 0 12px rgba(201,163,78,.2)}',
