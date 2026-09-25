@@ -1,0 +1,946 @@
+/* ══════════════════════════════════════════════════════════
+   COMMANDERS v2 — القادة العسكريون (احترافي)
+   تصميم أسطوري + ترجمة كاملة AR/EN
+   ══════════════════════════════════════════════════════════ */
+(function(){
+'use strict';
+
+var REPO = { owner:'jumaaalkurdi', repo:'mod-defense-pro', branch:'main', path:'content' };
+var TOKEN_KEY = 'mod_gh_token';
+var CACHE_KEY = 'mod_commanders_v2';
+
+/* ═══ نصوص ثنائية اللغة ═══ */
+var TEXTS = {
+  ar: {
+    sectionEyebrow: 'القيادة العسكرية',
+    sectionTitle: 'قادة الجيش العربي السوري',
+    viewAll: 'عرض جميع القادة',
+    backHome: 'العودة للرئيسية',
+    allTitle: 'جميع قادة الجيش العربي السوري',
+    allEyebrow: 'القادة العسكريون',
+    badge: 'قائد',
+    viewDetails: 'عرض التفاصيل',
+    empty: 'لا يوجد قادة مسجّلون حالياً',
+    bio: 'نبذة عن القائد',
+    education: 'التعليم العسكري',
+    experience: 'الخبرة العسكرية',
+    medals: 'الأوسمة والتكريمات',
+    achievements: 'أبرز الإنجازات',
+    notFound: 'القائد غير موجود',
+    // Admin
+    adminTab: '🎖️ القادة',
+    adminAdd: 'إضافة قائد',
+    adminEdit: 'تعديل القائد',
+    adminSave: 'حفظ',
+    adminSaveEdits: 'حفظ التعديلات',
+    adminCancel: 'إلغاء',
+    adminPublish: '📤 نشر للزوار',
+    adminPull: '📥 تحميل',
+    adminList: 'القادة',
+    adminDeleteConfirm: 'حذف هذا القائد؟',
+    adminDeleted: 'تم الحذف',
+    adminSaved: 'تم الحفظ — اضغط "نشر للزوار"',
+    adminReady: 'جاهز للنشر',
+    adminNoToken: 'أدخل GitHub Token في الإعدادات',
+    adminLoading: 'جارٍ التحميل...',
+    adminLoaded: 'تم التحميل',
+    adminNoData: 'لا توجد بيانات',
+    adminPublishing: 'جارٍ النشر...',
+    adminPublished: '✅ تم نشر القادة للزوار',
+    adminFailed: 'فشل: ',
+    adminFillRequired: 'املأ الحقول المطلوبة',
+    // Form labels
+    formName: 'الاسم أو الرتبة *',
+    formNamePlaceholder: 'مثال: الفريق أول',
+    formRank: 'المنصب العسكري *',
+    formRankPlaceholder: 'مثال: القائد العام',
+    formTitle: 'شارة قصيرة',
+    formTitlePlaceholder: 'مثال: قائد',
+    formPhoto: 'رابط الصورة (اختياري)',
+    formBorn: 'تاريخ الميلاد',
+    formBornPlaceholder: 'مثال: 1965',
+    formBio: 'نبذة عن القائد',
+    formBioPlaceholder: 'تعريف مختصر...',
+    formEducation: 'التعليم العسكري',
+    formEducationPlaceholder: 'مثال: الكلية العسكرية',
+    formExperience: 'الخبرة العسكرية',
+    formExperiencePlaceholder: 'مثال: أكثر من 30 عاماً',
+    formMedals: 'الأوسمة (كل وسام في سطر)',
+    formAchievements: 'الإنجازات (كل إنجاز في سطر)',
+    formQuote: 'اقتباس (اختياري)',
+    formQuotePlaceholder: 'مثال: الوطن أمانة'
+  },
+  en: {
+    sectionEyebrow: 'Military Command',
+    sectionTitle: 'Syrian Arab Army Commanders',
+    viewAll: 'View All Commanders',
+    backHome: 'Back to Home',
+    allTitle: 'All Syrian Arab Army Commanders',
+    allEyebrow: 'Military Commanders',
+    badge: 'Commander',
+    viewDetails: 'View Details',
+    empty: 'No commanders registered yet',
+    bio: 'About the Commander',
+    education: 'Military Education',
+    experience: 'Military Experience',
+    medals: 'Medals & Honors',
+    achievements: 'Key Achievements',
+    notFound: 'Commander not found',
+    adminTab: '🎖️ Commanders',
+    adminAdd: 'Add Commander',
+    adminEdit: 'Edit Commander',
+    adminSave: 'Save',
+    adminSaveEdits: 'Save Changes',
+    adminCancel: 'Cancel',
+    adminPublish: '📤 Publish',
+    adminPull: '📥 Load',
+    adminList: 'Commanders',
+    adminDeleteConfirm: 'Delete this commander?',
+    adminDeleted: 'Deleted',
+    adminSaved: 'Saved — click "Publish"',
+    adminReady: 'Ready to publish',
+    adminNoToken: 'Enter GitHub Token in settings',
+    adminLoading: 'Loading...',
+    adminLoaded: 'Loaded',
+    adminNoData: 'No data',
+    adminPublishing: 'Publishing...',
+    adminPublished: '✅ Commanders published',
+    adminFailed: 'Failed: ',
+    adminFillRequired: 'Fill required fields',
+    formName: 'Name or Rank *',
+    formNamePlaceholder: 'Example: First Lieutenant General',
+    formRank: 'Military Position *',
+    formRankPlaceholder: 'Example: Commander-in-Chief',
+    formTitle: 'Short Badge',
+    formTitlePlaceholder: 'Example: Commander',
+    formPhoto: 'Photo URL (optional)',
+    formBorn: 'Date of Birth',
+    formBornPlaceholder: 'Example: 1965',
+    formBio: 'About the Commander',
+    formBioPlaceholder: 'Brief introduction...',
+    formEducation: 'Military Education',
+    formEducationPlaceholder: 'Example: Military College',
+    formExperience: 'Military Experience',
+    formExperiencePlaceholder: 'Example: More than 30 years',
+    formMedals: 'Medals (one per line)',
+    formAchievements: 'Achievements (one per line)',
+    formQuote: 'Quote (optional)',
+    formQuotePlaceholder: 'Example: Homeland is a trust'
+  }
+};
+
+function getLang(){
+  try {
+    var l = document.documentElement.getAttribute('lang') || 'ar';
+    return l === 'en' ? 'en' : 'ar';
+  } catch(e){ return 'ar'; }
+}
+function t(key){
+  var lang = getLang();
+  var dict = TEXTS[lang] || TEXTS.ar;
+  return dict[key] || TEXTS.ar[key] || key;
+}
+
+/* ═══ HELPERS ═══ */
+function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
+function uid(){ return 'c_' + Date.now().toString(36) + Math.random().toString(36).slice(2,6); }
+function getToken(){ try { return sessionStorage.getItem(TOKEN_KEY) || localStorage.getItem(TOKEN_KEY) || ''; } catch(e){ return ''; } }
+
+/* ═══ بيانات افتراضية ═══ */
+var DEFAULTS = [
+  { id: 'c_1', name: 'الفريق أول', nameEn: 'First Lieutenant General', rank: 'القائد العام للجيش والقوات المسلحة', rankEn: 'Commander-in-Chief of the Army and Armed Forces', title: 'القائد العام', titleEn: 'Commander-in-Chief', photo: '', bio: 'القائد العام للجيش والقوات المسلحة في الجمهورية العربية السورية. يشرف على جميع فروع القوات المسلحة ويضع الاستراتيجيات العسكرية العليا.', bioEn: 'Commander-in-Chief of the Army and Armed Forces in the Syrian Arab Republic. Oversees all branches of the armed forces and sets the highest military strategies.', born: '', education: 'الكلية العسكرية — الأكاديمية العسكرية العليا', educationEn: 'Military College — Higher Military Academy', experience: 'أكثر من 30 عاماً في الخدمة العسكرية', experienceEn: 'More than 30 years of military service', medals: ['وسام الشجاعة', 'وسام الجدارة', 'وسام الجمهورية'], medalsEn: ['Medal of Courage', 'Medal of Merit', 'Medal of the Republic'], achievements: ['قيادة عمليات عسكرية كبرى', 'تطوير القدرات العسكرية', 'تدريب القيادات العسكرية'], achievementsEn: ['Leading major military operations', 'Developing military capabilities', 'Training military leaders'], quote: 'الوطن أمانة في أعناقنا', quoteEn: 'The homeland is a trust upon our shoulders', addedAt: Date.now() },
+  { id: 'c_2', name: 'اللواء', nameEn: 'Major General', rank: 'رئيس هيئة الأركان العامة', rankEn: 'Chief of the General Staff', title: 'رئيس الأركان', titleEn: 'Chief of Staff', photo: '', bio: 'رئيس هيئة الأركان العامة للجيش والقوات المسلحة. مسؤول عن التخطيط العسكري وإدارة العمليات.', bioEn: 'Chief of the General Staff of the Army and Armed Forces. Responsible for military planning and operations management.', born: '', education: 'الكلية العسكرية — دورة ضباط الأركان', educationEn: 'Military College — Staff Officers Course', experience: 'أكثر من 25 عاماً في الخدمة العسكرية', experienceEn: 'More than 25 years of military service', medals: ['وسام الجدارة', 'وسام الاستحقاق'], medalsEn: ['Medal of Merit', 'Medal of Honor'], achievements: ['تخطيط عمليات عسكرية استراتيجية', 'تطوير منظومة التدريب'], achievementsEn: ['Planning strategic military operations', 'Developing the training system'], quote: 'التخطيط الدقيق طريق النصر', quoteEn: 'Precise planning is the path to victory', addedAt: Date.now() - 1000 },
+  { id: 'c_3', name: 'اللواء', nameEn: 'Major General', rank: 'قائد القوات الخاصة', rankEn: 'Commander of Special Forces', title: 'قائد القوات الخاصة', titleEn: 'Special Forces Commander', photo: '', bio: 'قائد القوات الخاصة في الجيش العربي السوري. يشرف على تدريب النخبة.', bioEn: 'Commander of the Special Forces in the Syrian Arab Army. Oversees elite training.', born: '', education: 'الكلية العسكرية — دورة القوات الخاصة', educationEn: 'Military College — Special Forces Course', experience: 'أكثر من 22 عاماً في العمليات الخاصة', experienceEn: 'More than 22 years in special operations', medals: ['وسام الشجاعة', 'وسام الجدارة'], medalsEn: ['Medal of Courage', 'Medal of Merit'], achievements: ['قيادة عمليات خاصة ناجحة', 'تطوير قدرات القوات الخاصة'], achievementsEn: ['Leading successful special operations', 'Developing special forces capabilities'], quote: 'القوة والدقة والإتقان', quoteEn: 'Power, precision, perfection', addedAt: Date.now() - 2000 }
+];
+
+function loadLocal(){
+  try {
+    var r = localStorage.getItem(CACHE_KEY);
+    if(r){ var arr = JSON.parse(r); if(arr && arr.length) return arr; }
+  } catch(e){}
+  return DEFAULTS.slice();
+}
+function saveLocal(d){ try { localStorage.setItem(CACHE_KEY, JSON.stringify(d)); } catch(e){} }
+
+var CMDRS = loadLocal();
+
+function toast(msg, type){
+  try {
+    var c = document.getElementById('toastContainer');
+    if(!c) return;
+    var el = document.createElement('div');
+    el.className = 'toast toast--' + (type || 'info');
+    el.innerHTML = '<span>' + esc(msg) + '</span>';
+    c.appendChild(el);
+    requestAnimationFrame(function(){ el.classList.add('is-show'); });
+    setTimeout(function(){ el.classList.remove('is-show'); setTimeout(function(){ if(el.parentNode) el.remove(); }, 400); }, 3000);
+  } catch(e){}
+}
+
+/* ═══ CSS — التصميم الأسطوري ═══ */
+function injectCSS(){
+  if(document.getElementById('cmdrStylesV2')) return;
+  var css = ''
+    /* ═══ القسم ═══ */
+    + '.cmdr-section{position:relative;z-index:1;padding:60px 0 20px}'
+    + '.cmdr-section__bar{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:32px;padding-bottom:22px;border-bottom:1px solid var(--line);flex-wrap:wrap;position:relative}'
+    + '.cmdr-section__bar::after{content:"";position:absolute;bottom:-1px;inset-inline-start:0;width:120px;height:2px;background:linear-gradient(90deg,var(--gold),transparent)}'
+    + '.cmdr-section__eyebrow{display:inline-flex;align-items:center;gap:11px;font-family:"Noto Kufi Arabic",sans-serif;font-size:12px;font-weight:800;letter-spacing:2.5px;color:var(--gold);margin-bottom:10px}'
+    + '.cmdr-section__eyebrow::before{content:"";width:26px;height:1.5px;background:var(--gold)}'
+    + '.cmdr-section__title{font-family:"Noto Kufi Arabic",sans-serif;font-weight:900;font-size:clamp(22px,2.7vw,32px);line-height:1.3;color:#fff}'
+    + '.cmdr-section__btn{display:inline-flex;align-items:center;gap:10px;padding:13px 26px;font-weight:700;font-size:14px;font-family:"Noto Kufi Arabic",sans-serif;background:linear-gradient(135deg,var(--gold),var(--gold-2));color:var(--combat-black);border:1px solid var(--gold);clip-path:polygon(10px 0,100% 0,calc(100% - 10px) 100%,0 100%);cursor:pointer;transition:all .3s}'
+    + '.cmdr-section__btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px -8px rgba(201,163,78,.7)}'
+    + '.cmdr-section__btn svg{width:16px;height:16px}'
+
+    /* ═══ الشبكة ═══ */
+    + '.cmdr-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:22px}'
+
+    /* ═══ البطاقة الأسطورية ═══ */
+    + '.cmdr-card{position:relative;border-radius:20px;overflow:hidden;cursor:pointer;'
+    + 'background:linear-gradient(145deg,#0d1108,#06070a);'
+    + 'border:1px solid rgba(201,163,78,.25);'
+    + 'transition:all .5s cubic-bezier(.16,1,.3,1);'
+    + 'transform-style:preserve-3d}'
+
+    /* إطار ذهبي علوي وسفلي */
+    + '.cmdr-card::before{content:"";position:absolute;top:0;inset-inline:0;height:2px;'
+    + 'background:linear-gradient(90deg,transparent,var(--gold),var(--gold-2),var(--gold),transparent);z-index:5;pointer-events:none}'
+    + '.cmdr-card::after{content:"";position:absolute;bottom:0;inset-inline:0;height:2px;'
+    + 'background:linear-gradient(90deg,transparent,var(--gold),var(--gold-2),var(--gold),transparent);z-index:5;pointer-events:none;opacity:.5}'
+
+    /* عند الـ hover */
+    + '.cmdr-card:hover{transform:translateY(-8px);border-color:var(--gold);'
+    + 'box-shadow:0 25px 60px -20px rgba(0,0,0,.95),0 0 60px -20px rgba(201,163,78,.5)}'
+
+    /* ═══ صورة القائد ═══ */
+    + '.cmdr-card__media{position:relative;aspect-ratio:4/5;background:linear-gradient(145deg,#1a2210,#06070a);overflow:hidden;display:grid;place-items:center}'
+
+    /* شبكة عسكرية في الخلفية */
+    + '.cmdr-card__media::before{content:"";position:absolute;inset:0;'
+    + 'background-image:linear-gradient(rgba(201,163,78,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(201,163,78,.06) 1px,transparent 1px);'
+    + 'background-size:32px 32px;opacity:.8;pointer-events:none}'
+
+    /* توهج مركزي */
+    + '.cmdr-card__media::after{content:"";position:absolute;inset:0;'
+    + 'background:radial-gradient(circle at 50% 40%,rgba(201,163,78,.15),transparent 60%);pointer-events:none}'
+
+    + '.cmdr-card__media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;transition:transform .8s cubic-bezier(.16,1,.3,1);z-index:1}'
+    + '.cmdr-card:hover .cmdr-card__media img{transform:scale(1.08)}'
+
+    /* صورة رمزية */
+    + '.cmdr-card__placeholder{position:relative;z-index:1;width:110px;height:110px;display:grid;place-items:center;'
+    + 'background:linear-gradient(145deg,rgba(201,163,78,.12),rgba(201,163,78,.03));'
+    + 'border:2px solid rgba(201,163,78,.4);border-radius:50%;'
+    + 'box-shadow:0 0 40px -10px rgba(201,163,78,.5),inset 0 0 20px rgba(201,163,78,.1);'
+    + 'transition:all .5s cubic-bezier(.16,1,.3,1)}'
+    + '.cmdr-card__placeholder svg{width:60px;height:60px;color:var(--gold-2);opacity:.7}'
+    + '.cmdr-card:hover .cmdr-card__placeholder{transform:scale(1.1);border-color:var(--gold);box-shadow:0 0 60px -10px rgba(201,163,78,.9),inset 0 0 30px rgba(201,163,78,.2)}'
+
+    /* ═══ شارة المنصب ═══ */
+    + '.cmdr-card__badge{position:absolute;top:16px;inset-inline-start:16px;z-index:3;'
+    + 'display:inline-flex;align-items:center;gap:6px;padding:6px 14px;'
+    + 'background:linear-gradient(135deg,var(--gold),var(--gold-2));color:#06070a;'
+    + 'font-family:"Noto Kufi Arabic",sans-serif;font-size:10.5px;font-weight:900;letter-spacing:1px;'
+    + 'clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%);'
+    + 'box-shadow:0 4px 14px -2px rgba(201,163,78,.7)}'
+    + '.cmdr-card__badge svg{width:12px;height:12px}'
+
+    /* ═══ نجمة في الزاوية (تزيين) ═══ */
+    + '.cmdr-card__star{position:absolute;top:16px;inset-inline-end:16px;z-index:3;'
+    + 'width:28px;height:28px;display:grid;place-items:center;'
+    + 'background:rgba(6,7,10,.85);border:1.5px solid rgba(201,163,78,.5);border-radius:50%;'
+    + 'color:var(--gold-2);transition:all .4s cubic-bezier(.16,1,.3,1)}'
+    + '.cmdr-card__star svg{width:14px;height:14px}'
+    + '.cmdr-card:hover .cmdr-card__star{transform:rotate(72deg);border-color:var(--gold);box-shadow:0 0 20px rgba(201,163,78,.6)}'
+
+    /* ═══ معلومات القائد ═══ */
+    + '.cmdr-card__body{position:relative;padding:20px 22px 22px;text-align:center;z-index:2}'
+    + '.cmdr-card__body::before{content:"";position:absolute;top:0;inset-inline:22px;height:1px;'
+    + 'background:linear-gradient(90deg,transparent,rgba(201,163,78,.5),transparent)}'
+
+    + '.cmdr-card__name{font-family:"Noto Kufi Arabic",sans-serif;font-size:19px;font-weight:900;'
+    + 'color:#fff;margin-bottom:8px;line-height:1.3;letter-spacing:-.3px;'
+    + 'background:linear-gradient(135deg,var(--gold-3),#fff 50%,var(--gold-2));'
+    + '-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}'
+
+    + '.cmdr-card__rank{font-family:"Noto Kufi Arabic",sans-serif;font-size:12.5px;font-weight:700;'
+    + 'color:var(--gold-2);line-height:1.6;margin-bottom:16px;'
+    + 'display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}'
+
+    /* شريط الفاصل */
+    + '.cmdr-card__divider{display:flex;align-items:center;gap:10px;margin:14px 0 14px}'
+    + '.cmdr-card__divider::before,.cmdr-card__divider::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(201,163,78,.3))}'
+    + '.cmdr-card__divider::after{background:linear-gradient(90deg,rgba(201,163,78,.3),transparent)}'
+    + '.cmdr-card__divider span{width:6px;height:6px;background:var(--gold);transform:rotate(45deg);box-shadow:0 0 10px var(--gold)}'
+
+    /* زر عرض التفاصيل */
+    + '.cmdr-card__view{display:inline-flex;align-items:center;justify-content:center;gap:8px;'
+    + 'padding:10px 20px;background:rgba(201,163,78,.08);'
+    + 'border:1px solid rgba(201,163,78,.3);border-radius:10px;'
+    + 'color:var(--gold-2);font-family:"Noto Kufi Arabic",sans-serif;font-size:11.5px;font-weight:800;'
+    + 'transition:all .4s cubic-bezier(.16,1,.3,1);width:100%}'
+    + '.cmdr-card__view svg{width:14px;height:14px;transition:transform .3s}'
+    + '.cmdr-card:hover .cmdr-card__view{background:linear-gradient(135deg,var(--gold),var(--gold-2));color:#06070a;border-color:var(--gold);box-shadow:0 8px 24px -6px rgba(201,163,78,.7)}'
+    + '.cmdr-card:hover .cmdr-card__view svg{transform:translateX(-4px)}'
+
+    /* ═══ صفحة التفاصيل ═══ */
+    + '.cmdr-page{position:relative;z-index:1;padding:60px 0 40px;min-height:60vh}'
+    + '.cmdr-page__inner{max-width:1000px;margin-inline:auto}'
+    + '.cmdr-page__back{display:inline-flex;align-items:center;gap:9px;padding:10px 18px;background:rgba(201,163,78,.06);border:1px solid var(--line-2);color:var(--gold-2);font-family:"Noto Kufi Arabic",sans-serif;font-weight:700;font-size:13px;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%);margin-bottom:24px;cursor:pointer;transition:all .25s}'
+    + '.cmdr-page__back:hover{background:rgba(201,163,78,.14);border-color:var(--gold)}'
+    + '.cmdr-page__back svg{width:14px;height:14px}'
+    + '.cmdr-detail{background:linear-gradient(160deg,rgba(13,17,8,.92),rgba(6,7,10,.96));border:1.5px solid var(--line-2);border-radius:20px;padding:32px 34px;position:relative;overflow:hidden}'
+    + '.cmdr-detail::before{content:"";position:absolute;top:0;inset-inline:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),var(--gold-2),var(--gold),transparent)}'
+    + '.cmdr-detail__head{display:flex;align-items:center;gap:22px;margin-bottom:26px;flex-wrap:wrap;padding-bottom:22px;border-bottom:1px solid var(--line)}'
+    + '.cmdr-detail__photo{flex:none;width:130px;height:130px;border-radius:50%;overflow:hidden;background:linear-gradient(145deg,#1a2210,#06070a);display:grid;place-items:center;border:3px solid var(--gold);box-shadow:0 0 40px -10px rgba(201,163,78,.7);position:relative}'
+    + '.cmdr-detail__photo img{width:100%;height:100%;object-fit:cover}'
+    + '.cmdr-detail__photo svg{width:60px;height:60px;color:var(--gold-2);opacity:.6}'
+    + '.cmdr-detail__info{flex:1;min-width:220px}'
+    + '.cmdr-detail__name{font-family:"Noto Kufi Arabic",sans-serif;font-size:clamp(22px,3vw,30px);font-weight:900;color:#fff;margin-bottom:8px;line-height:1.3}'
+    + '.cmdr-detail__rank{font-family:"Noto Kufi Arabic",sans-serif;font-size:15px;font-weight:700;color:var(--gold-2);margin-bottom:4px}'
+    + '.cmdr-detail__born{font-family:"Noto Kufi Arabic",sans-serif;font-size:13px;color:var(--text-3)}'
+    + '.cmdr-section-detail{margin-bottom:22px}'
+    + '.cmdr-section-detail__title{display:flex;align-items:center;gap:10px;font-family:"Noto Kufi Arabic",sans-serif;font-size:15px;font-weight:800;color:var(--gold-2);margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--line);position:relative}'
+    + '.cmdr-section-detail__title::after{content:"";position:absolute;bottom:-1px;inset-inline-start:0;width:50px;height:2px;background:linear-gradient(90deg,var(--gold),transparent)}'
+    + '.cmdr-section-detail__title svg{width:18px;height:18px}'
+    + '.cmdr-section-detail__text{font-family:"Noto Kufi Arabic",sans-serif;font-size:14px;line-height:1.95;color:var(--text-2)}'
+    + '.cmdr-badges-list{display:flex;flex-wrap:wrap;gap:8px}'
+    + '.cmdr-badge-item{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;background:linear-gradient(135deg,rgba(201,163,78,.15),rgba(201,163,78,.05));border:1px solid var(--line-3);color:var(--gold-2);font-family:"Noto Kufi Arabic",sans-serif;font-size:12px;font-weight:700;border-radius:20px}'
+    + '.cmdr-badge-item svg{width:13px;height:13px}'
+    + '.cmdr-achievements{display:flex;flex-direction:column;gap:10px}'
+    + '.cmdr-achievement{display:flex;align-items:flex-start;gap:10px;font-family:"Noto Kufi Arabic",sans-serif;font-size:13.5px;line-height:1.8;color:var(--text-2);padding:10px 14px;background:rgba(0,0,0,.3);border:1px solid var(--line);border-radius:10px}'
+    + '.cmdr-achievement::before{content:"★";color:var(--gold-2);font-size:14px;flex:none}'
+    + '.cmdr-quote{margin-top:22px;padding:18px 22px;text-align:center;font-family:"Amiri",serif;font-size:19px;color:var(--gold-3);line-height:1.9;background:linear-gradient(135deg,rgba(201,163,78,.08),rgba(201,163,78,.02));border:1px solid var(--line-2);border-radius:14px;position:relative}'
+    + '.cmdr-quote::before{content:"❝";color:var(--gold);font-size:26px;display:block;margin-bottom:4px;opacity:.6;line-height:1}'
+
+    /* الجوال */
+    + '@media (max-width:768px){'
+    + '.cmdr-section{padding:40px 0 20px}'
+    + '.cmdr-section__bar{flex-direction:column;align-items:stretch;gap:14px}'
+    + '.cmdr-grid{grid-template-columns:repeat(2,1fr);gap:14px}'
+    + '.cmdr-card__media{aspect-ratio:3/4}'
+    + '.cmdr-card__placeholder{width:80px;height:80px}'
+    + '.cmdr-card__placeholder svg{width:42px;height:42px}'
+    + '.cmdr-card__badge{font-size:9px;padding:4px 10px;top:10px;inset-inline-start:10px}'
+    + '.cmdr-card__star{width:24px;height:24px;top:10px;inset-inline-end:10px}'
+    + '.cmdr-card__star svg{width:12px;height:12px}'
+    + '.cmdr-card__body{padding:14px 14px 16px}'
+    + '.cmdr-card__name{font-size:15px;margin-bottom:6px}'
+    + '.cmdr-card__rank{font-size:11px;margin-bottom:10px}'
+    + '.cmdr-card__view{font-size:10.5px;padding:8px 12px;gap:5px}'
+    + '.cmdr-card__view svg{width:12px;height:12px}'
+    + '.cmdr-detail{padding:22px 18px;border-radius:16px}'
+    + '.cmdr-detail__head{flex-direction:column;text-align:center;gap:14px}'
+    + '.cmdr-detail__photo{width:100px;height:100px}'
+    + '.cmdr-detail__photo svg{width:45px;height:45px}'
+    + '.cmdr-detail__name{font-size:20px}'
+    + '.cmdr-detail__rank{font-size:13px}'
+    + '.cmdr-section-detail__title{font-size:14px}'
+    + '.cmdr-section-detail__text{font-size:13px}'
+    + '.cmdr-quote{font-size:16px;padding:14px 16px}'
+    + '}'
+    + '@media (max-width:400px){'
+    + '.cmdr-grid{grid-template-columns:1fr;gap:16px}'
+    + '}';
+  var s = document.createElement('style');
+  s.id = 'cmdrStylesV2';
+  s.textContent = css;
+  document.head.appendChild(s);
+}
+
+function placeholderSVG(){
+  return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 2 4 6v6c0 5 3.4 9.4 8 10 4.6-.6 8-5 8-10V6l-8-4Z" stroke-linejoin="round"/><circle cx="12" cy="10" r="3.2"/><path d="M6.5 19.5c1.5-3 3.5-4 5.5-4s4 1 5.5 4" stroke-linecap="round"/></svg>';
+}
+
+function starSVG(){
+  return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 15 9l7 .5-5.5 4.5L18 21l-6-3.5L6 21l1.5-7L2 9.5 9 9z" stroke-linejoin="round"/></svg>';
+}
+
+function shieldStarSVG(){
+  return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 4 6v6c0 5 3.4 9.4 8 10 4.6-.6 8-5 8-10V6l-8-4Z" stroke-linejoin="round"/><path d="M12 8l1 2 2 .3-1.5 1.5.4 2L12 13l-1.9 1.8.4-2L9 11.3l2-.3z" stroke-linejoin="round"/></svg>';
+}
+
+/* ═══ بطاقة القائد (أسطورية) ═══ */
+function buildCard(c, i){
+  var lang = getLang();
+  var photo = c.photo
+    ? '<img src="' + esc(c.photo) + '" alt="' + esc(c.name) + '" loading="lazy" onerror="this.style.display=\'none\'">'
+    : '';
+  var placeholder = '<div class="cmdr-card__placeholder">' + placeholderSVG() + '</div>';
+  var title = lang === 'en' && c.titleEn ? c.titleEn : (c.title || t('badge'));
+  var name = lang === 'en' && c.nameEn ? c.nameEn : c.name;
+  var rank = lang === 'en' && c.rankEn ? c.rankEn : c.rank;
+
+  return '<article class="cmdr-card reveal is-in" data-cmdr="' + esc(c.id) + '" style="--d:' + Math.min(i * 0.06, 0.5) + 's">'
+    + '<div class="cmdr-card__media">'
+    + photo
+    + placeholder
+    + '<span class="cmdr-card__badge">' + shieldStarSVG() + esc(title) + '</span>'
+    + '<span class="cmdr-card__star">' + starSVG() + '</span>'
+    + '</div>'
+    + '<div class="cmdr-card__body">'
+    + '<h3 class="cmdr-card__name">' + esc(name) + '</h3>'
+    + '<div class="cmdr-card__rank">' + esc(rank || '') + '</div>'
+    + '<div class="cmdr-card__divider"><span></span></div>'
+    + '<div class="cmdr-card__view">'
+    + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01" stroke-linecap="round"/></svg>'
+    + t('viewDetails')
+    + '</div>'
+    + '</div>'
+    + '</article>';
+}
+
+/* ═══ عرض البطاقات في عنصر ═══ */
+function renderGridToElement(grid, list, limit){
+  if(!grid) return;
+  var items = list.slice().sort(function(a, b){ return (a.addedAt || 0) - (b.addedAt || 0); });
+  if(limit && limit > 0) items = items.slice(0, limit);
+
+  if(!items.length){
+    grid.innerHTML = '<div style="grid-column:1/-1;padding:40px;text-align:center;color:var(--text-3);border:1px dashed var(--line-2);border-radius:12px;font-family:\'Noto Kufi Arabic\',sans-serif">' + t('empty') + '</div>';
+    return;
+  }
+
+  var html = '';
+  items.forEach(function(c, i){ html += buildCard(c, i); });
+  grid.innerHTML = html;
+
+  var cards = grid.querySelectorAll('[data-cmdr]');
+  for(var i = 0; i < cards.length; i++){
+    (function(card){
+      card.addEventListener('click', function(){
+        openCommanderPage(card.getAttribute('data-cmdr'));
+      });
+    })(cards[i]);
+  }
+}
+
+/* ═══ القسم في الرئيسية ═══ */
+function injectSection(){
+  var home = document.getElementById('pageHome');
+  if(!home) return false;
+  var existing = document.getElementById('cmdrSection');
+  if(existing){
+    if(existing.dataset.lang !== getLang()){
+      existing.dataset.lang = getLang();
+      rebuildSection();
+    }
+    return true;
+  }
+
+  var sec = document.createElement('section');
+  sec.id = 'cmdrSection';
+  sec.className = 'section cmdr-section';
+  sec.dataset.lang = getLang();
+  sec.innerHTML = '<div class="container">'
+    + '<header class="cmdr-section__bar reveal is-in">'
+    + '<div>'
+    + '<span class="cmdr-section__eyebrow">' + t('sectionEyebrow') + '</span>'
+    + '<h2 class="cmdr-section__title">' + t('sectionTitle') + '</h2>'
+    + '</div>'
+    + '<button type="button" class="cmdr-section__btn" id="cmdrViewAll">'
+    + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h10" stroke-linecap="round"/></svg>'
+    + t('viewAll')
+    + '</button>'
+    + '</header>'
+    + '<div class="cmdr-grid" id="cmdrGrid"></div>'
+    + '</div>';
+
+  var flag = document.querySelector('.flag-section');
+  if(flag && flag.parentNode === home){
+    flag.parentNode.insertBefore(sec, flag.nextSibling);
+  } else {
+    var quran = document.querySelector('.quran-section');
+    if(quran && quran.parentNode === home){
+      quran.parentNode.insertBefore(sec, quran.nextSibling);
+    } else {
+      home.appendChild(sec);
+    }
+  }
+
+  return true;
+}
+
+function rebuildSection(){
+  var sec = document.getElementById('cmdrSection');
+  if(!sec) return;
+  var bar = sec.querySelector('.cmdr-section__bar');
+  if(bar){
+    var eyebrow = bar.querySelector('.cmdr-section__eyebrow');
+    var title = bar.querySelector('.cmdr-section__title');
+    var btn = bar.querySelector('#cmdrViewAll');
+    if(eyebrow) eyebrow.textContent = t('sectionEyebrow');
+    if(title) title.textContent = t('sectionTitle');
+    if(btn){ btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h10" stroke-linecap="round"/></svg>' + t('viewAll'); }
+  }
+  renderGridToElement(document.getElementById('cmdrGrid'), CMDRS, 3);
+}
+
+/* ═══ صفحة تفاصيل القائد ═══ */
+function openCommanderPage(id){
+  var cmdr = null;
+  for(var i = 0; i < CMDRS.length; i++){
+    if(CMDRS[i].id === id){ cmdr = CMDRS[i]; break; }
+  }
+  if(!cmdr){ toast(t('notFound'), 'error'); return; }
+
+  var pageEl = document.querySelector('.page-view[data-page="commander-detail"]');
+  if(!pageEl){
+    pageEl = document.createElement('div');
+    pageEl.className = 'page-view';
+    pageEl.setAttribute('data-page', 'commander-detail');
+    var main = document.getElementById('main');
+    if(main) main.appendChild(pageEl);
+  }
+
+  pageEl.innerHTML = buildDetailPage(cmdr);
+
+  document.querySelectorAll('.page-view').forEach(function(p){ p.classList.remove('is-active'); });
+  pageEl.classList.add('is-active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  if(location.hash !== '#commander/' + id) history.replaceState(null, '', '#commander/' + id);
+
+  var back = document.getElementById('cmdrBack');
+  if(back){
+    back.addEventListener('click', function(){
+      pageEl.classList.remove('is-active');
+      var h = document.getElementById('pageHome');
+      if(h) h.classList.add('is-active');
+      history.replaceState(null, '', '#home');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+}
+
+function buildDetailPage(cmdr){
+  var lang = getLang();
+  var name = lang === 'en' && cmdr.nameEn ? cmdr.nameEn : cmdr.name;
+  var rank = lang === 'en' && cmdr.rankEn ? cmdr.rankEn : (cmdr.rank || '');
+  var bio = lang === 'en' && cmdr.bioEn ? cmdr.bioEn : cmdr.bio;
+  var education = lang === 'en' && cmdr.educationEn ? cmdr.educationEn : cmdr.education;
+  var experience = lang === 'en' && cmdr.experienceEn ? cmdr.experienceEn : cmdr.experience;
+  var medals = (lang === 'en' && cmdr.medalsEn ? cmdr.medalsEn : cmdr.medals) || [];
+  var achievements = (lang === 'en' && cmdr.achievementsEn ? cmdr.achievementsEn : cmdr.achievements) || [];
+  var quote = lang === 'en' && cmdr.quoteEn ? cmdr.quoteEn : cmdr.quote;
+
+  var photo = cmdr.photo ? '<img src="' + esc(cmdr.photo) + '" alt="" onerror="this.style.display=\'none\'">' : '';
+  var fallback = '<div style="position:absolute;inset:0;display:grid;place-items:center">' + placeholderSVG() + '</div>';
+
+  var medalsHtml = '';
+  if(medals.length){
+    medalsHtml = '<div class="cmdr-section-detail"><div class="cmdr-section-detail__title">'
+      + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11" stroke-linejoin="round"/></svg>'
+      + t('medals') + '</div><div class="cmdr-badges-list">';
+    medals.forEach(function(m){
+      medalsHtml += '<span class="cmdr-badge-item">' + starSVG() + esc(m) + '</span>';
+    });
+    medalsHtml += '</div></div>';
+  }
+
+  var achievHtml = '';
+  if(achievements.length){
+    achievHtml = '<div class="cmdr-section-detail"><div class="cmdr-section-detail__title">'
+      + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 4 6v6c0 5 3.4 9.4 8 10 4.6-.6 8-5 8-10V6l-8-4Z" stroke-linejoin="round"/></svg>'
+      + t('achievements') + '</div><div class="cmdr-achievements">';
+    achievements.forEach(function(a){
+      achievHtml += '<div class="cmdr-achievement">' + esc(a) + '</div>';
+    });
+    achievHtml += '</div></div>';
+  }
+
+  return '<div class="container"><div class="cmdr-page__inner">'
+    + '<button type="button" class="cmdr-page__back" id="cmdrBack">'
+    + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M14 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+    + t('backHome')
+    + '</button>'
+    + '<div class="cmdr-detail">'
+    + '<div class="cmdr-detail__head">'
+    + '<div class="cmdr-detail__photo">' + fallback + photo + '</div>'
+    + '<div class="cmdr-detail__info">'
+    + '<h1 class="cmdr-detail__name">' + esc(name) + '</h1>'
+    + '<div class="cmdr-detail__rank">' + esc(rank) + '</div>'
+    + (cmdr.born ? '<div class="cmdr-detail__born">📅 ' + esc(cmdr.born) + '</div>' : '')
+    + '</div></div>'
+    + (bio ? '<div class="cmdr-section-detail"><div class="cmdr-section-detail__title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0" stroke-linecap="round"/></svg>' + t('bio') + '</div><div class="cmdr-section-detail__text">' + esc(bio) + '</div></div>' : '')
+    + (education ? '<div class="cmdr-section-detail"><div class="cmdr-section-detail__title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10 12 5 2 10l10 5 10-5Z" stroke-linejoin="round"/><path d="M6 12v5c3 3 9 3 12 0v-5" stroke-linecap="round"/></svg>' + t('education') + '</div><div class="cmdr-section-detail__text">' + esc(education) + '</div></div>' : '')
+    + (experience ? '<div class="cmdr-section-detail"><div class="cmdr-section-detail__title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2" stroke-linecap="round"/></svg>' + t('experience') + '</div><div class="cmdr-section-detail__text">' + esc(experience) + '</div></div>' : '')
+    + medalsHtml
+    + achievHtml
+    + (quote ? '<div class="cmdr-quote">' + esc(quote) + '</div>' : '')
+    + '</div></div></div>';
+}
+
+/* ═══ صفحة كل القادة ═══ */
+function openAllPage(){
+  var pageEl = document.querySelector('.page-view[data-page="commanders-all"]');
+  if(!pageEl){
+    pageEl = document.createElement('div');
+    pageEl.className = 'page-view';
+    pageEl.setAttribute('data-page', 'commanders-all');
+    var main = document.getElementById('main');
+    if(main) main.appendChild(pageEl);
+  }
+
+  pageEl.innerHTML = '<div class="container"><div class="cmdr-page__inner">'
+    + '<button type="button" class="cmdr-page__back" id="cmdrAllBack">'
+    + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M14 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+    + t('backHome')
+    + '</button>'
+    + '<header class="cmdr-section__bar" style="margin-bottom:32px">'
+    + '<div><span class="cmdr-section__eyebrow">' + t('allEyebrow') + '</span>'
+    + '<h1 class="cmdr-section__title">' + t('allTitle') + '</h1></div>'
+    + '</header>'
+    + '<div class="cmdr-grid" id="cmdrAllGrid"></div>'
+    + '</div></div>';
+
+  document.querySelectorAll('.page-view').forEach(function(p){ p.classList.remove('is-active'); });
+  pageEl.classList.add('is-active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  if(location.hash !== '#commanders') history.replaceState(null, '', '#commanders');
+
+  renderGridToElement(document.getElementById('cmdrAllGrid'), CMDRS, 0);
+
+  var back = document.getElementById('cmdrAllBack');
+  if(back){
+    back.addEventListener('click', function(){
+      pageEl.classList.remove('is-active');
+      var h = document.getElementById('pageHome');
+      if(h) h.classList.add('is-active');
+      history.replaceState(null, '', '#home');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+}
+
+/* ═══ GitHub ═══ */
+function rawUrl(f){ return 'https://raw.githubusercontent.com/' + REPO.owner + '/' + REPO.repo + '/' + REPO.branch + '/' + REPO.path + '/' + f + '?t=' + Date.now(); }
+function apiUrl(f){ return 'https://api.github.com/repos/' + REPO.owner + '/' + REPO.repo + '/contents/' + REPO.path + '/' + f; }
+function b64(s){ return btoa(unescape(encodeURIComponent(s))); }
+function fetchRemote(){ return fetch(rawUrl('commanders.json'), { cache:'no-store' }).then(function(r){ if(!r.ok) return null; return r.json(); }).catch(function(){ return null; }); }
+function getSha(f){
+  var tk = getToken(); if(!tk) return Promise.resolve(null);
+  return fetch(apiUrl(f) + '?ref=' + REPO.branch, { headers:{ 'Authorization':'token ' + tk, 'Accept':'application/vnd.github+json' } })
+    .then(function(r){ if(!r.ok) return null; return r.json(); }).then(function(d){ return d ? d.sha : null; }).catch(function(){ return null; });
+}
+function writeRemote(f, data, msg){
+  var tk = getToken();
+  if(!tk) return Promise.reject(new Error(t('adminNoToken')));
+  return getSha(f).then(function(sha){
+    var body = { message: msg || 'تحديث ' + f, content: b64(JSON.stringify(data, null, 2) + '\n'), branch: REPO.branch };
+    if(sha) body.sha = sha;
+    return fetch(apiUrl(f), { method:'PUT', headers:{ 'Authorization':'token ' + tk, 'Accept':'application/vnd.github+json', 'Content-Type':'application/json' }, body: JSON.stringify(body) })
+      .then(function(r){ if(!r.ok){ return r.json().catch(function(){ return {}; }).then(function(e){ throw new Error(e.message || 'فشل'); }); } return r.json(); });
+  });
+}
+
+/* ═══ تبويب الإدارة ═══ */
+function injectAdminTab(){
+  var tabs = document.querySelector('.admin-tabs');
+  var body = document.querySelector('.admin-panel__body');
+  if(!tabs || !body) return false;
+  if(document.getElementById('cmdrAdminTab')) return true;
+
+  var tab = document.createElement('button');
+  tab.className = 'admin-tab';
+  tab.id = 'cmdrAdminTab';
+  tab.setAttribute('data-tab', 'commanders');
+  tab.textContent = t('adminTab');
+  tabs.appendChild(tab);
+
+  var content = document.createElement('div');
+  content.className = 'admin-tab-content';
+  content.setAttribute('data-tab-content', 'commanders');
+  content.innerHTML = '<div class="admin-grid">'
+    + '<div class="admin-section">'
+    + '<div class="admin-section__title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg><span id="cmdrFT">' + t('adminAdd') + '</span></div>'
+    + '<form class="admin-form" id="cmdrForm">'
+    + '<input type="hidden" id="cmdrEid" value="">'
+    + '<div class="admin-form__row"><label for="cmdrName">' + t('formName') + '</label><input type="text" id="cmdrName" required placeholder="' + t('formNamePlaceholder') + '"></div>'
+    + '<div class="admin-form__row"><label for="cmdrNameEn">Name (English)</label><input type="text" id="cmdrNameEn" dir="ltr" placeholder="Example: First Lieutenant General"></div>'
+    + '<div class="admin-form__row"><label for="cmdrRank">' + t('formRank') + '</label><input type="text" id="cmdrRank" required placeholder="' + t('formRankPlaceholder') + '"></div>'
+    + '<div class="admin-form__row"><label for="cmdrRankEn">Rank (English)</label><input type="text" id="cmdrRankEn" dir="ltr" placeholder="Example: Commander-in-Chief"></div>'
+    + '<div class="admin-form__row"><label for="cmdrTitle">' + t('formTitle') + '</label><input type="text" id="cmdrTitle" placeholder="' + t('formTitlePlaceholder') + '"></div>'
+    + '<div class="admin-form__row"><label for="cmdrTitleEn">Badge (English)</label><input type="text" id="cmdrTitleEn" dir="ltr" placeholder="Example: Commander"></div>'
+    + '<div class="admin-form__row"><label for="cmdrPhoto">' + t('formPhoto') + '</label><input type="url" id="cmdrPhoto" placeholder="https://..."></div>'
+    + '<div class="admin-form__row"><label for="cmdrBorn">' + t('formBorn') + '</label><input type="text" id="cmdrBorn" placeholder="' + t('formBornPlaceholder') + '"></div>'
+    + '<div class="admin-form__row"><label for="cmdrBio">' + t('formBio') + '</label><textarea id="cmdrBio" placeholder="' + t('formBioPlaceholder') + '"></textarea></div>'
+    + '<div class="admin-form__row"><label for="cmdrBioEn">Bio (English)</label><textarea id="cmdrBioEn" dir="ltr" placeholder="Brief introduction..."></textarea></div>'
+    + '<div class="admin-form__row"><label for="cmdrEducation">' + t('formEducation') + '</label><input type="text" id="cmdrEducation" placeholder="' + t('formEducationPlaceholder') + '"></div>'
+    + '<div class="admin-form__row"><label for="cmdrExperience">' + t('formExperience') + '</label><input type="text" id="cmdrExperience" placeholder="' + t('formExperiencePlaceholder') + '"></div>'
+    + '<div class="admin-form__row"><label for="cmdrMedals">' + t('formMedals') + '</label><textarea id="cmdrMedals"></textarea></div>'
+    + '<div class="admin-form__row"><label for="cmdrAchievements">' + t('formAchievements') + '</label><textarea id="cmdrAchievements"></textarea></div>'
+    + '<div class="admin-form__row"><label for="cmdrQuote">' + t('formQuote') + '</label><input type="text" id="cmdrQuote" placeholder="' + t('formQuotePlaceholder') + '"></div>'
+    + '<div class="admin-form__actions">'
+    + '<button class="btn btn--gold" type="submit"><span id="cmdrSL">' + t('adminSave') + '</span></button>'
+    + '<button class="btn btn--outline" type="button" id="cmdrCancel" style="display:none">' + t('adminCancel') + '</button>'
+    + '</div>'
+    + '<div class="admin-form__actions" style="margin-top:14px">'
+    + '<button class="btn btn--gold" type="button" id="cmdrPublish">' + t('adminPublish') + '</button>'
+    + '<button class="btn btn--outline" type="button" id="cmdrPull">' + t('adminPull') + '</button>'
+    + '</div>'
+    + '<div id="cmdrHint" style="margin-top:8px;font-size:11.5px;color:var(--text-3)"></div>'
+    + '</form></div>'
+    + '<div class="admin-section">'
+    + '<div class="admin-section__title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h10" stroke-linecap="round"/></svg>' + t('adminList') + ' (<span id="cmdrCount">0</span>)</div>'
+    + '<div class="admin-list" id="cmdrAdminList"></div>'
+    + '</div></div>';
+  body.appendChild(content);
+
+  tab.addEventListener('click', function(){
+    document.querySelectorAll('.admin-tab').forEach(function(x){ x.classList.remove('is-active'); });
+    document.querySelectorAll('.admin-tab-content').forEach(function(x){ x.classList.remove('is-active'); });
+    tab.classList.add('is-active');
+    content.classList.add('is-active');
+    renderAdminList();
+  });
+
+  bindAdmin();
+  return true;
+}
+
+function bindAdmin(){
+  var form = document.getElementById('cmdrForm');
+  if(!form || form.getAttribute('data-bound') === '1') return;
+  form.setAttribute('data-bound', '1');
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var id = document.getElementById('cmdrEid').value;
+    var medalsRaw = (document.getElementById('cmdrMedals').value || '').trim();
+    var achievRaw = (document.getElementById('cmdrAchievements').value || '').trim();
+
+    var data = {
+      id: id || uid(),
+      name: document.getElementById('cmdrName').value.trim(),
+      nameEn: document.getElementById('cmdrNameEn').value.trim(),
+      rank: document.getElementById('cmdrRank').value.trim(),
+      rankEn: document.getElementById('cmdrRankEn').value.trim(),
+      title: document.getElementById('cmdrTitle').value.trim(),
+      titleEn: document.getElementById('cmdrTitleEn').value.trim(),
+      photo: document.getElementById('cmdrPhoto').value.trim(),
+      born: document.getElementById('cmdrBorn').value.trim(),
+      bio: document.getElementById('cmdrBio').value.trim(),
+      bioEn: document.getElementById('cmdrBioEn').value.trim(),
+      education: document.getElementById('cmdrEducation').value.trim(),
+      experience: document.getElementById('cmdrExperience').value.trim(),
+      medals: medalsRaw ? medalsRaw.split(/\n+/).map(function(s){return s.trim();}).filter(Boolean) : [],
+      achievements: achievRaw ? achievRaw.split(/\n+/).map(function(s){return s.trim();}).filter(Boolean) : [],
+      quote: document.getElementById('cmdrQuote').value.trim(),
+      addedAt: Date.now()
+    };
+
+    if(!data.name || !data.rank){ toast(t('adminFillRequired'), 'error'); return; }
+
+    if(id){
+      for(var i = 0; i < CMDRS.length; i++){
+        if(CMDRS[i].id === id){ data.addedAt = CMDRS[i].addedAt || Date.now(); CMDRS[i] = data; break; }
+      }
+    } else {
+      CMDRS.push(data);
+    }
+
+    saveLocal(CMDRS);
+    renderAdminList();
+    resetForm();
+    renderGridToElement(document.getElementById('cmdrGrid'), CMDRS, 3);
+    toast(t('adminSaved'), 'success');
+  });
+
+  document.getElementById('cmdrCancel').addEventListener('click', resetForm);
+
+  document.getElementById('cmdrPublish').addEventListener('click', function(){
+    toast(t('adminPublishing'), 'info');
+    writeRemote('commanders.json', CMDRS, 'تحديث القادة')
+      .then(function(){ toast(t('adminPublished'), 'success'); updateHint(); })
+      .catch(function(err){ toast(t('adminFailed') + err.message, 'error'); });
+  });
+
+  document.getElementById('cmdrPull').addEventListener('click', function(){
+    toast(t('adminLoading'), 'info');
+    fetchRemote().then(function(remote){
+      if(!remote || !remote.length){ toast(t('adminNoData'), 'info'); return; }
+      CMDRS = remote;
+      saveLocal(CMDRS);
+      renderAdminList();
+      renderGridToElement(document.getElementById('cmdrGrid'), CMDRS, 3);
+      toast(t('adminLoaded'), 'success');
+      updateHint();
+    });
+  });
+
+  updateHint();
+}
+
+function resetForm(){
+  var f = document.getElementById('cmdrForm');
+  if(!f) return;
+  f.reset();
+  document.getElementById('cmdrEid').value = '';
+  document.getElementById('cmdrFT').textContent = t('adminAdd');
+  document.getElementById('cmdrSL').textContent = t('adminSave');
+  document.getElementById('cmdrCancel').style.display = 'none';
+}
+
+function renderAdminList(){
+  var c = document.getElementById('cmdrAdminList');
+  var cnt = document.getElementById('cmdrCount');
+  if(cnt) cnt.textContent = CMDRS.length;
+  if(!c) return;
+  if(!CMDRS.length){ c.innerHTML = '<div class="admin-empty">' + t('empty') + '</div>'; return; }
+
+  var html = '';
+  CMDRS.forEach(function(cm){
+    var thumb = cm.photo ? '<img src="' + esc(cm.photo) + '" alt="" style="width:100%;height:100%;object-fit:cover" onerror="this.style.display=\'none\'">' : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width:60%;height:60%;color:var(--gold-2);opacity:.5;margin:auto"><path d="M12 2 4 6v6c0 5 3.4 9.4 8 10 4.6-.6 8-5 8-10V6l-8-4Z" stroke-linejoin="round"/></svg>';
+    html += '<div class="admin-item">'
+      + '<div class="admin-item__thumb" style="display:grid;place-items:center;background:linear-gradient(145deg,#1a2210,#06070a);border-radius:50%">' + thumb + '</div>'
+      + '<div class="admin-item__content">'
+      + '<div class="admin-item__title">' + esc(cm.name) + '</div>'
+      + '<div class="admin-item__meta"><span>' + esc(cm.rank || '') + '</span></div>'
+      + '</div>'
+      + '<div class="admin-item__actions">'
+      + '<button class="admin-item__btn" data-cmdr-edit="' + esc(cm.id) + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 1 1 3 3L7 19l-4 1 1-4Z" stroke-linecap="round" stroke-linejoin="round"/></svg></button>'
+      + '<button class="admin-item__btn admin-item__btn--danger" data-cmdr-del="' + esc(cm.id) + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2m2 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>'
+      + '</div></div>';
+  });
+  c.innerHTML = html;
+
+  var eds = c.querySelectorAll('[data-cmdr-edit]');
+  for(var k=0;k<eds.length;k++){
+    (function(b){
+      b.addEventListener('click', function(){
+        var id = b.getAttribute('data-cmdr-edit');
+        var cm = null;
+        for(var i = 0; i < CMDRS.length; i++){ if(CMDRS[i].id === id){ cm = CMDRS[i]; break; } }
+        if(!cm) return;
+        document.getElementById('cmdrEid').value = cm.id;
+        document.getElementById('cmdrName').value = cm.name || '';
+        document.getElementById('cmdrNameEn').value = cm.nameEn || '';
+        document.getElementById('cmdrRank').value = cm.rank || '';
+        document.getElementById('cmdrRankEn').value = cm.rankEn || '';
+        document.getElementById('cmdrTitle').value = cm.title || '';
+        document.getElementById('cmdrTitleEn').value = cm.titleEn || '';
+        document.getElementById('cmdrPhoto').value = cm.photo || '';
+        document.getElementById('cmdrBorn').value = cm.born || '';
+        document.getElementById('cmdrBio').value = cm.bio || '';
+        document.getElementById('cmdrBioEn').value = cm.bioEn || '';
+        document.getElementById('cmdrEducation').value = cm.education || '';
+        document.getElementById('cmdrExperience').value = cm.experience || '';
+        document.getElementById('cmdrMedals').value = (cm.medals || []).join('\n');
+        document.getElementById('cmdrAchievements').value = (cm.achievements || []).join('\n');
+        document.getElementById('cmdrQuote').value = cm.quote || '';
+        document.getElementById('cmdrFT').textContent = t('adminEdit');
+        document.getElementById('cmdrSL').textContent = t('adminSaveEdits');
+        document.getElementById('cmdrCancel').style.display = 'inline-flex';
+        var pb = document.querySelector('.admin-panel__body');
+        if(pb) pb.scrollTop = 0;
+      });
+    })(eds[k]);
+  }
+
+  var dls = c.querySelectorAll('[data-cmdr-del]');
+  for(var m=0;m<dls.length;m++){
+    (function(b){
+      b.addEventListener('click', function(){
+        if(!confirm(t('adminDeleteConfirm'))) return;
+        var id = b.getAttribute('data-cmdr-del');
+        CMDRS = CMDRS.filter(function(x){ return x.id !== id; });
+        saveLocal(CMDRS);
+        renderAdminList();
+        renderGridToElement(document.getElementById('cmdrGrid'), CMDRS, 3);
+        toast(t('adminDeleted'), 'success');
+      });
+    })(dls[m]);
+  }
+}
+
+function updateHint(){
+  var h = document.getElementById('cmdrHint');
+  if(!h) return;
+  var tk = getToken();
+  h.textContent = tk ? (t('adminReady') + ' (' + CMDRS.length + ')') : t('adminNoToken');
+  h.style.color = tk ? 'var(--signal-green)' : 'var(--signal-amber)';
+}
+
+/* ═══ INIT ═══ */
+function init(){
+  injectCSS();
+
+  var tries = 0;
+  var iv = setInterval(function(){
+    tries++;
+    if(injectSection()){
+      clearInterval(iv);
+      renderGridToElement(document.getElementById('cmdrGrid'), CMDRS, 3);
+      var btn = document.getElementById('cmdrViewAll');
+      if(btn) btn.addEventListener('click', openAllPage);
+    }
+    if(tries >= 40) clearInterval(iv);
+  }, 200);
+
+  var atries = 0;
+  var aiv = setInterval(function(){
+    atries++;
+    if(injectAdminTab()) clearInterval(aiv);
+    if(atries >= 80) clearInterval(aiv);
+  }, 400);
+
+  fetchRemote().then(function(remote){
+    if(remote && remote.length){
+      var cur = loadLocal();
+      var isDefault = cur.length === DEFAULTS.length && cur[0] && cur[0].id === 'c_1';
+      if(isDefault || !cur.length){
+        CMDRS = remote;
+        saveLocal(CMDRS);
+        renderGridToElement(document.getElementById('cmdrGrid'), CMDRS, 3);
+      }
+    }
+  });
+
+  /* استمع لتغيير اللغة */
+  if(window.MutationObserver){
+    var mo = new MutationObserver(function(){
+      var sec = document.getElementById('cmdrSection');
+      if(sec && sec.dataset.lang !== getLang()){
+        sec.dataset.lang = getLang();
+        rebuildSection();
+        /* أعد بناء أي صفحة مفتوحة */
+        var pAll = document.querySelector('.page-view[data-page="commanders-all"]');
+        if(pAll && pAll.classList.contains('is-active')) openAllPage();
+        var pDet = document.querySelector('.page-view[data-page="commander-detail"]');
+        if(pDet && pDet.classList.contains('is-active')){
+          var h = location.hash.replace('#','');
+          if(h.indexOf('commander/') === 0){
+            var id = h.split('/')[1];
+            var cmdr = null;
+            for(var i=0;i<CMDRS.length;i++){ if(CMDRS[i].id === id){ cmdr = CMDRS[i]; break; } }
+            if(cmdr){ pDet.innerHTML = buildDetailPage(cmdr); var b = document.getElementById('cmdrBack'); if(b) b.addEventListener('click', function(){ pDet.classList.remove('is-active'); var hp = document.getElementById('pageHome'); if(hp) hp.classList.add('is-active'); history.replaceState(null,'','#home'); window.scrollTo({top:0,behavior:'smooth'}); }); }
+          }
+        }
+      }
+    });
+    mo.observe(document.documentElement, { attributes:true, attributeFilter:['lang'] });
+  }
+
+  window.addEventListener('hashchange', function(){
+    var h = location.hash.replace('#', '');
+    if(h.indexOf('commander/') === 0){
+      var id = h.split('/')[1];
+      if(id) openCommanderPage(id);
+    } else if(h === 'commanders'){
+      openAllPage();
+    }
+  });
+}
+
+if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+else init();
+
+window.__cmdr = {
+  list: function(){ return CMDRS; },
+  refresh: function(){ renderGridToElement(document.getElementById('cmdrGrid'), CMDRS, 3); },
+  open: openCommanderPage,
+  all: openAllPage,
+  count: function(){ return CMDRS.length; }
+};
+
+})();
