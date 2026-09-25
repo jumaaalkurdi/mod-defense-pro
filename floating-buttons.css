@@ -499,3 +499,18 @@ body .fab-group > .to-top:hover svg{
     max-height:calc(100dvh - 100px) !important;
   }
 }
+
+/* ═══ إخفاء أيقونة التشغيل الثانية في بطاقات الفيديو ═══ */
+.vpx-card .gpx-card__z,
+.vpx-card .gpx-card__play{
+  display:none !important;
+  visibility:hidden !important;
+  opacity:0 !important;
+}
+
+/* تأكد من ظهور أيقونة واحدة فقط */
+.vpx-card__play{
+  display:grid !important;
+  visibility:visible !important;
+  opacity:0.95 !important;
+}
