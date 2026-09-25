@@ -1,0 +1,58 @@
+[
+  {
+    "id": "g_mugwhx6g2odl",
+    "title": "صورة",
+    "category": "فعال",
+    "image": "",
+    "description": "",
+    "addedAt": 1790337122872
+  },
+  {
+    "id": "g_d1",
+    "title": "عرض عسكري رسمي",
+    "description": "عرض مهيب لوحدات القوات المسلحة في الساحة الرئيسية",
+    "category": "فعاليات رسمية",
+    "addedAt": 1790250675394,
+    "image": "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20800%20600%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%220%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%231e2a15%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%2306070a%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22800%22%20height%3D%22600%22%20fill%3D%22url(%23g)%22%2F%3E%3Cg%20stroke%3D%22%23c9a34e%22%20stroke-width%3D%222%22%20fill%3D%22none%22%20opacity%3D%220.18%22%3E%3Ccircle%20cx%3D%22400%22%20cy%3D%22300%22%20r%3D%22220%22%2F%3E%3Ccircle%20cx%3D%22400%22%20cy%3D%22300%22%20r%3D%22170%22%2F%3E%3Ccircle%20cx%3D%22400%22%20cy%3D%22300%22%20r%3D%22120%22%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate(400%2C300)%22%20fill%3D%22none%22%20stroke%3D%22%23c9a34e%22%20stroke-width%3D%224%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M-100%2060%20L-100%20-40%20L-40%20-40%20L0%20-100%20L40%20-40%20L100%20-40%20L100%2060%20Z%22%2F%3E%3Cpath%20d%3D%22M-30%2060%20L-30%20-20%20L30%20-20%20L30%2060%22%2F%3E%3Ccircle%20cx%3D%220%22%20cy%3D%22-10%22%20r%3D%2218%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E"
+  },
+  {
+    "id": "g_d2",
+    "title": "وحدة الفرسان",
+    "description": "وحدة الفرسان في عرض رسمي مهيب",
+    "category": "وحدات قتالية",
+    "addedAt": 1790164275394,
+    "image": "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20800%20600%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%220%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%231a2210%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%2306070a%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22800%22%20height%3D%22600%22%20fill%3D%22url(%23g)%22%2F%3E%3Cg%20stroke%3D%22%23e8c878%22%20stroke-width%3D%222%22%20fill%3D%22none%22%20opacity%3D%220.18%22%3E%3Ccircle%20cx%3D%22400%22%20cy%3D%22300%22%20r%3D%22220%22%2F%3E%3Ccircle%20cx%3D%22400%22%20cy%3D%22300%22%20r%3D%22170%22%2F%3E%3Ccircle%20cx%3D%22400%22%20cy%3D%22300%22%20r%3D%22120%22%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate(400%2C300)%22%20fill%3D%22none%22%20stroke%3D%22%23e8c878%22%20stroke-width%3D%224%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M-90%2040%20Q-90%20-40%200%20-60%20Q90%20-40%2090%2040%20M-50%2040%20L-50%20-20%20M50%2040%20L50%20-20%20M0%20-90%20L0%20-60%22%2F%3E%3Ccircle%20cx%3D%22-50%22%20cy%3D%22-30%22%20r%3D%228%22%2F%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%22-30%22%20r%3D%228%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E"
+  },
+  {
+    "id": "g_d3",
+    "title": "مراسم رفع العلم",
+    "description": "مراسم رفع العلم في المناسبات الوطنية",
+    "category": "مراسم رسمية",
+    "addedAt": 1790077875394,
+    "image": "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20800%20600%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%220%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%230d1108%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%2306070a%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22800%22%20height%3D%22600%22%20fill%3D%22url(%23g)%22%2F%3E%3Cg%20stroke%3D%22%23f5e0a5%22%20stroke-width%3D%222%22%20fill%3D%22none%22%20opacity%3D%220.18%22%3E%3Ccircle%20cx%3D%22400%22%20cy%3D%22300%22%20r%3D%22220%22%2F%3E%3Ccircle%20cx%3D%22400%22%20cy%3D%22300%22%20r%3D%22170%22%2F%3E%3Ccircle%20cx%3D%22400%22%20cy%3D%22300%22%20r%3D%22120%22%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate(400%2C300)%22%20fill%3D%22none%22%20stroke%3D%22%23f5e0a5%22%20stroke-width%3D%224%22%20stroke-linejoin%3D%22round%22%3E%3Crect%20x%3D%22-100%22%20y%3D%22-60%22%20width%3D%22200%22%20height%3D%22120%22%2F%3E%3Cpath%20d%3D%22M-100%20-60%20L100%20-60%20M-100%20-20%20L100%20-20%20M-100%2020%20L100%2020%20M-100%2060%20L100%2060%20M-35%20-60%20L-35%2060%20M35%20-60%20L35%2060%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E"
+  },
+  {
+    "id": "g_d4",
+    "title": "تدريبات ميدانية",
+    "description": "تدريبات القوات الخاصة في الميدان",
+    "category": "تدريبات",
+    "addedAt": 1789991475394,
+    "image": "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20800%20600%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%220%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%231e2a15%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%2306070a%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22800%22%20height%3D%22600%22%20fill%3D%22url(%23g)%22%2F%3E%3Cg%20stroke%3D%22%23c9a34e%22%20stroke-width%3D%222%22%20fill%3D%22none%22%20opacity%3D%220.18%22%3E%3Ccircle%20cx%3D%22400%22%20cy%3D%22300%22%20r%3D%22220%22%2F%3E%3Ccircle%20cx%3D%22400%22%20cy%3D%22300%22%20r%3D%22170%22%2F%3E%3Ccircle%20cx%3D%22400%22%20cy%3D%22300%22%20r%3D%22120%22%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate(400%2C300)%22%20fill%3D%22none%22%20stroke%3D%22%23c9a34e%22%20stroke-width%3D%224%22%20stroke-linejoin%3D%22round%22%3E%3Ccircle%20cx%3D%22-60%22%20cy%3D%220%22%20r%3D%2230%22%2F%3E%3Ccircle%20cx%3D%2260%22%20cy%3D%220%22%20r%3D%2230%22%2F%3E%3Cpath%20d%3D%22M-30%200%20L30%200%20M-80%20-60%20L-40%20-60%20M40%20-60%20L80%20-60%20M-80%2060%20L-40%2060%20M40%2060%20L80%2060%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E"
+  },
+  {
+    "id": "g_d5",
+    "title": "الوحدات المدرعة",
+    "description": "عرض للوحدات المدرعة بأحدث التجهيزات",
+    "category": "مدرعات",
+    "addedAt": 1789905075394,
+    "image": "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20800%20600%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%220%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%231a2210%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%2306070a%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22800%22%20height%3D%22600%22%20fill%3D%22url(%23g)%22%2F%3E%3Cg%20stroke%3D%22%23e8c878%22%20stroke-width%3D%222%22%20fill%3D%22none%22%20opacity%3D%220.18%22%3E%3Ccircle%20cx%3D%22400%22%20cy%3D%22300%22%20r%3D%22220%22%2F%3E%3Ccircle%20cx%3D%22400%22%20cy%3D%22300%22%20r%3D%22170%22%2F%3E%3Ccircle%20cx%3D%22400%22%20cy%3D%22300%22%20r%3D%22120%22%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate(400%2C300)%22%20fill%3D%22none%22%20stroke%3D%22%23e8c878%22%20stroke-width%3D%224%22%20stroke-linejoin%3D%22round%22%3E%3Crect%20x%3D%22-110%22%20y%3D%22-30%22%20width%3D%22220%22%20height%3D%2260%22%20rx%3D%228%22%2F%3E%3Ccircle%20cx%3D%22-60%22%20cy%3D%2250%22%20r%3D%2220%22%2F%3E%3Ccircle%20cx%3D%220%22%20cy%3D%2250%22%20r%3D%2220%22%2F%3E%3Ccircle%20cx%3D%2260%22%20cy%3D%2250%22%20r%3D%2220%22%2F%3E%3Crect%20x%3D%22-30%22%20y%3D%22-60%22%20width%3D%2260%22%20height%3D%2230%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E"
+  },
+  {
+    "id": "g_d6",
+    "title": "شعار الوزارة",
+    "description": "شعار رسمي للمركز الإعلامي",
+    "category": "هوية رسمية",
+    "addedAt": 1789818675394,
+    "image": "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20800%20600%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%220%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%230d1108%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%2306070a%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22800%22%20height%3D%22600%22%20fill%3D%22url(%23g)%22%2F%3E%3Cg%20stroke%3D%22%23c9a34e%22%20stroke-width%3D%222%22%20fill%3D%22none%22%20opacity%3D%220.18%22%3E%3Ccircle%20cx%3D%22400%22%20cy%3D%22300%22%20r%3D%22220%22%2F%3E%3Ccircle%20cx%3D%22400%22%20cy%3D%22300%22%20r%3D%22170%22%2F%3E%3Ccircle%20cx%3D%22400%22%20cy%3D%22300%22%20r%3D%22120%22%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate(400%2C300)%22%20fill%3D%22none%22%20stroke%3D%22%23c9a34e%22%20stroke-width%3D%224%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M-80%20-80%20L-80%200%20Q-80%2070%200%20100%20Q80%2070%2080%200%20L80%20-80%20Z%22%2F%3E%3Cpath%20d%3D%22M0%20-40%20L14%20-10%20L46%20-6%20L22%2016%20L28%2048%20L0%2032%20L-28%2048%20L-22%2016%20L-46%20-6%20L-14%20-10%20Z%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E"
+  }
+]
