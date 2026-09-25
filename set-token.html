@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>حفظ GitHub Token</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:system-ui,sans-serif;background:linear-gradient(160deg,#0a0d05,#06070a);color:#e8e4d5;min-height:100vh;padding:30px 20px;display:flex;align-items:center;justify-content:center}
+  .box{width:100%;max-width:540px;background:linear-gradient(160deg,#131a0d,#0d1108);border:1px solid rgba(201,163,78,.35);padding:32px 26px;clip-path:polygon(0 0,calc(100% - 22px) 0,100% 22px,100% 100%,22px 100%,0 calc(100% - 22px));box-shadow:0 30px 80px -20px rgba(0,0,0,.95)}
+  h1{font-size:20px;font-weight:800;color:#e8c878;margin-bottom:8px}
+  .sub{font-size:12.5px;color:#b0ac95;line-height:1.7;margin-bottom:22px}
+  label{display:block;font-size:12px;font-weight:700;color:#e8c878;margin-bottom:8px}
+  input{width:100%;padding:14px 16px;background:rgba(0,0,0,.6);border:1px solid rgba(201,163,78,.3);color:#e8e4d5;font-family:monospace;font-size:14px;direction:ltr;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%);outline:none}
+  input:focus{border-color:#c9a34e}
+  .actions{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap}
+  button{flex:1;min-width:130px;padding:14px 18px;font-size:13.5px;font-weight:800;cursor:pointer;border:0;clip-path:polygon(10px 0,100% 0,calc(100% - 10px) 100%,0 100%)}
+  .primary{background:linear-gradient(135deg,#c9a34e,#e8c878);color:#06070a}
+  .danger{background:rgba(185,28,28,.2);color:#ff7d89;border:1px solid rgba(225,29,46,.5)}
+  .info{margin-top:20px;padding:14px 16px;background:rgba(201,163,78,.06);border:1px solid rgba(201,163,78,.25);font-size:12px;line-height:1.8;color:#b0ac95;clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px))}
+  .info strong{color:#e8c878}
+  .status{margin-top:16px;padding:12px 16px;font-size:13px;font-weight:700;text-align:center;display:none;clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px))}
+  .status.ok{display:block;background:rgba(74,222,128,.12);color:#4ade80;border:1px solid rgba(74,222,128,.4)}
+  .status.err{display:block;background:rgba(185,28,28,.15);color:#ff7d89;border:1px solid rgba(225,29,46,.4)}
+  .current{margin-top:14px;padding:12px 16px;background:rgba(0,0,0,.5);border:1px solid rgba(201,163,78,.2);font-family:monospace;font-size:11.5px;color:#b0ac95;direction:ltr;text-align:left;word-break:break-all}
+  .current strong{color:#e8c878}
+  a{color:#e8c878;text-decoration:none;font-weight:700}
+  a:hover{text-decoration:underline}
+</style>
+</head>
+<body>
+<div class="box">
+  <h1>🔐 حفظ GitHub Token</h1>
+  <p class="sub">الصق التوكن واضغط "حفظ". سيبقى محفوظاً بشكل دائم على هذا الجهاز.</p>
+
+  <label for="token">GitHub Token</label>
+  <input id="token" type="password" placeholder="ghp_..." autocomplete="off" spellcheck="false" dir="ltr">
+
+  <div class="actions">
+    <button class="primary" id="save">💾 حفظ بشكل دائم</button>
+    <button class="danger" id="clear">🗑️ حذف</button>
+  </div>
+
+  <div id="status" class="status"></div>
+  <div id="current" class="current" style="display:none"></div>
+
+  <div class="info">
+    <strong>📝 كيف أحصل على التوكن؟</strong><br>
+    1. افتح: <a href="https://github.com/settings/tokens" target="_blank">github.com/settings/tokens</a><br>
+    2. اضغط <strong>Generate new token (classic)</strong><br>
+    3. اختر صلاحية <strong>repo</strong> فقط<br>
+    4. انسخ التوكن والصقه هنا<br><br>
+    <strong>⚠️ تنبيه:</strong> لا تشارك التوكن مع أي شخص.
+  </div>
+</div>
+
+<script>
+(function(){
+  'use strict';
+  var KEY = 'mod_gh_token';
+  var input = document.getElementById('token');
+  var status = document.getElementById('status');
+  var current = document.getElementById('current');
+  var saveBtn = document.getElementById('save');
+  var clearBtn = document.getElementById('clear');
+
+  function showStatus(msg, ok){
+    status.textContent = msg;
+    status.className = 'status ' + (ok ? 'ok' : 'err');
+    setTimeout(function(){
+      status.style.display = 'none';
+      status.className = 'status';
+    }, 4000);
+  }
+  function mask(t){
+    if(!t) return '';
+    if(t.length <= 12) return t;
+    return t.substring(0,7) + '…' + t.substring(t.length - 4);
+  }
+  function refresh(){
+    var t = '';
+    try { t = localStorage.getItem(KEY) || ''; } catch(e){}
+    if(t){
+      current.style.display = 'block';
+      current.innerHTML = '<strong>محفوظ:</strong><br>' + mask(t) + '<br><span style="color:#4ade80;font-size:10.5px;">✓ في localStorage (دائم)</span>';
+    } else {
+      var s = '';
+      try { s = sessionStorage.getItem(KEY) || ''; } catch(e){}
+      if(s){
+        current.style.display = 'block';
+        current.innerHTML = '<strong>في sessionStorage:</strong><br>' + mask(s) + '<br><span style="color:#f59e0b;font-size:10.5px;">⚠️ سيُمسح عند إغلاق التبويب</span>';
+      } else {
+        current.style.display = 'block';
+        current.innerHTML = '<span style="color:#ff7d89;">⚠️ لا يوجد Token محفوظ</span>';
+      }
+    }
+  }
+  saveBtn.addEventListener('click', function(){
+    var v = (input.value || '').trim();
+    if(!v){ showStatus('❌ أدخل التوكن أولاً', false); return; }
+    if(v.length < 20){ showStatus('❌ التوكن قصير جداً', false); return; }
+    try {
+      localStorage.setItem(KEY, v);
+      sessionStorage.setItem(KEY, v);
+      input.value = '';
+      showStatus('✅ تم الحفظ بشكل دائم (' + v.length + ' حرف)', true);
+      refresh();
+    } catch(e){
+      showStatus('❌ فشل: ' + e.message, false);
+    }
+  });
+  clearBtn.addEventListener('click', function(){
+    if(!confirm('حذف التوكن؟')) return;
+    localStorage.removeItem(KEY);
+    sessionStorage.removeItem(KEY);
+    showStatus('🗑️ تم الحذف', true);
+    refresh();
+  });
+  input.addEventListener('keydown', function(e){
+    if(e.key === 'Enter'){ e.preventDefault(); saveBtn.click(); }
+  });
+  refresh();
+})();
+</script>
+</body>
+</html>
