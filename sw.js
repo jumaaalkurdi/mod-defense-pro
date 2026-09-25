@@ -64,3 +64,28 @@ self.addEventListener('fetch', (event) => {
     }).catch(() => caches.match(req).then(c => c || caches.match('/index.html')))
   );
 });
+
+/* ══════════════════════════════════════════════════════════
+   NOTIFICATIONS SUPPORT
+   ══════════════════════════════════════════════════════════ */
+self.addEventListener('notificationclick', function(event){
+  event.notification.close();
+  var urlToOpen = event.notification.data && event.notification.data.url;
+  if(!urlToOpen){
+    var body = event.notification.body || '';
+    urlToOpen = '/';
+  }
+  event.waitUntil(
+    clients.matchAll({ type: 'window', includeUncontrolled: true }).then(function(clientList){
+      for(var i = 0; i < clientList.length; i++){
+        var c = clientList[i];
+        if('focus' in c){
+          c.focus();
+          if('navigate' in c && urlToOpen) c.navigate(urlToOpen);
+          return;
+        }
+      }
+      if(clients.openWindow) return clients.openWindow(urlToOpen);
+    })
+  );
+});

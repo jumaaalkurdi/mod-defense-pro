@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>إعادة تعيين الإشعارات</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,sans-serif;background:#06070a;color:#e8e4d5;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;text-align:center}
+.box{background:linear-gradient(160deg,#131a0d,#0a0d05);border:1.5px solid #c9a34e;padding:32px 24px;max-width:440px;width:100%;clip-path:polygon(0 0,calc(100% - 20px) 0,100% 20px,100% 100%,20px 100%,0 calc(100% - 20px))}
+.icon{width:72px;height:72px;display:grid;place-items:center;background:linear-gradient(135deg,#c9a34e,#e8c878);color:#06070a;border-radius:50%;margin:0 auto 20px}
+.icon svg{width:36px;height:36px}
+h1{font-size:20px;color:#e8c878;margin-bottom:12px;font-weight:800}
+p{font-size:14px;color:#b0ac95;line-height:1.8;margin-bottom:20px}
+button{width:100%;padding:16px;font-size:15px;font-weight:800;background:linear-gradient(135deg,#c9a34e,#e8c878);color:#06070a;border:0;cursor:pointer;clip-path:polygon(10px 0,100% 0,calc(100% - 10px) 100%,0 100%);margin-bottom:12px;font-family:inherit}
+button.alt{background:linear-gradient(135deg,#b91c1c,#e11d2e);color:#fff}
+button:active{transform:scale(.97)}
+.ok{background:rgba(74,222,128,.15);border:1px solid rgba(74,222,128,.4);padding:14px;margin-bottom:14px;color:#4ade80;font-weight:700;font-size:13px;display:none}
+.ok.show{display:block}
+</style>
+</head>
+<body>
+<div class="box">
+  <div class="icon">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+      <path d="M3 12a9 9 0 1 0 3-6.7M3 4v5h5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+  <h1>إعادة تعيين الإشعارات</h1>
+  <p>سيتم مسح إعدادات الإشعارات القديمة وإعادة تشغيل النظام من جديد.</p>
+
+  <div class="ok" id="ok">✅ تم المسح! جارٍ إعادة التوجيه...</div>
+
+  <button class="alt" onclick="doReset()">🗑️ مسح الإعدادات وإعادة التشغيل</button>
+  <button onclick="location.href='/'">↩️ العودة للموقع</button>
+</div>
+
+<script>
+function doReset(){
+  try {
+    localStorage.removeItem('mod_notif_last_news_id');
+    localStorage.removeItem('mod_notif_enabled');
+    localStorage.removeItem('mod_notif_subscribed_at');
+    sessionStorage.removeItem('activate_hidden');
+    document.getElementById('ok').classList.add('show');
+    setTimeout(function(){ location.href = '/'; }, 1500);
+  } catch(e){
+    alert('خطأ: ' + e.message);
+  }
+}
+</script>
+</body>
+</html>

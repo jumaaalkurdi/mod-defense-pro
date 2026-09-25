@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>تشخيص الإشعارات v3</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,sans-serif;background:#06070a;color:#e8e4d5;padding:14px;font-size:13px;line-height:1.5}
+h1{color:#e8c878;font-size:17px;margin-bottom:12px;text-align:center}
+.card{background:#0d1108;border:1px solid rgba(201,163,78,.3);padding:12px;margin-bottom:10px}
+.row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(201,163,78,.1);font-size:12px}
+.row:last-child{border:0}
+.label{color:#b0ac95}.val{color:#e8c878;font-family:monospace;font-size:11px;text-align:left;direction:ltr;max-width:60%;word-break:break-all}
+.ok{color:#4ade80}.err{color:#ff7d89}.warn{color:#f59e0b}
+button{width:100%;padding:12px;font-size:13px;font-weight:800;cursor:pointer;border:0;background:linear-gradient(135deg,#c9a34e,#e8c878);color:#06070a;margin-bottom:8px;font-family:inherit}
+button.alt{background:#1a2210;color:#e8c878;border:1px solid rgba(201,163,78,.4)}
+button.danger{background:#b91c1c;color:#fff}
+.log{background:#000;padding:10px;font-family:monospace;font-size:10.5px;color:#4ade80;max-height:220px;overflow:auto;white-space:pre-wrap;word-break:break-all;direction:ltr;text-align:left;margin-top:8px}
+</style>
+</head>
+<body>
+
+<h1>🔍 تشخيص v3</h1>
+
+<div class="card">
+  <div class="row"><span class="label">__notif</span><span class="val" id="v-notif">—</span></div>
+  <div class="row"><span class="label">_ready</span><span class="val" id="v-ready">—</span></div>
+  <div class="row"><span class="label">showBanner نَوْع</span><span class="val" id="v-sbtype">—</span></div>
+  <div class="row"><span class="label">الإشعارات مُفعّلة</span><span class="val" id="v-enabled">—</span></div>
+  <div class="row"><span class="label">عدد الأخبار</span><span class="val" id="v-news">—</span></div>
+  <div class="row"><span class="label">آخر محفوظ</span><span class="val" id="v-last">—</span></div>
+  <div class="row"><span class="label">أحدث خبر</span><span class="val" id="v-newest">—</span></div>
+</div>
+
+<button onclick="testNoCSS()">🎨 اختبار مباشر (بدون CSS)</button>
+<button class="alt" onclick="testReal()">🎯 اختبار showBanner الحقيقي</button>
+<button class="alt" onclick="addTestNews()">➕ أضف خبر تجريبي</button>
+<button class="danger" onclick="resetAll()">🗑️ إعادة تعيين</button>
+
+<div class="log" id="log">جاري التحميل...</div>
+
+<script>
+/* تحميل notifications.js مع كسر cache */
+(function(){
+  var s = document.createElement('script');
+  s.src = 'notifications.js?t=' + Date.now();
+  s.onload = function(){ setTimeout(check, 200); };
+  s.onerror = function(){ log('❌ فشل تحميل notifications.js'); };
+  document.head.appendChild(s);
+})();
+
+function log(m){
+  var l = document.getElementById('log');
+  l.textContent += '\n' + new Date().toLocaleTimeString('en-US',{hour12:false}) + ' ' + m;
+  l.scrollTop = l.scrollHeight;
+}
+
+function set(id, val, cls){
+  var e = document.getElementById(id);
+  e.textContent = val;
+  e.className = 'val ' + (cls || '');
+}
+
+function check(){
+  try {
+    var n = window.__notif;
+    set('v-notif', n ? 'object ✓' : 'undefined ✗', n ? 'ok' : 'err');
+    set('v-ready', n && n._ready ? 'true ✓' : 'false ✗', n && n._ready ? 'ok' : 'warn');
+    set('v-sbtype', n ? typeof n.showBanner : '—', n ? 'ok' : 'err');
+    set('v-enabled', n && n.isEnabled && n.isEnabled() ? 'نعم ✓' : 'لا ✗', n && n.isEnabled && n.isEnabled() ? 'ok' : 'warn');
+
+    var news = [];
+    try { news = JSON.parse(localStorage.getItem('mod_news_v7') || '[]'); } catch(e){}
+    set('v-news', news.length + ' خبر');
+
+    var last = localStorage.getItem('mod_notif_last_news_id') || '(فارغ)';
+    set('v-last', last);
+
+    var sorted = news.slice().sort(function(a,b){
+      return new Date(b.published_at || b.addedAt || 0).getTime() - new Date(a.published_at || a.addedAt || 0).getTime();
+    });
+    set('v-newest', (sorted[0] && sorted[0].id) || '—');
+
+    log('check: notif=' + (n ? 'OK' : 'FAIL') + ' ready=' + (n && n._ready));
+  } catch(e){ log('ERR check: ' + e.message); }
+}
+
+/* اختبار بدون CSS */
+function testNoCSS(){
+  log('--- testNoCSS ---');
+  try {
+    var b = document.createElement('div');
+    b.id = 'directTest';
+    b.style.cssText = 'position:fixed;top:20px;left:10px;right:10px;max-width:500px;margin:auto;z-index:999999;padding:16px;background:#c9a34e;color:#000;font-family:sans-serif;font-weight:bold;font-size:14px;border-radius:10px;box-shadow:0 10px 40px rgba(0,0,0,.7);text-align:center;';
+    b.textContent = '🎨 البانر يظهر! (اختبار مباشر بدون CSS)';
+    document.body.appendChild(b);
+    log('✅ أُضيف البانر للـ DOM');
+    setTimeout(function(){ if(b.parentNode) b.remove(); log('removed'); }, 5000);
+  } catch(e){ log('❌ ' + e.message); }
+}
+
+/* اختبار showBanner الحقيقي */
+function testReal(){
+  log('--- testReal ---');
+  try {
+    if(!window.__notif){ log('❌ __notif undefined'); return; }
+    log('calling showBanner...');
+    var r = window.__notif.showBanner([{ id: 'test1', title: 'اختبار الإشعار الحقيقي', cat: 'breaking' }]);
+    log('returned: ' + r);
+    setTimeout(function(){
+      var b = document.getElementById('notifBanner');
+      log('banner in DOM: ' + (b ? 'YES' : 'NO'));
+      if(b) log('class: ' + b.className);
+    }, 500);
+  } catch(e){ log('❌ ' + e.message); }
+}
+
+/* إضافة خبر تجريبي */
+function addTestNews(){
+  try {
+    var news = JSON.parse(localStorage.getItem('mod_news_v7') || '[]');
+    var newItem = {
+      id: 'n' + Date.now(),
+      title: 'خبر تجريبي ' + new Date().toLocaleTimeString('ar-EG'),
+      excerpt: 'هذا خبر تجريبي لاختبار الإشعارات',
+      details: 'تفاصيل الخبر التجريبي',
+      cat: 'breaking',
+      source: 'اختبار',
+      image: '',
+      addedAt: Date.now(),
+      published_at: new Date().toISOString()
+    };
+    news.unshift(newItem);
+    localStorage.setItem('mod_news_v7', JSON.stringify(news));
+    log('✅ أُضيف خبر: ' + newItem.id);
+    log('الآن اضغط "اختبار showBanner الحقيقي"');
+    check();
+  } catch(e){ log('❌ ' + e.message); }
+}
+
+function resetAll(){
+  if(!confirm('مسح حفظ الإشعارات؟')) return;
+  localStorage.removeItem('mod_notif_last_news_id');
+  localStorage.removeItem('mod_notif_subscribed_at');
+  log('🗑️ reset');
+  check();
+}
+
+log('✅ الصفحة جاهزة');
+</script>
+</body>
+</html>
