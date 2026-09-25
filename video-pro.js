@@ -39,10 +39,10 @@ function svgThumb(seed){
     + '<rect width="800" height="450" fill="url(#g)"/>'
     + '<g stroke="' + c + '" stroke-width="1.5" fill="none" opacity="0.15">'
     + '<circle cx="400" cy="225" r="170"/><circle cx="400" cy="225" r="120"/><circle cx="400" cy="225" r="70"/></g>'
-    + '<g transform="translate(400,225)">'
-    + '<circle r="52" fill="none" stroke="' + c + '" stroke-width="2.5"/>'
-    + '<circle r="62" fill="none" stroke="' + c + '" stroke-width="1" opacity="0.4"/>'
-    + '<path d="M-12 -18 L22 0 L-12 18 Z" fill="' + c + '"/></g></svg>';
+    + '<g transform="translate(400,225)" opacity="0.25">'
+    + '<circle r="60" fill="none" stroke="' + c + '" stroke-width="1.5"/>'
+    + '<circle r="72" fill="none" stroke="' + c + '" stroke-width="0.5" opacity="0.5"/>'
+    + '</g></svg>';
   return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(s);
 }
 
