@@ -160,3 +160,37 @@
   border-color:var(--gold) !important;
   color:var(--gold-3) !important;
 }
+
+/* ═══════════════════════════════════════════
+   LANGUAGE BUTTON ON MOBILE
+   ═══════════════════════════════════════════ */
+@media (max-width: 768px){
+  .header__actions > .lang-btn{
+    width: 36px !important;
+    height: 36px !important;
+    font-size: 13px !important;
+    flex: none !important;
+  }
+}
+@media (max-width: 480px){
+  .header__actions > .theme-btn,
+  .header__actions > .lang-btn,
+  .header__actions > .notify-btn{
+    width: 34px !important;
+    height: 34px !important;
+    min-width: 34px !important;
+    padding: 0 !important;
+  }
+  .header__actions > .lang-btn{
+    font-size: 12px !important;
+  }
+  .header__actions > .theme-btn svg,
+  .header__actions > .notify-btn svg{
+    width: 15px !important;
+    height: 15px !important;
+  }
+  .header__actions > .nav__toggle{
+    width: 38px !important;
+    height: 38px !important;
+  }
+}

@@ -1,0 +1,223 @@
+/* ══════════════════════════════════════════════════════════
+   LANGUAGE BUTTON — زر تبديل اللغة بجانب الجرس
+   ══════════════════════════════════════════════════════════ */
+(function(){
+'use strict';
+
+/* ═══ CSS ═══ */
+function injectCSS(){
+  if(document.getElementById('langBtnStyles')) return;
+  var css = [
+    '.lang-btn{',
+      'width:40px;height:40px;',
+      'display:grid;place-items:center;',
+      'border:1px solid var(--line-2);',
+      'background:rgba(201,163,78,.05);',
+      'color:var(--gold-2);',
+      'clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%);',
+      'transition:all .25s ease;',
+      'cursor:pointer;',
+      'font-family:"Noto Kufi Arabic","IBM Plex Sans Arabic",sans-serif;',
+      'font-weight:800;',
+      'font-size:14px;',
+      'line-height:1;',
+      'position:relative;',
+      'flex:none;',
+      'padding:0',
+    '}',
+    '.lang-btn:hover{',
+      'background:rgba(201,163,78,.15);',
+      'border-color:var(--gold);',
+      'color:var(--gold-3)',
+    '}',
+    '.lang-btn:active{transform:scale(.94)}',
+    '.lang-btn__code{',
+      'display:block;',
+      'letter-spacing:.5px;',
+      'pointer-events:none',
+    '}',
+    /* Small indicator dot */
+    '.lang-btn::after{',
+      'content:"";',
+      'position:absolute;',
+      'bottom:3px;right:3px;',
+      'width:5px;height:5px;',
+      'border-radius:50%;',
+      'background:var(--gold);',
+      'opacity:.55;',
+      'transition:opacity .25s,transform .25s',
+    '}',
+    '.lang-btn:hover::after{opacity:1;transform:scale(1.3)}',
+    /* Ripple effect */
+    '.lang-btn .lang-btn__ring{',
+      'position:absolute;inset:-4px;',
+      'border-radius:50%;',
+      'border:1.5px solid var(--gold);',
+      'opacity:0;',
+      'pointer-events:none;',
+    '}',
+    '.lang-btn.is-pulse .lang-btn__ring{',
+      'animation:langRing 1s ease-out',
+    '}',
+    '@keyframes langRing{',
+      '0%{opacity:.8;transform:scale(.6)}',
+      '100%{opacity:0;transform:scale(1.4)}',
+    '}',
+    /* Active state (English) */
+    '.lang-btn.is-en{',
+      'background:linear-gradient(135deg,rgba(201,163,78,.18),rgba(201,163,78,.05));',
+      'border-color:var(--gold)',
+    '}',
+    /* MOBILE */
+    '@media (max-width:768px){',
+      '.lang-btn{width:36px;height:36px;font-size:13px}',
+      '.lang-btn::after{width:4px;height:4px;bottom:2px;right:2px}',
+    '}',
+    '@media (max-width:480px){',
+      '.lang-btn{width:34px;height:34px;font-size:12px}',
+    '}'
+  ].join('');
+  var s = document.createElement('style');
+  s.id = 'langBtnStyles';
+  s.textContent = css;
+  document.head.appendChild(s);
+}
+
+/* ═══ RENDER ═══ */
+function render(btn){
+  if(!btn) return;
+  var lang = 'ar';
+  try {
+    if(window.__i18n && typeof window.__i18n.getLang === 'function'){
+      lang = window.__i18n.getLang();
+    }
+  } catch(e){}
+  if(lang === 'en'){
+    btn.innerHTML = '<span class="lang-btn__code">EN</span><span class="lang-btn__ring"></span>';
+    btn.setAttribute('aria-label', 'Switch to Arabic');
+    btn.setAttribute('title', 'Switch to Arabic / التبديل للعربية');
+    btn.classList.add('is-en');
+  } else {
+    btn.innerHTML = '<span class="lang-btn__code">ع</span><span class="lang-btn__ring"></span>';
+    btn.setAttribute('aria-label', 'Switch to English');
+    btn.setAttribute('title', 'Switch to English / التبديل للإنجليزية');
+    btn.classList.remove('is-en');
+  }
+}
+
+/* ═══ TOAST ═══ */
+function toast(msg, lang){
+  var c = document.getElementById('toastContainer');
+  if(!c) return;
+  var el = document.createElement('div');
+  el.className = 'toast toast--success';
+  el.setAttribute('dir', lang === 'en' ? 'ltr' : 'rtl');
+  el.innerHTML = '<span>' + msg + '</span>';
+  c.appendChild(el);
+  requestAnimationFrame(function(){ el.classList.add('is-show'); });
+  setTimeout(function(){
+    el.classList.remove('is-show');
+    setTimeout(function(){ el.remove(); }, 400);
+  }, 2200);
+}
+
+/* ═══ HANDLE CLICK ═══ */
+function handleClick(e, btn){
+  e.preventDefault();
+  e.stopPropagation();
+
+  /* Visual pulse */
+  btn.classList.add('is-pulse');
+  setTimeout(function(){ btn.classList.remove('is-pulse'); }, 1000);
+
+  if(!window.__i18n){ return; }
+
+  var cur = 'ar';
+  try { cur = window.__i18n.getLang(); } catch(err){}
+  var next = (cur === 'en') ? 'ar' : 'en';
+
+  try { window.__i18n.setLang(next); } catch(err){}
+
+  render(btn);
+
+  setTimeout(function(){
+    toast(next === 'en' ? 'Language: English' : 'اللغة: العربية', next);
+  }, 150);
+}
+
+/* ═══ INJECT BUTTON ═══ */
+function inject(){
+  var ha = document.querySelector('.header__actions');
+  if(!ha) return false;
+  if(document.getElementById('langBtn')) return true;
+
+  var btn = document.createElement('button');
+  btn.id = 'langBtn';
+  btn.type = 'button';
+  btn.className = 'lang-btn';
+  btn.addEventListener('click', function(e){ handleClick(e, btn); });
+
+  /* Insert before notifyBtn (bell) → so it appears next to it */
+  var nb = document.getElementById('notifyBtn');
+  if(nb && nb.parentNode === ha){
+    ha.insertBefore(btn, nb);
+  } else {
+    /* Fallback: insert before first child */
+    if(ha.firstChild) ha.insertBefore(btn, ha.firstChild);
+    else ha.appendChild(btn);
+  }
+
+  render(btn);
+  return true;
+}
+
+/* ═══ SYNC WITH PANEL BUTTONS ═══ */
+document.addEventListener('click', function(e){
+  var b = e.target && e.target.closest && e.target.closest('[data-lang-choice]');
+  if(!b) return;
+  setTimeout(function(){
+    var btn = document.getElementById('langBtn');
+    if(btn) render(btn);
+  }, 80);
+});
+
+/* ═══ INIT ═══ */
+function init(){
+  injectCSS();
+
+  /* Immediate attempt */
+  if(!inject()){
+    /* Retry until header is ready */
+    var tries = 0;
+    var iv = setInterval(function(){
+      tries++;
+      if(inject() || tries >= 40){
+        clearInterval(iv);
+      }
+    }, 150);
+  }
+
+  /* Watch for DOM changes (in case header is rebuilt) */
+  if(window.MutationObserver){
+    var mo = new MutationObserver(function(){
+      if(!document.getElementById('langBtn')) inject();
+    });
+    mo.observe(document.body, { childList: true, subtree: true });
+  }
+
+  /* Periodic sync with i18n */
+  setInterval(function(){
+    var btn = document.getElementById('langBtn');
+    if(btn) render(btn);
+  }, 2000);
+}
+
+if(document.readyState === 'loading'){
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}
+
+window.__langBtn = { refresh: function(){ var b = document.getElementById('langBtn'); if(b) render(b); } };
+
+})();
