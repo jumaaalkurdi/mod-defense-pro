@@ -1,17 +1,12 @@
 (function(){
 'use strict';
 
-/* =========================================================
-   GALLERY STRIP — شريط الصور الأفقي الاحترافي
-   ========================================================= */
-
 const G = {
   images: [],
   currentIndex: 0,
   lightbox: null
 };
 
-/* ============ إنشاء الشريط ============ */
 function createStrip(){
   const strip = document.createElement('section');
   strip.className = 'gallery-strip';
@@ -39,7 +34,6 @@ function createStrip(){
   }
 }
 
-/* ============ تحميل الصور ============ */
 async function loadImages(){
   if(window.__data && window.__data.GALLERY_IMAGES){
     return window.__data.GALLERY_IMAGES;
@@ -54,7 +48,6 @@ async function loadImages(){
   ];
 }
 
-/* ============ رسم الشريط ============ */
 function renderStrip(images){
   const track = document.getElementById('stripTrack');
   if(!track) return;
@@ -81,7 +74,6 @@ function renderStrip(images){
   });
 }
 
-/* ============ Lightbox ============ */
 function openLightbox(images, startIndex){
   if(G.lightbox) return;
 
@@ -109,10 +101,10 @@ function openLightbox(images, startIndex){
     '</button>' +
     '<div class="gallery-lb__stage">' +
       '<img class="gallery-lb__img" src="" alt="">' +
-      '<div class="gallery-lb__info">' +
-        '<span class="gallery-lb__title"></span>' +
-        '<span class="gallery-lb__counter"></span>' +
-      '</div>' +
+    '</div>' +
+    '<div class="gallery-lb__info">' +
+      '<span class="gallery-lb__title"></span>' +
+      '<span class="gallery-lb__counter"></span>' +
     '</div>';
 
   document.body.appendChild(lb);
@@ -121,8 +113,8 @@ function openLightbox(images, startIndex){
 
   lb.querySelector('.gallery-lb__close').addEventListener('click', closeLightbox);
   lb.querySelector('.gallery-lb__backdrop').addEventListener('click', closeLightbox);
-  lb.querySelector('.gallery-lb__nav--prev').addEventListener('click', () => nav(-1));
-  lb.querySelector('.gallery-lb__nav--next').addEventListener('click', () => nav(1));
+  lb.querySelector('.gallery-lb__nav--prev').addEventListener('click', () => nav(1));
+  lb.querySelector('.gallery-lb__nav--next').addEventListener('click', () => nav(-1));
 
   document.addEventListener('keydown', onKey);
 
@@ -141,8 +133,19 @@ function show(){
   imgEl.src = img.src;
   imgEl.alt = img.title || '';
   imgEl.onload = () => { imgEl.style.opacity = '1'; };
-  titleEl.textContent = img.title || '';
-  counterEl.textContent = (G.currentIndex + 1) + ' / ' + G.images.length;
+  imgEl.onerror = () => {
+    imgEl.style.opacity = '1';
+    imgEl.src = 'data:image/svg+xml;utf8,' + encodeURIComponent(
+      '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">' +
+      '<rect width="800" height="600" fill="#131a0d"/>' +
+      '<text x="400" y="300" text-anchor="middle" fill="#c9a34e" font-family="sans-serif" font-size="24">' +
+      'الصورة غير متوفرة' +
+      '</text></svg>'
+    );
+  };
+
+  if(titleEl) titleEl.textContent = img.title || '';
+  if(counterEl) counterEl.textContent = (G.currentIndex + 1) + ' / ' + G.images.length;
 }
 
 function nav(direction){
@@ -166,11 +169,10 @@ function closeLightbox(){
 function onKey(e){
   if(!G.lightbox) return;
   if(e.key === 'Escape') closeLightbox();
-  else if(e.key === 'ArrowRight') nav(-1);
-  else if(e.key === 'ArrowLeft') nav(1);
+  else if(e.key === 'ArrowRight') nav(1);
+  else if(e.key === 'ArrowLeft') nav(-1);
 }
 
-/* ============ توسيع الشريط ============ */
 function toggleExpand(){
   const btn = document.getElementById('stripExpand');
   const track = document.getElementById('stripTrack');
@@ -187,7 +189,6 @@ function toggleExpand(){
   }
 }
 
-/* ============ INIT ============ */
 async function init(){
   createStrip();
   const images = await loadImages();
