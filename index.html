@@ -31,11 +31,6 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M24 3 42 10v14c0 11-7.5 18.5-18 21C13.5 42.5 6 35 6 24V10z' fill='none' stroke='%23c9a34e' stroke-width='3'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="styles.css?v=99">
 <link rel="stylesheet" href="design-pro.css?v=99">
-<script src="gallery.js?v=1"></script>
-
-
-
-
 <link rel="stylesheet" href="styles-social.css?v=99">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"NewsMediaOrganization","name":"المركز الإعلامي — وزارة الدفاع","alternateName":"Ministry of Defense Media Center","url":"https://mod-defense-pro.netlify.app","description":"المركز الإعلامي الرسمي لوزارة الدفاع في الجمهورية العربية السورية","address":{"@type":"PostalAddress","addressCountry":"SY","addressLocality":"دمشق"},"sameAs":["https://t.me/mod_defense_sy","https://x.com/mod_defense_sy"]}
@@ -512,9 +507,7 @@
     <button class="admin-tab" data-tab="ticker">الشريط العاجل</button>
     <button class="admin-tab" data-tab="mostread">الأكثر قراءة</button>
     <button class="admin-tab" data-tab="elite">الفرق القتالية</button>
-<button class="admin-tab" data-tab="gallery" role="tab">المعرض</button>    
-
-<button class="admin-tab" data-tab="settings">الإعدادات</button>
+    <button class="admin-tab" data-tab="settings">الإعدادات</button>
   </div>
 
   <div class="admin-panel__body">
@@ -648,60 +641,6 @@
         </div>
       </div>
     </div>
-
-<div class="admin-tab-content" data-tab-content="gallery">
-  <div class="admin-grid">
-    <div class="admin-section">
-      <div class="admin-section__title">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg>
-        <span id="galleryFormTitle">إضافة صورة جديدة</span>
-      </div>
-      <form class="admin-form" id="galleryForm">
-        <input type="hidden" id="galleryEditId" value="">
-        <div class="admin-form__row">
-          <label for="gallerySrc">رابط الصورة</label>
-          <input type="url" id="gallerySrc" dir="ltr" placeholder="https://i.postimg.cc/..." required>
-          <div class="admin-preview" id="galleryPreview" style="display:none"><img id="galleryPreviewImg" alt=""></div>
-        </div>
-        <div class="admin-form__row--split">
-          <div><label for="galleryTitle">العنوان</label><input type="text" id="galleryTitle" required></div>
-          <div><label for="galleryCat">التصنيف</label><input type="text" id="galleryCat" placeholder="عرض / تقليد"></div>
-        </div>
-        <div class="admin-form__actions">
-          <button type="submit" class="btn btn--gold"><span id="gallerySubmitLabel">حفظ الصورة</span></button>
-          <button type="button" class="btn btn--outline" id="galleryCancel" style="display:none">إلغاء</button>
-        </div>
-      </form>
-    </div>
-    <div class="admin-section">
-      <div class="admin-section__title">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
-        الصور (<span id="galleryCount">0</span>)
-      </div>
-      <div class="admin-list" id="galleryAdminList"></div>
-    </div>
-  </div>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     <div class="admin-tab-content" data-tab-content="settings">
       <div class="admin-grid">
