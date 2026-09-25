@@ -1,0 +1,275 @@
+/* ══════════════════════════════════════════════════════════
+   LIGHT MODE — الوضع النهاري
+   ══════════════════════════════════════════════════════════ */
+
+html[data-mode="light"] {
+  --combat-black: #f5f3eb;
+  --olive-deep: #faf8f0;
+  --olive-dark: #f0ede0;
+  --olive-mid: #e8e4d0;
+  --olive-light: #ddd8c0;
+  --text: #1a1a15;
+  --text-2: #4a4a40;
+  --text-3: #6a6858;
+  --bg-glass: rgba(245,243,235,.88);
+  --bg-glass-2: rgba(250,248,240,.94);
+  --line: rgba(138,102,32,.18);
+  --line-2: rgba(138,102,32,.35);
+  --line-3: rgba(138,102,32,.55);
+  --shadow-gold: 0 0 30px -6px rgba(201,163,78,.25);
+}
+html[data-mode="light"] body { background: var(--combat-black); color: var(--text); }
+
+/* ── Command bar ── */
+html[data-mode="light"] .command-bar {
+  background: linear-gradient(90deg, #ebe7d0, #f0ede0 50%, #ebe7d0);
+  border-bottom-color: rgba(138,102,32,.2);
+}
+html[data-mode="light"] .command-bar__item { color: #4a4a40; }
+html[data-mode="light"] .command-bar__item strong { color: #8a6620; }
+
+/* ── Header ── */
+html[data-mode="light"] .header {
+  background: rgba(245,243,235,.92);
+  border-bottom-color: rgba(138,102,32,.22);
+}
+html[data-mode="light"] .brand__title { color: #1a1a15; text-shadow: none; }
+html[data-mode="light"] .brand__sub { color: #8a6620; }
+html[data-mode="light"] .nav__link { color: #4a4a40; }
+html[data-mode="light"] .nav__link:hover,
+html[data-mode="light"] .nav__link.is-active { color: #8a6620; }
+html[data-mode="light"] .nav__toggle { border-color: rgba(138,102,32,.35); background: rgba(201,163,78,.08); }
+html[data-mode="light"] .nav__toggle span { background: #8a6620; }
+html[data-mode="light"] .social-link,
+html[data-mode="light"] .notify-btn,
+html[data-mode="light"] .theme-btn {
+  border-color: rgba(138,102,32,.35);
+  background: rgba(201,163,78,.08);
+  color: #8a6620;
+}
+html[data-mode="light"] .clock {
+  color: #8a6620;
+  background: rgba(201,163,78,.08);
+  border-color: rgba(138,102,32,.3);
+}
+
+/* ── Background scene ── */
+html[data-mode="light"] .bg-scene__custom { filter: grayscale(25%) contrast(95%) brightness(105%) sepia(10%); opacity: .35; }
+html[data-mode="light"] .bg-scene__svg { filter: brightness(1.8) sepia(.5) hue-rotate(-15deg) saturate(.4); opacity: .22; }
+html[data-mode="light"] .bg-scene__overlay {
+  background: radial-gradient(ellipse 80% 60% at 75% 15%, rgba(201,163,78,.15), transparent 60%),
+              radial-gradient(ellipse 70% 50% at 15% 85%, rgba(185,28,28,.08), transparent 60%),
+              linear-gradient(180deg, rgba(245,243,235,.75), rgba(245,243,235,.9) 40%, rgba(245,243,235,.97));
+}
+html[data-mode="light"] .bg-scene__vignette {
+  background: radial-gradient(ellipse 100% 80% at 50% 50%, transparent 40%, rgba(245,243,235,.85));
+}
+html[data-mode="light"] .bg-scene__grid {
+  background-image: linear-gradient(rgba(138,102,32,.06) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(138,102,32,.06) 1px, transparent 1px);
+}
+html[data-mode="light"] .bg-scene__scanlines { opacity: .1; }
+
+/* ── Drawer ── */
+html[data-mode="light"] .drawer {
+  background: #faf8f0;
+  background-image: radial-gradient(ellipse 90% 50% at 50% 0%, rgba(201,163,78,.1), transparent 60%),
+                    linear-gradient(180deg, #faf8f0, #f5f3eb);
+}
+html[data-mode="light"] .drawer__welcome {
+  background: linear-gradient(135deg, rgba(201,163,78,.15), rgba(201,163,78,.05));
+  border-color: rgba(138,102,32,.3);
+}
+html[data-mode="light"] .drawer__welcome-title { color: #1a1a15; }
+html[data-mode="light"] .drawer__search { background: rgba(255,255,255,.6); border-color: rgba(138,102,32,.3); }
+html[data-mode="light"] .drawer__search input { color: #1a1a15; }
+html[data-mode="light"] .drawer__link,
+html[data-mode="light"] .drawer__quick-btn {
+  background: rgba(245,243,235,.6);
+  border-color: rgba(138,102,32,.18);
+  color: #4a4a40;
+}
+html[data-mode="light"] .drawer__link:hover,
+html[data-mode="light"] .drawer__link.is-active,
+html[data-mode="light"] .drawer__quick-btn:hover {
+  background: rgba(201,163,78,.12);
+  color: #8a6620;
+}
+
+/* ── Featured ── */
+html[data-mode="light"] .featured { background: rgba(250,248,240,.94); }
+html[data-mode="light"] .featured__media {
+  background: radial-gradient(120% 90% at 85% 15%, rgba(185,28,28,.15), transparent 55%),
+              radial-gradient(100% 80% at 15% 90%, rgba(201,163,78,.2), transparent 60%),
+              linear-gradient(180deg, #e8e4d0, #ddd8c0 60%, #f5f3eb);
+}
+html[data-mode="light"] .featured__media::after {
+  background: linear-gradient(180deg, transparent 20%, rgba(245,243,235,.75) 55%, rgba(245,243,235,.98));
+}
+html[data-mode="light"] .featured__title { color: #1a1a15; text-shadow: none; }
+html[data-mode="light"] .featured__excerpt { color: #4a4a40; }
+
+/* ── Cards ── */
+html[data-mode="light"] .news-card,
+html[data-mode="light"] .stack-card,
+html[data-mode="light"] .widget,
+html[data-mode="light"] .elite-card,
+html[data-mode="light"] .gpx-card,
+html[data-mode="light"] .vpx-card {
+  background: rgba(250,248,240,.94);
+  border-color: rgba(138,102,32,.22);
+}
+html[data-mode="light"] .news-card__title,
+html[data-mode="light"] .stack-card__title,
+html[data-mode="light"] .widget__title,
+html[data-mode="light"] .elite-card__name,
+html[data-mode="light"] .section__title,
+html[data-mode="light"] .gpx-card__t,
+html[data-mode="light"] .vpx-card__t,
+html[data-mode="light"] .mostread__title { color: #1a1a15; }
+html[data-mode="light"] .news-card__excerpt,
+html[data-mode="light"] .elite-card__desc,
+html[data-mode="light"] .gpx-card__d,
+html[data-mode="light"] .vpx-card__d { color: #4a4a40; }
+html[data-mode="light"] .mostread__item:hover { background: rgba(201,163,78,.08); }
+
+/* ── Quran ── */
+html[data-mode="light"] .quran-section__inner {
+  background: linear-gradient(180deg, rgba(250,248,240,.96), rgba(245,243,235,.98));
+  box-shadow: 0 40px 100px -40px rgba(0,0,0,.12), 0 0 0 1px rgba(138,102,32,.12), inset 0 0 140px rgba(201,163,78,.08);
+}
+html[data-mode="light"] .quran-verse { color: #8a6620; text-shadow: 0 2px 8px rgba(138,102,32,.15); }
+html[data-mode="light"] .quran-verse__reference { color: #8a6620; }
+
+/* ── Sections ── */
+html[data-mode="light"] .flag-section__inner,
+html[data-mode="light"] .intro-banner__stat,
+html[data-mode="light"] .page-hero,
+html[data-mode="light"] .page-block { background: rgba(250,248,240,.9); }
+html[data-mode="light"] .intro-banner__title { color: #1a1a15; text-shadow: none; }
+html[data-mode="light"] .intro-banner__desc { color: #4a4a40; text-shadow: none; }
+
+/* ── Footer ── */
+html[data-mode="light"] .footer {
+  background: linear-gradient(180deg, rgba(245,243,235,.98), #ebe7d0);
+  border-top-color: rgba(138,102,32,.25);
+}
+html[data-mode="light"] .footer__title { color: #1a1a15; }
+html[data-mode="light"] .footer__links a,
+html[data-mode="light"] .footer__links--plain li { color: #4a4a40; }
+html[data-mode="light"] .footer__bottom { color: #6a6858; border-top-color: rgba(138,102,32,.2); }
+
+/* ── Admin ── */
+html[data-mode="light"] .admin-panel,
+html[data-mode="light"] .admin-login {
+  background: linear-gradient(160deg, #f5f3eb, #faf8f0);
+}
+html[data-mode="light"] .admin-panel__header {
+  background: linear-gradient(180deg, rgba(201,163,78,.08), transparent);
+  border-bottom-color: rgba(138,102,32,.25);
+}
+html[data-mode="light"] .admin-panel__title { color: #1a1a15; }
+html[data-mode="light"] .admin-tab { color: #4a4a40; }
+html[data-mode="light"] .admin-tab:hover { color: #1a1a15; }
+html[data-mode="light"] .admin-tab.is-active { background: rgba(250,248,240,.9); color: #8a6620; border-color: rgba(138,102,32,.3); }
+html[data-mode="light"] .admin-section {
+  background: rgba(250,248,240,.75);
+  border-color: rgba(138,102,32,.2);
+}
+html[data-mode="light"] .admin-form input,
+html[data-mode="light"] .admin-form textarea,
+html[data-mode="light"] .admin-form select {
+  background: rgba(255,255,255,.8);
+  border-color: rgba(138,102,32,.3);
+  color: #1a1a15;
+}
+html[data-mode="light"] .admin-item {
+  background: rgba(250,248,240,.75);
+  border-color: rgba(138,102,32,.18);
+}
+html[data-mode="light"] .admin-item__title { color: #1a1a15; }
+
+/* ── Theme panel ── */
+html[data-mode="light"] .theme-panel {
+  background: linear-gradient(160deg, #faf8f0, #f0ede0);
+  border-color: rgba(138,102,32,.35);
+}
+html[data-mode="light"] .theme-panel__head { color: #1a1a15; border-bottom-color: rgba(138,102,32,.2); }
+html[data-mode="light"] .theme-choice {
+  background: rgba(245,243,235,.7);
+  border-color: rgba(138,102,32,.22);
+}
+html[data-mode="light"] .theme-choice__n { color: #4a4a40; }
+html[data-mode="light"] .theme-choice.is-active {
+  background: linear-gradient(135deg, rgba(201,163,78,.2), rgba(201,163,78,.05));
+}
+
+/* ── Lightboxes ── */
+html[data-mode="light"] .vpx-lb,
+html[data-mode="light"] .gpx-lb { background: rgba(245,243,235,.97); }
+html[data-mode="light"] .vpx-lb__i h3,
+html[data-mode="light"] .gpx-lb__i h3 { color: #1a1a15; }
+html[data-mode="light"] .vpx-lb__i p,
+html[data-mode="light"] .gpx-lb__i p { color: #4a4a40; }
+
+/* ── Smooth transition ── */
+body, .header, .command-bar, .drawer, .footer, .theme-panel,
+.news-card, .stack-card, .featured, .widget, .gpx-card, .vpx-card,
+.admin-panel, .admin-section, .theme-choice {
+  transition: background-color .4s ease, color .4s ease, border-color .4s ease;
+}
+
+/* ══════════════════════════════════════════════════════════
+   MODE TOGGLE INSIDE THEME PANEL
+   ══════════════════════════════════════════════════════════ */
+.theme-panel__mode {
+  padding: 14px 16px 8px;
+  border-bottom: 1px solid var(--line);
+}
+.theme-panel__mode-label {
+  font-family: 'Noto Kufi Arabic', sans-serif;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 10px;
+}
+.theme-panel__mode-btns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.theme-mode {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 8px;
+  background: rgba(0,0,0,.3);
+  border: 1px solid var(--line);
+  cursor: pointer;
+  font-family: inherit;
+  clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+  transition: all .3s cubic-bezier(.16,1,.3,1);
+  color: var(--text-2);
+}
+.theme-mode:hover { transform: translateY(-2px); border-color: var(--line-3); }
+.theme-mode svg { width: 22px; height: 22px; stroke: currentColor; transition: transform .4s; }
+.theme-mode span {
+  font-size: 11.5px;
+  font-weight: 700;
+  font-family: 'Noto Kufi Arabic', sans-serif;
+}
+.theme-mode.is-active {
+  border-color: var(--gold);
+  background: linear-gradient(135deg, rgba(201,163,78,.15), rgba(201,163,78,.03));
+  color: var(--gold-2);
+  box-shadow: 0 0 20px -6px rgba(201,163,78,.5);
+}
+.theme-mode.is-active svg { transform: scale(1.15); }
+html[data-mode="light"] .theme-mode { background: rgba(255,255,255,.7); }
+html[data-mode="light"] .theme-mode:hover { background: rgba(255,255,255,.95); }
+html[data-mode="light"] .theme-mode.is-active {
+  background: linear-gradient(135deg, rgba(201,163,78,.25), rgba(201,163,78,.1));
+}
