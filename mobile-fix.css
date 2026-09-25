@@ -40,3 +40,463 @@
   color: var(--combat-black) !important;
 }
 #pwaInstallBtn svg{ stroke: var(--combat-black) !important; }
+
+/* ═══ إخفاء intro-banner (مكرر مع video-hero) ═══ */
+.intro-banner{
+  display:none !important;
+}
+
+/* ═══════════════════════════════════════════════
+   بطاقات القادة — إصلاح الجوال
+   ═══════════════════════════════════════════════ */
+
+/* جوال صغير: عمود واحد */
+@media (max-width: 520px){
+  
+  
+  
+  
+  
+  
+  
+  
+}
+
+/* جوال متوسط: عمودان */
+@media (min-width: 521px) and (max-width: 768px){
+  
+  
+}
+
+/* تابلت: عمودان */
+
+
+/* سطح المكتب: 3 أعمدة */
+
+
+/* ملاحظة: سيتم تطبيق التغييرات عند إعادة التحميل */
+
+/* ═══════════════════════════════════════════════
+   VIDEO-HERO — إصلاح سطح المكتب
+   ═══════════════════════════════════════════════ */
+
+/* منع تداخل الساعة مع العنوان */
+.vh-title{
+  max-width: 70% !important;
+  padding-inline-end: 140px !important;
+}
+
+.vh-hud__clock{
+  z-index: 30 !important;
+}
+
+/* ضبط عرض المحتوى */
+.vh-content{
+  padding: 60px 70px 50px !important;
+}
+
+/* منع تكرار العناصر */
+.vh-media + .vh-overlay + .vh-scan + .vh-hud + .vh-content{
+  overflow: hidden;
+}
+
+/* سطح المكتب — جعل video-hero أقل ازدحاماً */
+@media (min-width: 1025px){
+  .vh-inner{
+    aspect-ratio: 21/9 !important;
+    max-height: 560px !important;
+  }
+  .vh-title{
+    font-size: clamp(28px, 3vw, 46px) !important;
+    max-width: 65% !important;
+  }
+  .vh-hud__clock{
+    font-size: 12px !important;
+  }
+}
+
+/* تابلت */
+@media (min-width: 769px) and (max-width: 1024px){
+  .vh-inner{
+    aspect-ratio: 16/9 !important;
+    max-height: 480px !important;
+  }
+  .vh-title{
+    font-size: 30px !important;
+    max-width: 70% !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════
+   بطاقات القادة — توحيد الأحجام
+   ═══════════════════════════════════════════════ */
+
+/* الشبكة: stretch يجعل كل البطاقات بنفس الارتفاع */
+
+
+/* كل بطاقة تمتد لملء ارتفاع الصف */
+
+
+/* الجسم موحّد */
+
+
+/* الاسم والمنصب — ارتفاع ثابت */
+
+
+
+
+/* سطح المكتب — 3 أعمدة موحّدة */
+@media (min-width: 1025px){
+  
+  
+}
+
+/* تابلت — 2 أعمدة */
+@media (min-width: 769px) and (max-width: 1024px){
+  
+  
+}
+
+/* جوال — 1 عمود */
+@media (max-width: 768px){
+  
+  
+  
+}
+
+/* ═══════════════════════════════════════════════
+   VIDEO-HERO — تحسين نهائي
+   ═══════════════════════════════════════════════ */
+
+/* إخفاء الساعة على سطح المكتب إذا كانت تتداخل */
+@media (min-width: 1025px){
+  .vh-title{
+    padding-inline-end: 0 !important;
+    max-width: 75% !important;
+  }
+  .vh-hud__clock{
+    top: 24px !important;
+    inset-inline-end: 24px !important;
+  }
+}
+
+/* تحسين مظهر شريط video-hero */
+.vh-card{
+  overflow: hidden !important;
+}
+
+/* منع تراكب العناصر */
+.vh-inner{
+  position: relative !important;
+  isolation: isolate !important;
+}
+
+.vh-hud{
+  pointer-events: none !important;
+}
+
+.vh-hud > *{
+  pointer-events: auto !important;
+}
+
+/* التأكد من ظهور شارة LIVE في الأمام */
+.vh-hud__live{
+  z-index: 50 !important;
+  position: absolute !important;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   VIDEO-HERO — إعادة تصميم احترافي عالمي
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── 1) منطقة HUD (علوية) ── */
+.vh-hud{
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 25 !important;
+  pointer-events: none !important;
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  grid-template-rows: auto 1fr auto !important;
+  padding: 22px 26px !important;
+}
+.vh-hud > *{
+  pointer-events: auto !important;
+}
+
+/* ── 2) شارة LIVE — الزاوية العلوية اليسرى ── */
+.vh-hud__live{
+  grid-column: 1 !important;
+  grid-row: 1 !important;
+  align-self: start !important;
+  justify-self: start !important;
+  position: static !important;
+  top: auto !important;
+  inset-inline-start: auto !important;
+  margin: 0 !important;
+  z-index: 30 !important;
+}
+
+/* ── 3) الساعة — الزاوية العلوية اليمنى ── */
+.vh-hud__clock{
+  grid-column: 2 !important;
+  grid-row: 1 !important;
+  align-self: start !important;
+  justify-self: end !important;
+  position: static !important;
+  top: auto !important;
+  inset-inline-end: auto !important;
+  margin: 0 !important;
+  z-index: 30 !important;
+}
+
+/* ── 4) المحتوى — أسفل البطاقة دائماً ── */
+.vh-content{
+  padding: 0 60px 60px !important;
+  justify-content: flex-end !important;
+  align-items: flex-start !important;
+  text-align: start !important;
+  gap: 0 !important;
+}
+
+/* ── 5) إخفاء تصنيف/حالة النظام على سطح المكتب (اختياري) ── */
+.vh-hud__class,
+.vh-hud__status{
+  display: none !important;
+}
+
+/* ── 6) العنوان — عرض كامل بدون تداخل ── */
+.vh-title{
+  max-width: 100% !important;
+  padding: 0 !important;
+  margin: 0 0 8px 0 !important;
+  font-size: clamp(26px, 3.6vw, 52px) !important;
+  line-height: 1.12 !important;
+  letter-spacing: -1.2px !important;
+  text-align: start !important;
+}
+
+.vh-title__line{
+  display: block !important;
+}
+
+/* ── 7) الشارة الصغيرة (البوابة الإعلامية) ── */
+.vh-badge{
+  margin-bottom: 16px !important;
+  font-size: 11px !important;
+  padding: 6px 14px !important;
+}
+
+/* ── 8) الوصف ── */
+.vh-desc{
+  margin-bottom: 22px !important;
+  max-width: 560px !important;
+  font-size: 14px !important;
+  line-height: 1.8 !important;
+}
+
+/* ── 9) الأزرار ── */
+.vh-ctas{
+  margin-bottom: 20px !important;
+  gap: 10px !important;
+}
+
+/* ── 10) الإحصائيات ── */
+.vh-stats{
+  gap: 10px !important;
+}
+
+/* ═══ الجوال ═══ */
+@media (max-width: 768px){
+  .vh-inner{
+    aspect-ratio: 16/13 !important;
+    min-height: 460px !important;
+  }
+  .vh-hud{
+    padding: 14px 14px !important;
+  }
+  .vh-content{
+    padding: 0 20px 26px !important;
+  }
+  .vh-title{
+    font-size: clamp(22px, 6vw, 30px) !important;
+    line-height: 1.2 !important;
+    margin-bottom: 6px !important;
+  }
+  .vh-badge{
+    font-size: 9.5px !important;
+    padding: 5px 11px !important;
+    margin-bottom: 10px !important;
+  }
+  .vh-desc{
+    font-size: 12px !important;
+    line-height: 1.7 !important;
+    margin-bottom: 14px !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+  }
+  .vh-ctas{
+    gap: 8px !important;
+    margin-bottom: 14px !important;
+  }
+  .vh-btn{
+    padding: 10px 16px !important;
+    font-size: 12px !important;
+  }
+  .vh-stat{
+    padding: 8px 12px !important;
+    min-width: 78px !important;
+  }
+  .vh-stat__num{
+    font-size: 15px !important;
+  }
+  .vh-stat__label{
+    font-size: 9px !important;
+  }
+  .vh-hud__clock{
+    font-size: 10px !important;
+    padding: 4px 9px !important;
+  }
+  .vh-hud__live{
+    font-size: 9px !important;
+    padding: 4px 9px !important;
+  }
+}
+
+/* ═══ الشاشات الصغيرة جداً ═══ */
+@media (max-width: 420px){
+  .vh-inner{
+    aspect-ratio: 16/14 !important;
+    min-height: 420px !important;
+  }
+  .vh-content{
+    padding: 0 16px 20px !important;
+  }
+  .vh-title{
+    font-size: 20px !important;
+  }
+  .vh-desc{
+    display: none !important;
+  }
+  .vh-stats{
+    gap: 6px !important;
+  }
+  .vh-stat{
+    padding: 6px 10px !important;
+    min-width: 68px !important;
+  }
+  .vh-stat__num{
+    font-size: 13px !important;
+  }
+  .vh-stat__label{
+    font-size: 8px !important;
+  }
+  .vh-btn--ghost{
+    display: none !important;
+  }
+}
+
+/* ═══ سطح المكتب — تجربة سينمائية ═══ */
+@media (min-width: 1025px){
+  .vh-inner{
+    aspect-ratio: 21/9 !important;
+    max-height: 600px !important;
+  }
+  .vh-content{
+    padding: 0 70px 70px !important;
+  }
+  .vh-title{
+    font-size: clamp(32px, 3.4vw, 54px) !important;
+    max-width: 800px !important;
+  }
+  .vh-desc{
+    max-width: 640px !important;
+    font-size: 15px !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   ✅ الحل النهائي — video-hero + بطاقات القادة
+   ═══════════════════════════════════════════════════════════ */
+
+/* ─────────────────────────────────────────
+   1) VIDEO-HERO — مساحة كافية للعنوان
+   ───────────────────────────────────────── */
+.vh-inner{
+  aspect-ratio: 21/9 !important;
+  min-height: 520px !important;
+  max-height: 620px !important;
+}
+
+.vh-content{
+  padding: 0 70px 70px !important;
+  padding-top: 130px !important; /* ← مساحة لـ HUD */
+}
+
+.vh-title{
+  font-size: clamp(28px, 3.4vw, 52px) !important;
+  line-height: 1.12 !important;
+  letter-spacing: -1.2px !important;
+  margin: 0 0 10px 0 !important;
+  text-align: start !important;
+  max-width: 100% !important;
+}
+
+.vh-hud{
+  padding: 24px 30px !important;
+}
+
+/* ─────────────────────────────────────────
+   2) بطاقات القادة — 3 أعمدة موحّدة
+   ───────────────────────────────────────── */
+
+
+/* سطح المكتب — 3 أعمدة صريحة */
+@media (min-width: 1025px){
+  
+  
+  
+  
+}
+
+/* تابلت — 2 أعمدة */
+@media (min-width: 769px) and (max-width: 1024px){
+  
+  
+}
+
+/* جوال — 1 عمود */
+@media (max-width: 768px){
+  
+  
+  
+}
+
+/* ─────────────────────────────────────────
+   3) توحيد ارتفاع العناصر الداخلية
+   ───────────────────────────────────────── */
+
+
+
+
+
+
+/* ─────────────────────────────────────────
+   4) تحسينات إضافية لـ video-hero
+   ───────────────────────────────────────── */
+@media (max-width: 768px){
+  .vh-inner{
+    aspect-ratio: 16/13 !important;
+    min-height: 480px !important;
+    max-height: none !important;
+  }
+  .vh-content{
+    padding: 0 20px 30px !important;
+    padding-top: 100px !important;
+  }
+  .vh-title{
+    font-size: clamp(22px, 6vw, 28px) !important;
+  }
+}
