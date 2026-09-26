@@ -9,8 +9,8 @@
   "badgeAr": "البث الرسمي المباشر",
   "badgeEn": "Official Live Stream",
   "overlay": 0.65,
-  "showStats": true,
-  "showCtas": true,
+  "showStats": false,
+  "showCtas": false,
   "showHud": true,
   "addedAt": 1790442766301
 }
