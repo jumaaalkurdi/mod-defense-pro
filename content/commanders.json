@@ -1,0 +1,90 @@
+[
+  {
+    "id": "c_1",
+    "name": "الواء",
+    "nameEn": "First Lieutenant General",
+    "rank": "القائد العام للجيش والقوات المسلحة",
+    "rankEn": "Commander-in-Chief of the Army and Armed Forces",
+    "title": "القائد العام",
+    "titleEn": "Commander-in-Chief",
+    "photo": "https://i.postimg.cc/xCLCKtFP/yy-1735637316.jpg",
+    "born": "1984",
+    "bio": "القائد العام للجيش والقوات المسلحة في الجمهورية العربية السورية. يشرف على جميع فروع القوات المسلحة ويضع الاستراتيجيات العسكرية العليا.",
+    "bioEn": "Commander-in-Chief of the Army and Armed Forces in the Syrian Arab Republic. Oversees all branches of the armed forces and sets the highest military strategies.",
+    "education": "الكلية العسكرية — الأكاديمية العسكرية العليا",
+    "experience": "أكثر من 17 عاماً في الخدمة العسكرية",
+    "medals": [
+      "وسام الشجاعة",
+      "وسام الجدارة",
+      "وسام الجمهورية"
+    ],
+    "achievements": [
+      "قيادة عمليات عسكرية كبرى",
+      "تطوير القدرات العسكرية",
+      "تدريب القيادات العسكرية"
+    ],
+    "quote": "الوطن أمانة في أعناقنا",
+    "addedAt": 1790386369417
+  },
+  {
+    "id": "c_2",
+    "name": "القائد ردع العدوان",
+    "nameEn": "Major General",
+    "rank": "رئيس السوي",
+    "rankEn": "Chief of the General Staff",
+    "title": "قائد",
+    "titleEn": "Chief of Staff",
+    "photo": "https://i.postimg.cc/SxJjMztx/ASODSOVVCZMIXKT4NFTYZQY7IQ-(1).jpg",
+    "born": "1982",
+    "bio": "رئيس  العام السوريا \nوقائد هيئة تحرير الشام",
+    "bioEn": "Chief of the General Staff of the Army and Armed Forces. Responsible for military planning and operations management.",
+    "education": "في ساحات القتال",
+    "experience": "اكثر من 23 عام",
+    "medals": [
+      "وسام الشرف"
+    ],
+    "achievements": [
+      "بناء منظومة قتالية عالية المستوى",
+      "تخطيط عمليات عسكرية استراتيجية",
+      "تطوير منظومة التدريب"
+    ],
+    "quote": "التخطيط الدقيق طريق النصر",
+    "addedAt": 1790386368417
+  },
+  {
+    "id": "c_3",
+    "name": "اللواء",
+    "nameEn": "Major General",
+    "rank": "قائد القوات الخاصة",
+    "rankEn": "Commander of Special Forces",
+    "title": "قائد القوات الخاصة",
+    "titleEn": "Special Forces Commander",
+    "photo": "",
+    "bio": "قائد القوات الخاصة في الجيش العربي السوري. يشرف على تدريب النخبة.",
+    "bioEn": "Commander of the Special Forces in the Syrian Arab Army. Oversees elite training.",
+    "born": "",
+    "education": "الكلية العسكرية — دورة القوات الخاصة",
+    "educationEn": "Military College — Special Forces Course",
+    "experience": "أكثر من 22 عاماً في العمليات الخاصة",
+    "experienceEn": "More than 22 years in special operations",
+    "medals": [
+      "وسام الشجاعة",
+      "وسام الجدارة"
+    ],
+    "medalsEn": [
+      "Medal of Courage",
+      "Medal of Merit"
+    ],
+    "achievements": [
+      "قيادة عمليات خاصة ناجحة",
+      "تطوير قدرات القوات الخاصة"
+    ],
+    "achievementsEn": [
+      "Leading successful special operations",
+      "Developing special forces capabilities"
+    ],
+    "quote": "القوة والدقة والإتقان",
+    "quoteEn": "Power, precision, perfection",
+    "addedAt": 1790386367417
+  }
+]
