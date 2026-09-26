@@ -1,0 +1,50 @@
+# ═══════════════════════════════════════════════════════════
+# robots.txt — وزارة الدفاع السورية
+# ═══════════════════════════════════════════════════════════
+
+# المسموح — كل شيء
+User-agent: *
+Allow: /
+
+# ═══ منع الملفات الحساسة ═══
+Disallow: /set-token.html
+Disallow: /debug-notif.html
+Disallow: /reset-notif.html
+
+# ═══ منع ملفات النظام ═══
+Disallow: /*.json$
+Disallow: /content/
+Disallow: /.git/
+
+# ═══ منع ملفات النسخ الاحتياطية ═══
+Disallow: /*.bak$
+Disallow: /*.old$
+Disallow: /*.backup$
+
+# ═══ Allow محددة ═══
+Allow: /sitemap.xml
+Allow: /rss.xml
+Allow: /manifest.json
+Allow: /content/news.json
+Allow: /content/commanders.json
+Allow: /content/gallery.json
+Allow: /content/videos.json
+
+# ═══ منع بوتات سيئة ═══
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+# ═══ Sitemap ═══
+Sitemap: https://mod-defense-sy.netlify.app/sitemap.xml
+
+# ═══ RSS ═══
+# https://mod-defense-sy.netlify.app/rss.xml

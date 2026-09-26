@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:news="http://www.google.com/schemas/sitemap-news/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+
+  <!-- الصفحة الرئيسية -->
+  <url>
+    <loc>https://mod-defense-sy.netlify.app/</loc>
+    <lastmod>2026-09-26</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- الأخبار -->
+  <url>
+    <loc>https://mod-defense-sy.netlify.app/#news</loc>
+    <lastmod>2026-09-26</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- الأخبار العاجلة -->
+  <url>
+    <loc>https://mod-defense-sy.netlify.app/#news-archive</loc>
+    <lastmod>2026-09-26</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- البيانات الرسمية -->
+  <url>
+    <loc>https://mod-defense-sy.netlify.app/#official-news</loc>
+    <lastmod>2026-09-26</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- القادة العسكريون -->
+  <url>
+    <loc>https://mod-defense-sy.netlify.app/#commanders</loc>
+    <lastmod>2026-09-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- الفرق القتالية -->
+  <url>
+    <loc>https://mod-defense-sy.netlify.app/#elite-units</loc>
+    <lastmod>2026-09-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- الجيش الإلكتروني -->
+  <url>
+    <loc>https://mod-defense-sy.netlify.app/#electronic-army</loc>
+    <lastmod>2026-09-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- معرض الصور -->
+  <url>
+    <loc>https://mod-defense-sy.netlify.app/#gallery</loc>
+    <lastmod>2026-09-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- معرض الفيديو -->
+  <url>
+    <loc>https://mod-defense-sy.netlify.app/#videos</loc>
+    <lastmod>2026-09-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- التقارير -->
+  <url>
+    <loc>https://mod-defense-sy.netlify.app/#reports</loc>
+    <lastmod>2026-09-26</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- عن الوزارة -->
+  <url>
+    <loc>https://mod-defense-sy.netlify.app/#about</loc>
+    <lastmod>2026-09-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- الهيكل التنظيمي -->
+  <url>
+    <loc>https://mod-defense-sy.netlify.app/#structure</loc>
+    <lastmod>2026-09-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- القيادة -->
+  <url>
+    <loc>https://mod-defense-sy.netlify.app/#leadership</loc>
+    <lastmod>2026-09-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- الوظائف -->
+  <url>
+    <loc>https://mod-defense-sy.netlify.app/#jobs</loc>
+    <lastmod>2026-09-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- الركن الإعلامي -->
+  <url>
+    <loc>https://mod-defense-sy.netlify.app/#media-center</loc>
+    <lastmod>2026-09-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- الخدمات -->
+  <url>
+    <loc>https://mod-defense-sy.netlify.app/#services</loc>
+    <lastmod>2026-09-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- البث المباشر -->
+  <url>
+    <loc>https://mod-defense-sy.netlify.app/#live-broadcast</loc>
+    <lastmod>2026-09-26</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- سياسة الخصوصية -->
+  <url>
+    <loc>https://mod-defense-sy.netlify.app/#privacy</loc>
+    <lastmod>2026-09-26</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
+  <!-- شروط الاستخدام -->
+  <url>
+    <loc>https://mod-defense-sy.netlify.app/#terms</loc>
+    <lastmod>2026-09-26</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
+  <!-- إمكانية الوصول -->
+  <url>
+    <loc>https://mod-defense-sy.netlify.app/#accessibility</loc>
+    <lastmod>2026-09-26</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
+</urlset>

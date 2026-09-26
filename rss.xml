@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+     xmlns:atom="http://www.w3.org/2005/Atom"
+     xmlns:dc="http://purl.org/dc/elements/1.1/"
+     xmlns:media="http://search.yahoo.com/mrss/">
+  <channel>
+    <title>المركز الإعلامي — وزارة الدفاع السورية</title>
+    <link>https://mod-defense-sy.netlify.app</link>
+    <description>آخر الأخبار والبيانات الرسمية لوزارة الدفاع في الجمهورية العربية السورية</description>
+    <language>ar</language>
+    <copyright>© 2026 وزارة الدفاع — الجمهورية العربية السورية</copyright>
+    <managingEditor>info@mod.gov.sy (المركز الإعلامي)</managingEditor>
+    <webMaster>info@mod.gov.sy (المركز الإعلامي)</webMaster>
+    <pubDate>Fri, 26 Sep 2026 00:00:00 GMT</pubDate>
+    <lastBuildDate>Fri, 26 Sep 2026 00:00:00 GMT</lastBuildDate>
+    <category>أخبار</category>
+    <category>عسكري</category>
+    <category>حكومي</category>
+    <ttl>60</ttl>
+    <image>
+      <url>https://mod-defense-sy.netlify.app/icon-512.png</url>
+      <title>المركز الإعلامي — وزارة الدفاع</title>
+      <link>https://mod-defense-sy.netlify.app</link>
+    </image>
+    <atom:link href="https://mod-defense-sy.netlify.app/rss.xml" rel="self" type="application/rss+xml"/>
+
+    <item>
+      <title>المركز الإعلامي الرسمي يطلق منصته الإلكترونية الجديدة</title>
+      <link>https://mod-defense-sy.netlify.app/#article/n_demo_001</link>
+      <guid isPermaLink="false">mod-defense-news-001</guid>
+      <description>أعلن المركز الإعلامي الرسمي عن إطلاق منصته الإلكترونية الجديدة التي توفر مصدراً موثوقاً للأخبار والبيانات الرسمية.</description>
+      <pubDate>Wed, 15 Jan 2025 09:00:00 GMT</pubDate>
+      <category>رسمي</category>
+      <dc:creator>المركز الإعلامي</dc:creator>
+    </item>
+
+    <item>
+      <title>بيان رسمي حول المستجدات الميدانية</title>
+      <link>https://mod-defense-sy.netlify.app/#article/n_demo_002</link>
+      <guid isPermaLink="false">mod-defense-news-002</guid>
+      <description>بيان رسمي صادر عن القيادة العامة للقوات المسلحة حول آخر المستجدات الميدانية والعملياتية.</description>
+      <pubDate>Tue, 14 Jan 2025 14:30:00 GMT</pubDate>
+      <category>عاجل</category>
+      <dc:creator>القيادة العامة</dc:creator>
+    </item>
+
+    <item>
+      <title>تقرير: إنجازات المركز الإعلامي خلال الفترة الماضية</title>
+      <link>https://mod-defense-sy.netlify.app/#article/n_demo_003</link>
+      <guid isPermaLink="false">mod-defense-news-003</guid>
+      <description>استعرض المركز الإعلامي الرسمي أبرز الإنجازات والمشاريع المنفذة خلال الفترة الماضية.</description>
+      <pubDate>Mon, 13 Jan 2025 10:15:00 GMT</pubDate>
+      <category>تقارير</category>
+      <dc:creator>المركز الإعلامي</dc:creator>
+    </item>
+
+  </channel>
+</rss>
