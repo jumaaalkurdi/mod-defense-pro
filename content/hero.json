@@ -1,0 +1,16 @@
+{
+  "enabled": true,
+  "videoUrl": "https://youtu.be/uZt8QWqCZTg?is=F5BFKGYC2BoVYoHQ",
+  "posterUrl": "",
+  "titleAr": "المركز الإعلامي",
+  "titleEn": "Official Media",
+  "subtitleAr": "صوت المؤسسة العسكرية السورية",
+  "subtitleEn": "Voice of the Syrian Military Institution",
+  "badgeAr": "البث الرسمي المباشر",
+  "badgeEn": "Official Live Stream",
+  "overlay": 0.65,
+  "showStats": true,
+  "showCtas": true,
+  "showHud": true,
+  "addedAt": 1790442766301
+}
